@@ -6,6 +6,7 @@
 
 1. [openHAB3Widgets](https://github.com/BangerTech/openHAB3Widgets)
 1. [OpenhabWidget](https://github.com/massimilianocasini/OpenhabWidget)
+1. [HeatingWidget](https://github.com/NRquadrat/oh3-widgetHeating)
 
 ### [openhab community](https://community.openhab.org/)
 - see the readme file in the directory

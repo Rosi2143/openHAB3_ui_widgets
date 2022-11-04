@@ -1,0 +1,134 @@
+uid: preset_popup_v2
+tags: []
+props:
+  parameters:
+    - context: item
+      description: Rollershutter position (receives 0 to 100 commands)
+      label: Rollershutter position
+      name: position
+      required: true
+      type: TEXT
+    - context: item
+      description: Presets
+      label: Preset Item
+      name: presets
+      required: true
+      type: TEXT
+    - context: item
+      description: Item that can be used to add a preset
+      label: Add Preset
+      name: add_preset
+      required: true
+      type: TEXT
+    - context: item
+      description: Item that can be used to delete a preset
+      label: Delete Preset
+      name: delete_preset
+      required: true
+      type: TEXT
+    - description: Localisation of term Apply
+      label: Apply Translation
+      name: apply_trans
+      required: false
+      type: TEXT
+      advanced: true
+    - description: Localisation of term Add
+      label: Add Translation
+      name: add_trans
+      required: false
+      type: TEXT
+      advanced: true
+    - description: Localisation of term Delete
+      label: Delete Translation
+      name: delete_trans
+      required: false
+      type: TEXT
+      advanced: true
+    - description: Localisation of term Close
+      label: Close Translation
+      name: close_trans
+      required: false
+      type: TEXT
+      advanced: true
+  parameterGroups: []
+timestamp: Feb 7, 2021, 10:09:38 PM
+component: f7-card-content
+config:
+  padding: false
+  class:
+    - margin-vertical
+    - display-flex
+    - flex-direction-column
+    - flex-justify-content-flex-start
+    - flex-align-items-center
+slots:
+  default:
+    - component: f7-list
+      slots:
+        default:
+          - component: oh-repeater
+            config:
+              for: preset
+              in: =items[props.presets].state.split('|')
+              fragment: true
+            slots:
+              default:
+                - component: f7-list-item
+                  config:
+                    title: =loop.preset + "%"
+                    visible: =loop.preset != ""
+                    swipeout: true
+                  slots:
+                    after:
+                      - component: oh-button
+                        config:
+                          disabled: =items[props.position].state.split(".")[0] == loop.preset
+                          text: '=props.apply_trans ? props.apply_trans : "Apply"'
+                          actionItem: =props.position
+                          actionCommand: =loop.preset
+                          action: command
+                          class:
+                            - popup-close
+                    default:
+                      - component: f7-swipeout-actions
+                        config:
+                          right: true
+                        slots:
+                          default:
+                            - component: oh-link
+                              config:
+                                text: '=props.delete_trans ? props.delete_trans : "Delete"'
+                                bgColor: red
+                                actionItem: =props.delete_preset
+                                actionCommand: =loop.preset
+                                action: command
+                                class:
+                                  - swipeout-close
+          - component: f7-list-item-row
+            config:
+              class:
+                - display-flex
+                - align-items-center
+                - justify-content-center
+            slots:
+              default:
+                - component: oh-button
+                  config:
+                    iconF7: plus_circle_fill
+                    iconSize: 15
+                    text: '=props.add_trans ? props.add_trans : "Add"'
+                    action: command
+                    actionItem: =props.add_preset
+                    actionCommand: =items[props.position].state
+                    popoverClose: true
+                    style:
+                      width: 100%
+    - component: oh-button
+      config:
+        popupClose: true
+        round: true
+        fill: true
+        large: true
+        text: '=props.close_trans ? props.close_trans : "Close"'
+        class:
+          - margin-horizontal

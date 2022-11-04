@@ -1,0 +1,230 @@
+uid: universal_shutter_v4
+tags: []
+props:
+  parameters:
+    - description: Title of the card (empty for none)
+      label: Title
+      name: title
+      required: false
+      type: TEXT
+    - description: Unique label shown on top of the card
+      label: Rollershutter label
+      name: label
+      required: true
+      type: TEXT
+    - description: The card footer (empty for none)
+      label: Footer
+      name: footer
+      required: false
+      type: TEXT
+    - context: item
+      description: Rollershutter control (receives UP, DOWN, STOP commands)
+      label: Rollershutter control
+      name: control
+      required: true
+      type: TEXT
+    - context: item
+      description: Rollershutter position (receives 0 to 100 commands)
+      label: Rollershutter position
+      name: position
+      required: true
+      type: TEXT
+    - description: Set to true via expression when moving to show movement indicator
+      label: Show movement indicator
+      name: moving
+      required: false
+      type: TEXT
+    - context: item
+      description: Presets
+      label: Preset Item
+      name: presets
+      required: true
+      type: TEXT
+    - context: item
+      description: Item that can be used to add a preset
+      label: Add Preset
+      name: add_preset
+      required: true
+      type: TEXT
+    - context: item
+      description: Item that can be used to delete a preset
+      label: Delete Preset
+      name: delete_preset
+      required: true
+      type: TEXT
+    - description: Localisation of term Presets
+      label: Presets Translation
+      name: presets_trans
+      required: false
+      type: TEXT
+      advanced: true
+    - description: Localisation of term Apply
+      label: Apply Translation
+      name: apply_trans
+      required: false
+      type: TEXT
+      advanced: true
+    - description: Localisation of term Add
+      label: Add Translation
+      name: add_trans
+      required: false
+      type: TEXT
+      advanced: true
+    - description: Localisation of term Delete
+      label: Delete Translation
+      name: delete_trans
+      required: false
+      type: TEXT
+      advanced: true
+    - description: Localisation of term Close
+      label: Close Translation
+      name: close_trans
+      required: false
+      type: TEXT
+      advanced: true
+  parameterGroups: []
+timestamp: Feb 7, 2021, 10:08:33 PM
+component: f7-card
+config:
+  title: =props.title
+slots:
+  default:
+    - component: f7-card-content
+      slots:
+        default:
+          - component: f7-progressbar
+            config:
+              infinite: true
+              visible: '=props.moving == "true" ? true : false'
+              style:
+                position: absolute
+                bottom: 0px
+                left: 0px
+                --f7-progressbar-height: 2px
+          - component: f7-row
+            config:
+              class:
+                - display-flex
+                - justify-content-center
+                - align-items-flex-start
+              style:
+                height: 25px
+            slots:
+              default:
+                - component: f7-block-header
+                  slots:
+                    default:
+                      - component: Label
+                        config:
+                          text: =props.label
+          - component: f7-row
+            config:
+              class:
+                - display-flex
+                - justify-content-space-evenly
+                - align-items-center
+              style:
+                width: 100%
+                height: 125px
+            slots:
+              default:
+                - component: f7-col
+                  config:
+                    class:
+                      - display-flex
+                      - flex-direction-column
+                      - justify-content-space-evenly
+                      - align-items-flex-end
+                    style:
+                      height: calc(100% - 28px)
+                  slots:
+                    default:
+                      - component: oh-slider
+                        config:
+                          color: white
+                          label: true
+                          item: =props.position
+                          vertical: true
+                          style:
+                            --f7-range-bar-size: 18px
+                            --f7-range-bar-border-radius: 10px
+                            --f7-range-knob-size: 20px
+                            --f7-range-bar-bg-color: rgba(246, 158, 81, 0.2)
+                            --f7-range-bar-active-bg-color: linear-gradient(to top, rgba(246,158,81,0), rgba(246,158,81,0.8))
+                            --f7-range-knob-box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3)
+                            --f7-range-label-text-color: black
+                - component: f7-col
+                  config:
+                    class:
+                      - display-flex
+                      - flex-direction-column
+                      - justify-content-center
+                      - align-items-center
+                    style:
+                      height: calc(100% - 20px)
+                  slots:
+                    default:
+                      - component: oh-link
+                        config:
+                          actionItem: =props.control
+                          actionCommand: UP
+                          action: command
+                          colorTheme: gray
+                          iconF7: arrowtriangle_up
+                          iconSize: 20
+                          style:
+                            background-color: rgba(246, 158, 81, 0.2)
+                            border-radius: 15px 15px 0px 0px
+                            padding: 10px
+                      - component: oh-link
+                        config:
+                          actionItem: =props.control
+                          actionCommand: STOP
+                          action: command
+                          iconF7: stop
+                          iconSize: 20
+                          style:
+                            background-color: rgba(246, 158, 81, 0.2)
+                            padding: 10px
+                      - component: oh-link
+                        config:
+                          actionItem: =props.control
+                          actionCommand: DOWN
+                          action: command
+                          colorTheme: gray
+                          iconF7: arrowtriangle_down
+                          iconSize: 20
+                          style:
+                            background-color: rgba(246, 158, 81, 0.2)
+                            border-radius: 0px 0px 15px 15px
+                            padding: 10px
+          - component: f7-row
+            config:
+              class:
+                - display-flex
+                - justify-content-space-evenly
+                - align-items-center
+              style:
+                height: 25px
+            slots:
+              default:
+                - component: oh-link
+                  config:
+                    text: '=props.presets_trans ? props.presets_trans : "Presets"'
+                    action: popup
+                    actionModal: widget:preset_popup_v2
+                    actionModalConfig:
+                      position: =props.position
+                      presets: =props.presets
+                      add_preset: =props.add_preset
+                      delete_preset: =props.delete_preset
+                      apply_trans: =props.apply_trans
+                      add_trans: =props.add_trans
+                      delete_trans: =props.delete_trans
+                      close_trans: =props.close_trans
+    - component: f7-card-footer
+      slots:
+        default:
+          - component: Label
+            config:
+              text: =props.footer
