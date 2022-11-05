@@ -51,7 +51,7 @@ props:
       type: TEXT
       advanced: true
   parameterGroups: []
-timestamp: Feb 7, 2021, 10:09:38 PM
+timestamp: Nov 5, 2022, 10: 09: 38 PM
 component: f7-card-content
 config:
   padding: false
@@ -82,13 +82,13 @@ slots:
                     after:
                       - component: oh-button
                         config:
-                          disabled: =items[props.position].state.split(".")[0] == loop.preset
-                          text: '=props.apply_trans ? props.apply_trans : "Apply"'
-                          actionItem: =props.position
-                          actionCommand: =loop.preset
                           action: command
+                          actionCommand: =loop.preset
+                          actionItem: =props.position
                           class:
                             - popup-close
+                          disabled: =items[props.position].state.split(".")[0] == loop.preset
+                          text: '=props.apply_trans ? props.apply_trans : "Apply"'
                     default:
                       - component: f7-swipeout-actions
                         config:
