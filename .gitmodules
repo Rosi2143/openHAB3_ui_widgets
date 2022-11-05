@@ -1,0 +1,3 @@
+[submodule "oh3-widgetHeating"]
+	path = oh3-widgetHeating
+	url = git@github.com:Rosi2143/oh3-widgetHeating.git
