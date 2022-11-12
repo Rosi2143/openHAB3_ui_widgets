@@ -1,8 +1,32 @@
 uid: moonPhase_v2
 tags: []
 props:
-  parameterGroups: []
-timestamp: Jan 25, 2021, 10:23:08 PM
+  parameters:
+    - default: Moon
+      description: Title to display in upper left corner
+      label: Header
+      name: text_header
+      required: false
+      type: TEXT
+    - context: item
+      description: item for moon phase
+      label: moon phase item [String]
+      name: item_phase
+      required: true
+      type: TEXT
+    - context: item
+      description: item for moon rise
+      label: moon rise item [DateTime]
+      name: item_rise
+      required: true
+      type: TEXT
+    - context: item
+      description: item for moon set
+      label: moon set item [DateTime]
+      name: item_set
+      required: true
+      type: TEXT
+timestamp: Nov 12, 2022, 9:22:50 AM
 component: f7-card
 config:
   style:
@@ -24,9 +48,11 @@ slots:
                       - text-align-center
                   slots:
                     default:
-                      - component: oh-image
+                      - component: oh-label-item
                         config:
-                          url: ="http://openhab:8080/static/moon/moon-" + items.AstroMoonLokal_MoonPhaseId.state + ".png"
+                          icon: '=(items[props.item_phase].state == "FULL") ? "iconify:noto:full-moon" : (items[props.item_phase].state == "NEW") ? "iconify:noto:new-moon" : (items[props.item_phase].state == "WAXING_GIBBOUS") ? "iconify:noto:waxing-gibbous-moon" : (items[props.item_phase].state == "FIRST_QUARTER") ? "iconify:noto:first-quarter-moon" : (items[props.item_phase].state == "THIRD_QUARTER") ? "iconify:noto:last-quarter-moon" : (items[props.item_phase].state == "WANING_GIBBOUS") ? "iconify:noto:waning-gibbous-moon" : (items[props.item_phase].state == "WANING_CRESCENT") ? "iconify:noto:waning-crescent-moon" : (items[props.item_phase].state == "WAXING_GIBBOUS") ? "iconify:noto:waxing-gibbous-moon" : (items[props.item_phase].state == "FIRST_QUARTER") ? "iconify:noto:first-quarter-moon" : (items[props.item_phase].state == "THIRD_QUARTER") ? "iconify:noto:last-quarter-moon" : (items[props.item_phase].state == "WANING_GIBBOUS") ? "iconify:noto:waning-gibbous-moon" : (items[props.item_phase].state == "WAXING_CRESCENT") ? "iconify:noto:waxing-crescent-moon" : "iconify:noto:new-moon"'
+                          iconColor: gray
+                          item: =props.item_phase
                           style:
                             width: 90%
                             height: auto
@@ -35,7 +61,7 @@ slots:
                             margin-right: auto
                       - component: Label
                         config:
-                          text: =items.AstroMoonLokal_MoonPhaseName.state
+                          text: =props.text_header
                           style:
                             font-size: 16px
                 - component: f7-col
@@ -52,9 +78,9 @@ slots:
                           size: 30
                           style:
                             position: relative
-                      - component: Label
+                      - component: oh-label-item
                         config:
-                          text: =items.AstroSunDataLokal_Rise_StartTime.displayState
+                          item: =props.item_rise
                           style:
                             font-size: 20px
                 - component: f7-col
@@ -69,8 +95,8 @@ slots:
                         config:
                           f7: sunset
                           size: 30
-                      - component: Label
+                      - component: oh-label-item
                         config:
-                          text: =items.AstroSunDataLokal_Set_StartTime.displayState
+                          item: =props.item_set
                           style:
                             font-size: 20px
