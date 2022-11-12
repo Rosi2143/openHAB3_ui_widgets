@@ -3,7 +3,7 @@ tags: []
 props:
   parameters:
     - default: Moon
-      description: Title to display in upper left corner
+      description: Title to display in lower left corner
       label: Header
       name: text_header
       required: false
