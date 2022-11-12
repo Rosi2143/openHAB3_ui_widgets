@@ -1,6 +1,8 @@
 # openHAB3_ui_widgets
 
 ## sources
+1. [component reference](https://www.openhab.org/docs/ui/components/)
+1. [f7-framework](https://framework7.io/docs/range-slider#param-verticalReversed)
 
 ### github repos
 
