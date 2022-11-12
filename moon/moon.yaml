@@ -1,83 +1,68 @@
-uid: moonphase
+uid: moonPhase_v2
 tags: []
 props:
-  parameters:
   parameterGroups: []
-timestamp: Jan 20, 2021, 6:38:58 PM
+timestamp: Jan 25, 2021, 10:23:08 PM
 component: f7-card
 config:
-  title: Moonphase
+  style:
+    border-radius: 20px
+    overflow: hidden
 slots:
   default:
-    - component: f7-block
-      config:
-        class:
-          - padding
+    - component: f7-card-content
       slots:
         default:
-          - component: f7-row
-            config:
-              class:
-                - padding-top
-                - padding-bottom
-                - justify-content-center
-            slots:
-              default:
-                - component: Label
-                  config:
-                    text: =items.LocalTime_Date.displayState
-                    style:
-                      font-size: 24px
-          - component: f7-row
-            slots:
-              default:
-                - component: oh-image
-                  config:
-                    url: ="http://openhab:8080/static/moon/moon-" + items.AstroMoonLokal_MoonPhaseId.state + ".png"
-                    style:
-                      width: 50%
-                      height: auto
-                      display: block
-                      margin-left: auto
-                      margin-right: auto
-          - component: f7-row
-            config:
-              class:
-                - padding-bottom
-                - justify-content-center
-            slots:
-              default:
-                - component: Label
-                  config:
-                    text: =items.AstroMoonLokal_MoonPhaseName.state
-                    style:
-                      font-size: 18px
           - component: f7-row
             slots:
               default:
                 - component: f7-col
                   config:
-                  class:
-                    - display-flex
-                    - align-items-center
-                    - flex-direction-column
+                    class:
+                      - justify-content-center
+                      - align-items-center
+                      - text-align-center
+                  slots:
+                    default:
+                      - component: oh-image
+                        config:
+                          url: ="http://openhab:8080/static/moon/moon-" + items.AstroMoonLokal_MoonPhaseId.state + ".png"
+                          style:
+                            width: 90%
+                            height: auto
+                            display: block
+                            margin-left: auto
+                            margin-right: auto
+                      - component: Label
+                        config:
+                          text: =items.AstroMoonLokal_MoonPhaseName.state
+                          style:
+                            font-size: 16px
+                - component: f7-col
+                  config:
+                    class:
+                      - justify-content-center
+                      - align-items-center
+                      - text-align-center
                   slots:
                     default:
                       - component: f7-icon
                         config:
                           f7: sunrise
                           size: 30
+                          style:
+                            position: relative
                       - component: Label
                         config:
                           text: =items.AstroSunDataLokal_Rise_StartTime.displayState
                           style:
-                            font-size: 24px
+                            font-size: 20px
                 - component: f7-col
                   config:
-                  class:
-                    - display-flex
-                    - align-items-center
-                    - flex-direction-column
+                    class:
+                      - justify-content-center
+                      - align-items-center
+                      - text-align-center
                   slots:
                     default:
                       - component: f7-icon
@@ -88,4 +73,4 @@ slots:
                         config:
                           text: =items.AstroSunDataLokal_Set_StartTime.displayState
                           style:
-                            font-size: 24px
+                            font-size: 20px
