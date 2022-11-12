@@ -1,0 +1,102 @@
+uid: sunPhase_v2
+tags: []
+props:
+  parameters:
+    - default: sun
+      description: Title to display in lower left corner
+      label: Header
+      name: text_header
+      required: false
+      type: TEXT
+    - context: item
+      description: item for sun phase
+      label: sun phase item [String]
+      name: item_phase
+      required: true
+      type: TEXT
+    - context: item
+      description: item for sun rise
+      label: sun rise item [DateTime]
+      name: item_rise
+      required: true
+      type: TEXT
+    - context: item
+      description: item for sun set
+      label: sun set item [DateTime]
+      name: item_set
+      required: true
+      type: TEXT
+timestamp: Nov 12, 2022, 10:36:55 AM
+component: f7-card
+config:
+  style:
+    border-radius: 20px
+    overflow: hidden
+slots:
+  default:
+    - component: f7-card-content
+      slots:
+        default:
+          - component: f7-row
+            slots:
+              default:
+                - component: f7-col
+                  config:
+                    class:
+                      - justify-content-center
+                      - align-items-center
+                      - text-align-center
+                  slots:
+                    default:
+                      - component: oh-label-item
+                        config:
+                          icon: '=(items[props.item_phase].state == "DAYLIGHT") ? "iconify:tabler:sun-high" : (items[props.item_phase].state.split("_")[1] == "DUSK") ? "iconify:tabler:sun" : (items[props.item_phase].state.split("_")[1] == "DAWN") ? "iconifytabler:sun-low" : (items[props.item_phase].state == "NIGHT") ? "iconify:tabler:moon-stars" : (items[props.item_phase].state == "SUN_RISE") ? "iconifytabler:sunrise" : (items[props.item_phase].state == "SUN_SET") ? "iconify:tabler:sunset" : "iconify:tabler:sun-off"'
+                          iconColor: gray
+                          item: =props.item_phase
+                          style:
+                            width: 90%
+                            height: auto
+                            display: block
+                            margin-left: auto
+                            margin-right: auto
+                      - component: Label
+                        config:
+                          text: =props.text_header
+                          style:
+                            font-size: 16px
+                - component: f7-col
+                  config:
+                    class:
+                      - justify-content-center
+                      - align-items-center
+                      - text-align-center
+                  slots:
+                    default:
+                      - component: f7-icon
+                        config:
+                          f7: sunrise
+                          size: 30
+                          style:
+                            position: relative
+                      - component: oh-label-item
+                        config:
+                          item: =props.item_rise
+                          style:
+                            font-size: 20px
+                - component: f7-col
+                  config:
+                    class:
+                      - justify-content-center
+                      - align-items-center
+                      - text-align-center
+                  slots:
+                    default:
+                      - component: f7-icon
+                        config:
+                          f7: sunset
+                          size: 30
+                      - component: oh-label-item
+                        config:
+                          item: =props.item_set
+                          style:
+                            font-size: 20px
