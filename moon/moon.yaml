@@ -1,0 +1,91 @@
+uid: moonphase
+tags: []
+props:
+  parameters:
+  parameterGroups: []
+timestamp: Jan 20, 2021, 6:38:58 PM
+component: f7-card
+config:
+  title: Moonphase
+slots:
+  default:
+    - component: f7-block
+      config:
+        class:
+          - padding
+      slots:
+        default:
+          - component: f7-row
+            config:
+              class:
+                - padding-top
+                - padding-bottom
+                - justify-content-center
+            slots:
+              default:
+                - component: Label
+                  config:
+                    text: =items.LocalTime_Date.displayState
+                    style:
+                      font-size: 24px
+          - component: f7-row
+            slots:
+              default:
+                - component: oh-image
+                  config:
+                    url: ="http://openhab:8080/static/moon/moon-" + items.AstroMoonLokal_MoonPhaseId.state + ".png"
+                    style:
+                      width: 50%
+                      height: auto
+                      display: block
+                      margin-left: auto
+                      margin-right: auto
+          - component: f7-row
+            config:
+              class:
+                - padding-bottom
+                - justify-content-center
+            slots:
+              default:
+                - component: Label
+                  config:
+                    text: =items.AstroMoonLokal_MoonPhaseName.state
+                    style:
+                      font-size: 18px
+          - component: f7-row
+            slots:
+              default:
+                - component: f7-col
+                  config:
+                  class:
+                    - display-flex
+                    - align-items-center
+                    - flex-direction-column
+                  slots:
+                    default:
+                      - component: f7-icon
+                        config:
+                          f7: sunrise
+                          size: 30
+                      - component: Label
+                        config:
+                          text: =items.AstroSunDataLokal_Rise_StartTime.displayState
+                          style:
+                            font-size: 24px
+                - component: f7-col
+                  config:
+                  class:
+                    - display-flex
+                    - align-items-center
+                    - flex-direction-column
+                  slots:
+                    default:
+                      - component: f7-icon
+                        config:
+                          f7: sunset
+                          size: 30
+                      - component: Label
+                        config:
+                          text: =items.AstroSunDataLokal_Set_StartTime.displayState
+                          style:
+                            font-size: 24px
