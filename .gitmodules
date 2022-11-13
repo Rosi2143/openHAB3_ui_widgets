@@ -4,3 +4,6 @@
 [submodule "temperature_card_multi_sensor"]
 	path = temperature_card_multi_sensor
 	url = git@gitlab.com:snippets/2331634.git
+[submodule "openHAB3Widgets"]
+	path = openHAB3Widgets
+	url = https://github.com/BangerTech/openHAB3Widgets
