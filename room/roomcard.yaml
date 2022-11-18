@@ -83,6 +83,18 @@ props:
       required: false
       type: TEXT
     - context: item
+      description: item for power outlet
+      label: poweroutlet item
+      name: poweroutlet
+      required: false
+      type: TEXT
+    - context: item
+      description: item for power outlet
+      label: poweroutlet number item
+      name: poweroutlet_number
+      required: false
+      type: TEXT
+    - context: item
       description: item for speaker(s)
       label: Speaker(s) item
       name: speaker
@@ -193,6 +205,21 @@ slots:
                 - component: oh-icon
                   config:
                     icon: "=items[props.door_state].state === 'CLOSED' ? 'door-closed' : 'door-open'"
+                    iconSize: 24
+                    style:
+                      height: 24px
+          - component: f7-chip
+            config:
+              style:
+                --f7-chip-bg-color: rgba(255, 255, 255, 0)
+              visible: "=props.poweroutlet ? true : false"
+              text: "=props.poweroutlets_number ? ((items[props.poweroutlet].state == 'ON') ? items[props.poweroutlets_number].state : '') : ''"
+              textColor: =props.color
+            slots:
+              media:
+                - component: oh-icon
+                  config:
+                    icon: "=items[props.poweroutlet].state === 'ON' ? 'poweroutlet-on' : 'poweroutlet-off'"
                     iconSize: 24
                     style:
                       height: 24px
