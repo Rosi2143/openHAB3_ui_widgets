@@ -14,8 +14,8 @@
   - version 0.2
   - [FloorsAndRooms_Card.yaml](FloorsAndRooms_Card.yaml)
 - Part 2: [Weather Card](https://community.openhab.org/t/oh3-main-ui-main-widget-part-2-the-weather-card/138813)
-  - version ?
-  - [?](?)
+  - version 0.1
+  - [Weather_Card.yaml](Weather_Card.yaml)
 - Part 3: [Light Card](https://community.openhab.org/t/oh3-main-ui-main-widget-part-3-the-light-card/138814)
   - version 0.2.1
   - [Light_Card.yaml](Light_Card.yaml)
