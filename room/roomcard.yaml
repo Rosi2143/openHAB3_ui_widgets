@@ -101,8 +101,8 @@ props:
       required: false
       type: TEXT
     - context: item
-      description: item for heating state
-      label: Heating state item
+      description: item for heating level
+      label: Heating state level
       name: heating
       required: false
       type: TEXT
@@ -293,7 +293,7 @@ slots:
               iconSize: 18
               style:
                 --f7-chip-bg-color: rgba(255, 255, 255, 0)
-              visible: =items[props.heating].state === 'ON'
+              visible: =items[props.heating].state > 20'
           - component: f7-chip
             config:
               iconColor: =props.color
