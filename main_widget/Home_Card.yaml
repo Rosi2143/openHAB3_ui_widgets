@@ -32,22 +32,23 @@ props:
       required: false
       type: TEXT
   parameterGroups: []
+timestamp: Nov 20, 2022, 4:04:43 PM
 component: f7-block
 config:
   style:
     flex: 1 1 auto
-    overflow: scroll
-    margin-top: -1em
     margin-bottom: -1em
+    margin-top: -1em
+    overflow: scroll
 slots:
   default:
     - component: widget:main_widget_Weather_Card
       config:
-        bigCard: true
-        dateFormat: true
-        itemPrefix: OneCallAPIweatherandforecast_
+        bigCard: =props.bigCard
+        dateFormat: =props.dateFormat
+        itemPrefix: =props.itemPrefix
         locationTitle: =props.locationTitle
-        sunIndicator: true
+        sunIndicator: =props.sunIndicator
         visible: '=(!vars.objVar || ((vars.objVar.selectSection=="SECTION0") && !vars.objVar.selectThing)) ? true : false'
     - component: oh-repeater
       config:
@@ -64,7 +65,7 @@ slots:
               visible: '=vars.objVar ? ((vars.objVar.selectSection + vars.objVar.selectThing)=="SECTION0Scenes") ? true : false : false'
     - component: widget:main_widget_Security_Card
       config:
+        referencePIN: =props.referencePIN
         securityGroup: =props.securityGroup
         securityMode: =props.securityMode
-        referencePIN: =props.referencePIN
         visible: '=vars.objVar ? ((vars.objVar.selectSection + vars.objVar.selectThing)=="SECTION0Security") ? true : false : false'
