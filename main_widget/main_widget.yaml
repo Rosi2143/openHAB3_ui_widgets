@@ -446,15 +446,16 @@ slots:
                           text: =loop.floorItem.label
     - component: widget:main_widget_Home_Card
       config:
-        itemPrefix: =props.itemPrefix
         bigCard: =props.bigCard
         dateFormat: =props.dateFormat
+        itemPrefix: =props.itemPrefix
         locationTitle: =props.locationTitle
-        sunIndicator: =props.sunIndicator
+        forecastHours: =props.forecastHours
         referencePIN: =props.referencePIN
         scenesGroup: =props.scenesGroup
         securityGroup: =props.securityGroup
         securityMode: =props.securityMode
+        sunIndicator: =props.sunIndicator
     - component: widget:main_widget_FloorsAndRooms
     - component: f7-block
       config:

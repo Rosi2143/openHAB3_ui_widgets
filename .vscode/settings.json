@@ -1,6 +1,32 @@
 {
+	// General
+	// see https://github.com/CrazyIvan359/openhab-stubs/tree/master/VSCode
+	"files.trimTrailingWhitespace": true,
+	"files.insertFinalNewline": true,
+	"editor.renderWhitespace": "all",
+	"editor.rulers": [
+		80
+	],
 	"cSpell.words": [
 		"rgba",
 		"swiper"
+	],
+	//
+	// Python pylint
+	"python.linting.enabled": true,
+	"python.linting.pylintEnabled": true,
+	//
+	// Python Type Hints
+	"python.analysis.diagnosticMode": "workspace",
+	"python.analysis.stubPath": "./automation/typings",
+	"python.autoComplete.extraPaths": [
+		"./automation/lib/python"
+	],
+	"python.analysis.extraPaths": [
+		"./automation/lib/python"
+	],
+	"python.linting.ignorePatterns": [
+		"**/automation/**/python/core/**/*.py",
+		"**/automation/**/python/community/**/*.py"
 	]
 }

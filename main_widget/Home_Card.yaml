@@ -47,6 +47,7 @@ slots:
         bigCard: =props.bigCard
         dateFormat: =props.dateFormat
         itemPrefix: =props.itemPrefix
+        forecastHours: =props.forecastHours
         locationTitle: =props.locationTitle
         sunIndicator: =props.sunIndicator
         visible: '=(!vars.objVar || ((vars.objVar.selectSection=="SECTION0") && !vars.objVar.selectThing)) ? true : false'
