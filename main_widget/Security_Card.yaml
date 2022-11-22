@@ -20,6 +20,7 @@ props:
       name: referencePIN
       required: false
       type: TEXT
+timestamp: Nov 22, 2022, 7:23:10 PM
 component: f7-card
 config:
   style:
@@ -182,6 +183,7 @@ slots:
                                         - component: oh-repeater
                                           config:
                                             fetchMetadata: semantics
+                                            filter: loop.doorMember.label.includes("State") == true
                                             fragment: true
                                             for: doorMember
                                             sourceType: itemsInGroup
@@ -194,7 +196,7 @@ slots:
                                                     margin-top: -7px
                                                     fontSize: 14px
                                                     font-weight: 800
-                                                  title: =loop.doorMember.label
+                                                  title: =loop.securityGroupMember.label
                                                 slots:
                                                   default:
                                                     - component: f7-chip
@@ -318,6 +320,7 @@ slots:
                                         - component: oh-repeater
                                           config:
                                             fetchMetadata: semantics
+                                            filter: loop.motionMember.label.includes("MotionState") == true
                                             fragment: true
                                             for: motionMember
                                             sourceType: itemsInGroup
@@ -330,7 +333,7 @@ slots:
                                                     margin-top: -7px
                                                     fontSize: 14px
                                                     font-weight: 800
-                                                  title: =loop.motionMember.label
+                                                  title: =loop.securityGroupMember.label
                                                 slots:
                                                   default:
                                                     - component: f7-chip
