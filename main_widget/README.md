@@ -26,8 +26,8 @@
   - version 0.1
   - [Scene_Card.yaml](Scene_Card.yaml)
 - Part 6: [Security Card](https://community.openhab.org/t/oh3-main-ui-main-widget-part-6-the-security-card/139035)
-  - version n.a.
-  - [?](?)
+  - version 0.2
+  - [Security_Card](Security_Cardyaml)
 - Part 7: [RadiatorControl Card](https://community.openhab.org/t/oh3-main-ui-main-widget-part-7-the-radiatorcontrol-card/139466)
   - version 0.3.1
   - [Radiator_Card.yaml](Radiator_Card.yaml)
