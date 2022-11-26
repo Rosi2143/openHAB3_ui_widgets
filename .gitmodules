@@ -7,3 +7,6 @@
 [submodule "openHAB3Widgets"]
 	path = openHAB3Widgets
 	url = https://github.com/BangerTech/openHAB3Widgets
+[submodule "oh3-widgets"]
+	path = oh3-widgets
+	url = git@github.com:Rosi2143/oh3-widgets.git
