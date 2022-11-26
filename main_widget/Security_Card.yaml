@@ -183,7 +183,6 @@ slots:
                                         - component: oh-repeater
                                           config:
                                             fetchMetadata: semantics
-                                            filter: loop.doorMember.label.includes("State") == true
                                             fragment: true
                                             for: doorMember
                                             sourceType: itemsInGroup
@@ -196,7 +195,7 @@ slots:
                                                     margin-top: -7px
                                                     fontSize: 14px
                                                     font-weight: 800
-                                                  title: =loop.securityGroupMember.label
+                                                  title: =loop.doorMember.label
                                                 slots:
                                                   default:
                                                     - component: f7-chip
@@ -320,7 +319,6 @@ slots:
                                         - component: oh-repeater
                                           config:
                                             fetchMetadata: semantics
-                                            filter: loop.motionMember.label.includes("MotionState") == true
                                             fragment: true
                                             for: motionMember
                                             sourceType: itemsInGroup
@@ -333,7 +331,7 @@ slots:
                                                     margin-top: -7px
                                                     fontSize: 14px
                                                     font-weight: 800
-                                                  title: =loop.securityGroupMember.label
+                                                  title: =loop.motionMember.label
                                                 slots:
                                                   default:
                                                     - component: f7-chip

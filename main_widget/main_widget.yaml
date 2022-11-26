@@ -7,7 +7,7 @@ props:
       name: textColor
       required: false
       type: TEXT
-    - default: RGB(96, 96, 96)
+    - defaultValue: RGB(96, 96, 96)
       description: Set default color for Text
       label: Bottom-Navbar-Color
       name: bnavColor
@@ -24,7 +24,7 @@ props:
       name: itemPrefix
       required: false
       type: TEXT
-    - default: Somewhere
+    - defaultValue: Somewhere
       description: Name for your weather location
       label: Weather Location
       name: locationTitle
@@ -76,7 +76,6 @@ config:
 
     .selected_bottom_navbar_item {
      color: white;
-
      font-size: 12px;
      height: auto;
      --f7-button-bg-color: transparent;
@@ -85,11 +84,9 @@ config:
      align-items: center;
      padding-top: 1%;
      padding-bottom: 1%;
-
     }
 
     .unselected_bottom_navbar_item {
-
      color: #8c8c8c;
      font-size: 12px;
      height: auto;
@@ -320,7 +317,7 @@ slots:
                 - component: oh-repeater
                   config:
                     fetchMetadata: metadata,semantics,widgetOrder
-                    filter: (loop.menuArrayRoom.metadata) && ( (loop.menuArrayRoom.metadata.semantics.value).includes("Room") || loop.menuArrayRoom.metadata.semantics.value).includes("Corridor") )
+                    filter: (loop.menuArrayRoom.metadata) && ( (loop.menuArrayRoom.metadata.semantics.value).includes("Room") || (loop.menuArrayRoom.metadata.semantics.value).includes("Corridor") )
                     for: menuArrayRoom
                     fragment: true
                     groupItem: =vars.objVar.floor
@@ -365,7 +362,7 @@ slots:
                 - component: oh-repeater
                   config:
                     fetchMetadata: metadata,semantics,widgetOrder
-                    filter: (loop.menuArrayRoom.metadata) && ( (loop.menuArrayRoom.metadata.semantics.value).includes("Room")) && (loop.menuArrayRoom.metadata.semantics.config.hasLocation == vars.objVar.floor)
+                    filter: (loop.menuArrayRoom.metadata) && ((loop.menuArrayRoom.metadata.semantics.value).includes("Room")  || (loop.menuArrayRoom.metadata.semantics.value).includes("Corridor")) && (loop.menuArrayRoom.metadata.semantics.config.hasLocation == vars.objVar.floor)
                     for: menuArrayRoom
                     fragment: true
                     itemTags: ","
@@ -453,9 +450,6 @@ slots:
         forecastHours: =props.forecastHours
         referencePIN: =props.referencePIN
         scenesGroup: =props.scenesGroup
-        securityGroup: =props.securityGroup
-        securityMode: =props.securityMode
-        sunIndicator: =props.sunIndicator
     - component: widget:main_widget_FloorsAndRooms
     - component: f7-block
       config:

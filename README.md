@@ -15,7 +15,6 @@
 #### other sources
 1. [OpenhabWidget](https://github.com/massimilianocasini/OpenhabWidget)
 
-
 ### [openhab community](https://community.openhab.org/)
 - see the readme file in the directory
 - branch conventions
