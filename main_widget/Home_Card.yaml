@@ -32,7 +32,7 @@ props:
       required: false
       type: TEXT
   parameterGroups: []
-timestamp: Nov 20, 2022, 4:04:43 PM
+timestamp: Nov 21, 2022, 5:49:51 PM
 component: f7-block
 config:
   style:
@@ -46,8 +46,8 @@ slots:
       config:
         bigCard: =props.bigCard
         dateFormat: =props.dateFormat
-        itemPrefix: =props.itemPrefix
         forecastHours: =props.forecastHours
+        itemPrefix: =props.itemPrefix
         locationTitle: =props.locationTitle
         sunIndicator: =props.sunIndicator
         visible: '=(!vars.objVar || ((vars.objVar.selectSection=="SECTION0") && !vars.objVar.selectThing)) ? true : false'

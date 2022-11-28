@@ -25,7 +25,7 @@ props:
       name: RollerMode
       required: true
       type: TEXT
-timestamp: Nov 3, 2022, 10:16:58 PM
+timestamp: Nov 15, 2022, 8:40:12 PM
 component: f7-block
 config:
   style:
@@ -52,8 +52,8 @@ slots:
             config:
               icon: iconify:mdi:window-shutter
               style:
-                margin-left: 5px
                 color: rgb(106,106,106)
+                margin-left: 5px
                 padding-right: 15px
               width: 40px
           - component: f7-row
@@ -68,6 +68,7 @@ slots:
                   config:
                     style:
                       align-self: flex-end
+                      color: black
                       display: flex
                       flex: 1 1 auto
                       flex-direction: row
@@ -76,7 +77,6 @@ slots:
                       font-weight: 400
                       justify-content: flex-end
                       padding-top: 10px
-                      color: black
                     text: =props.Title
                 - component: f7-row
                   config:
@@ -138,13 +138,13 @@ slots:
           - component: f7-row
             config:
               style:
-                margin-left: 5px
                 align-self: flex-start
                 display: flex
                 flex: 1 1 auto
                 flex-direction: row
                 flex-wrap: nowrap
                 justify-content: flex-start
+                margin-left: 5px
             slots:
               default:
                 - component: oh-repeater
@@ -316,13 +316,13 @@ slots:
           - component: f7-row
             config:
               style:
-                margin-left: 5px
                 align-self: flex-start
                 display: flex
                 flex: 1 1 auto
                 flex-direction: row
                 flex-wrap: nowrap
                 justify-content: flex-start
+                margin-left: 5px
             slots:
               default:
                 - component: oh-repeater
@@ -396,8 +396,8 @@ slots:
                             - component: f7-chip
                               config:
                                 style:
-                                  color: black
                                   background-color: "#D3D3D3"
+                                  color: black
                                 text: =items[loop.closeWeekend.name].displayState
                               slots:
                                 media:
@@ -443,81 +443,29 @@ slots:
                 justify-content: space-around
             slots:
               default:
-                - component: oh-link
+                - component: oh-repeater
                   config:
-                    action: command
-                    actionCommand: 20
-                    actionItem: =props.RollerItem
+                    for: buttonLabel
+                    fragment: true
+                    in:
+                      - "20"
+                      - "32"
+                      - "50"
+                      - "60"
+                      - "80"
+                    sourceType: array
                   slots:
                     default:
-                      - component: f7-chip
+                      - component: oh-link
                         config:
-                          style:
-                            color: black
-                            background-color: '=(Number(items[props.RollerItem].state.split(" ")[0])==20) ? "#E74239" : "#D3D3D3"'
-                          text: 20
-                - component: oh-link
-                  config:
-                    action: command
-                    actionCommand: 32
-                    actionItem: =props.RollerItem
-                  slots:
-                    default:
-                      - component: f7-chip
-                        config:
-                          style:
-                            color: black
-                            background-color: '=(Number(items[props.RollerItem].state.split(" ")[0])==32) ? "#E74239" : "#D3D3D3"'
-                          text: 32
-                - component: oh-link
-                  config:
-                    action: command
-                    actionCommand: 50
-                    actionItem: =props.RollerItem
-                  slots:
-                    default:
-                      - component: f7-chip
-                        config:
-                          style:
-                            color: black
-                            background-color: '=(Number(items[props.RollerItem].state.split(" ")[0])==50) ? "#E74239" : "#D3D3D3"'
-                          text: 50
-                - component: oh-link
-                  config:
-                    action: command
-                    actionCommand: 60
-                    actionItem: =props.RollerItem
-                  slots:
-                    default:
-                      - component: f7-chip
-                        config:
-                          style:
-                            color: black
-                            background-color: '=(Number(items[props.RollerItem].state.split(" ")[0])==60) ? "#E74239" : "#D3D3D3"'
-                          text: 60
-                - component: oh-link
-                  config:
-                    action: command
-                    actionCommand: 80
-                    actionItem: =props.RollerItem
-                  slots:
-                    default:
-                      - component: f7-chip
-                        config:
-                          style:
-                            color: black
-                            background-color: '=(Number(items[props.RollerItem].state.split(" ")[0])==80) ? "#E74239" : "#D3D3D3"'
-                          text: 80
-                - component: oh-link
-                  config:
-                    action: command
-                    actionCommand: 90
-                    actionItem: =props.RollerItem
-                  slots:
-                    default:
-                      - component: f7-chip
-                        config:
-                          style:
-                            color: black
-                            background-color: '=(Number(items[props.RollerItem].state.split(" ")[0])==90) ? "#E74239" : "#D3D3D3"'
-                          text: 90```
+                          action: command
+                          actionCommand: =loop.buttonLabel
+                          actionItem: =props.RollerItem
+                        slots:
+                          default:
+                            - component: f7-chip
+                              config:
+                                style:
+                                  background-color: '=(Number(items[props.RollerItem].state.split(" ")[0])==loop.buttonLabel) ? "#E74239" : "#D3D3D3"'
+                                  color: black
+                                text: =loop.buttonLabel
