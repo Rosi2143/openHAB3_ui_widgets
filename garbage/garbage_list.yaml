@@ -1,0 +1,66 @@
+uid: garbage_list_v1
+tags: []
+props:
+  parameters:
+    - description: Title of the card
+      label: Title
+      name: title
+      required: false
+      type: TEXT
+    - description: The card footer
+      label: Footer
+      name: footer
+      required: false
+      type: TEXT
+    - description: Your local translation for tomorrow
+      label: Tomorrow translation
+      name: tomorrow
+      required: true
+      type: TEXT
+    - description: Your local translation for today
+      label: Today translation
+      name: today
+      required: true
+      type: TEXT
+    - description: Date items
+      label: Date items
+      name: datearray
+      required: false
+      type: TEXT
+  parameterGroups: []
+timestamp: Feb 3, 2021, 7:17:40 PM
+component: f7-card
+config:
+  title: =props.title
+slots:
+  default:
+    - component: f7-card-content
+      slots:
+        default:
+          - component: f7-list
+            config:
+              mediaList: true
+            slots:
+              default:
+                - component: oh-repeater
+                  config:
+                    for: listitem
+                    in: =props.datearray.split("|")
+                    fragment: true
+                  slots:
+                    default:
+                      - component: oh-list-item
+                        config:
+                          title: =loop.listitem.split("\"")[1]
+                          icon: =loop.listitem.split("\"")[5]
+                          iconColor: =loop.listitem.split("\"")[3]
+                          badge: '=((dayjs(items[loop.listitem.split("\"")[7]].state).diff(dayjs().startOf("day"), "days")) == 0 ? (props.today) : (dayjs(items[loop.listitem.split("\"")[7]].state).diff(dayjs().startOf("day"), "days")) == 1 ? (props.tomorrow) : false)'
+                          badgeColor: '=((dayjs(items[loop.listitem.split("\"")[7]].state).diff(dayjs().startOf("day"), "days")) == 0 ? "red" : "yellow")'
+                          footer: =items[loop.listitem.split("\"")[7]].displayState
+                          visible: '=items[loop.listitem.split("\"")[7]].state == "UNDEF" ? false : true'
+    - component: f7-card-footer
+      slots:
+        default:
+          - component: Label
+            config:
+              text: =props.footer
