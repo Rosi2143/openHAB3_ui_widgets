@@ -10,7 +10,7 @@
 1. [openHAB3Widgets](https://github.com/BangerTech/openHAB3Widgets)
 1. [HeatingWidget](https://github.com/NRquadrat/oh3-widgetHeating)
 1. [temperature_card_multi_sensor](https://gitlab.com/-/snippets/2331634)
-1. [oh3-widgets](git@github.com:Rosi2143/oh3-widgets.git)
+1. [oh3-widgets](https://github.com/Rosi2143/oh3-widgets)
 
 #### other sources
 1. [OpenhabWidget](https://github.com/massimilianocasini/OpenhabWidget)
