@@ -1,5 +1,6 @@
 uid: garbage_list_v1
-tags: []
+tags:
+  - marketplace:114871
 props:
   parameters:
     - description: Title of the card
@@ -7,10 +8,15 @@ props:
       name: title
       required: false
       type: TEXT
-    - description: The card footer
-      label: Footer
-      name: footer
+    - description: Your local translation for Next Collection
+      label: NextCollection translation
+      name: nextCollection
       required: false
+      type: TEXT
+    - description: Your local translation for days
+      label: Days translation
+      name: days
+      required: true
       type: TEXT
     - description: Your local translation for tomorrow
       label: Tomorrow translation
@@ -63,4 +69,4 @@ slots:
         default:
           - component: Label
             config:
-              text: =props.footer
+              text: '=(props.nextCollection? props.nextCollection : "next collection") + ": " + ((dayjs(items.AbfallNachster_Start.state).diff(dayjs().startOf("day"), "days")) == 0 ? (props.today? props.today : "today") : (dayjs(items.AbfallNachster_Start.state).diff(dayjs().startOf("day"), "days")) == 1 ? (props.tomorrow? props.tomorrow : "tomorrow") : "in " + (dayjs(items.AbfallNachster_Start.state).diff(dayjs().startOf("day"), "days")) + " " + (props.days? props.days : "Days"))'
