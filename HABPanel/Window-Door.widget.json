@@ -1,0 +1,62 @@
+{
+    "template": "<html>\n  <body>\n    <div class=\"switch-glowing\" style=\"position:absolute; top:0%; left: 0%;width:100%;height:100%;\">\n\t    <div class=\"box switch-glowing-on\" ng-if=\"itemValue(config.contact_item) !='CLOSED'\" style=\"position:absolute; top:0%; left: 0%;width:100%;height:100%;box-shadow: {{config.shadow}};\">\n        <widget-icon class=\"backdrop-icon-on\" ng-if=\"config.show_icon\" iconset=\"config.icon_iconset\" icon=\"config.icon\" backdrop=\"true\" center=\"true\" style=\"position:absolute; top:0%; left: 0%;width:100%;height:100%;\"></widget-icon>\n\t\t    <widget-icon class=\"mini-icon-on\" ng-if=\"config.show_mini\" iconset=\"config.mini_iconset\" icon=\"config.mini\" state=itemValue(config.contact_item) size=\"config.mini_size\" style=\"position:absolute; top:1%; left: 0%; z-index: 1\"></widget-icon>\n\t\t    <h5><span class=\"glow-switch-label-on\" style=\"position:absolute; bottom:0%;left:0%;width:100%;text-align: center;\">{{ngModel.name}}</span></h5>\n      </div>\n \t    <div class=\"box switch-glowing-off\" ng-if=\"itemValue(config.contact_item) =='CLOSED'\" style=\"position:absolute; top:0%; left: 0%;width:100%;height:100%;\">\n\t\t    <widget-icon class=\"backdrop-icon-off\" ng-if=\"config.show_icon\" iconset=\"config.icon_iconset\" icon=\"config.icon\" backdrop=\"true\" center=\"true\" style=\"color:white; position:absolute; top:0%; left: 0%;width:100%;height:100%;\"></widget-icon>\n\t\t    <widget-icon class=\"mini-icon-off\" ng-if=\"config.show_mini\" iconset=\"config.mini_iconset\" icon=\"config.mini\" state=itemValue(config.contact_item) size=\"config.mini_size\" style=\"position:absolute; top:1%; left: 0%; z-index: 1\"></widget-icon>\n\t\t    <h5><span class=\"glow-switch-label-off\" style=\"position:absolute; bottom:0%;left:0%;width:100%;text-align: center;\">{{ngModel.name}}</span></h5>\n\t    </div>\n    </div>\n    <div class=\"row\" ng-if=\"config.show_list\" ng-repeat=\"item in itemsInGroup(config.contact_item)\">\n      <div ng-if=\"itemValue(item.name)== 'OPEN'\"  style=\"color: yellow\">\n        <div class=\"col-sm-8 text-right\">{{'%s' | sprintf:item.name.split('_')[0]}}</div>\n      </div>\n    </div>  </body>\n</html>",
+    "name": "Window-Door",
+    "author": "Michael Roßner - based on Matthew Skinner",
+    "description": "A window state widget that can have glowing shadows.",
+    "readme_url": "https://community.openhab.org/t/103475",
+    "id": "Window-Door",
+    "settings": [
+        {
+            "id": "contact_item",
+            "label": "Contact Item",
+            "description": "Select the item that represents the door or window open-state",
+            "type": "item"
+        },
+        {
+            "label": "Show Backdrop Icon",
+            "id": "show_icon",
+            "description": "Show the larger Backdrop Icon",
+            "default": true,
+            "type": "checkbox"
+        },
+        {
+            "id": "icon",
+            "label": "Backdrop Icon",
+            "description": "Backdrop Icon",
+            "type": "icon"
+        },
+        {
+            "id": "mini",
+            "label": "Mini Icon",
+            "description": "Mini Icon that shows in corner by default.",
+            "type": "icon"
+        },
+        {
+            "id": "show_mini",
+            "label": "Show Mini Icon",
+            "description": "Show the mini icon that shows in the top corner.",
+            "default": true,
+            "type": "checkbox"
+        },
+        {
+            "id": "mini_size",
+            "default": "32",
+            "label": "Mini Icon Size",
+            "description": "Enter the size of the mini icon, default is 32.",
+            "type": "number"
+        },
+        {
+            "id": "shadow",
+            "label": "Shadow Format",
+            "default": "0px 0px 6px 3px rgba(0, 95, 255,0.8)",
+            "description": "Set the shadow format, or set to none to remove the shadow.",
+            "type": "string"
+        },
+        {
+            "id": "show_list",
+            "label": "Show List",
+            "description": "Show the list of open windows/doors",
+            "type": "checkbox"
+        }
+    ]
+}
