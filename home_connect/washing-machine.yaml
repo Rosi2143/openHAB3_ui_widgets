@@ -1,4 +1,4 @@
-uid: oven_v1
+uid: washing_machine_v4
 tags: []
 props:
   parameters:
@@ -7,14 +7,14 @@ props:
       name: title
       required: false
       type: TEXT
-    - description: Header text above dishwasher
-      label: Header
-      name: header
-      required: false
-      type: TEXT
     - description: The card footer
       label: Footer
       name: footer
+      required: false
+      type: TEXT
+    - description: Header text above washing machine
+      label: Header
+      name: header
       required: false
       type: TEXT
     - description: Expression that evaluates to minutes since the begin of washing
@@ -27,8 +27,13 @@ props:
       name: state
       required: true
       type: TEXT
+    - description: "Dryer mode: Set this to ON for a red dryer color scheme"
+      label: Dryer Mode
+      name: dryer
+      required: false
+      type: TEXT
   parameterGroups: []
-timestamp: Aug 19, 2023, 7:31:55 PM
+timestamp: Oct 2, 2021, 9:24:59 PM
 component: f7-card
 config:
   title: =(props.title)
@@ -58,6 +63,7 @@ slots:
                       - justify-content-space-evenly
                     style:
                       height: 100%
+                      width: 90px
                   slots:
                     default:
                       - component: f7-block-header
@@ -67,13 +73,12 @@ slots:
                               config:
                                 text: =props.header
                       - component: f7-block
-                        # body
                         config:
                           style:
                             height: 120px
-                            width: 120px
+                            width: 90px
                             border-radius: 2px 2px 4px 4px
-                            background: "silver"
+                            background: rgba(255,255,255,1)
                             box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px
                           class:
                             - display-flex
@@ -82,265 +87,127 @@ slots:
                         slots:
                           default:
                             - component: f7-block
-                              # control panel
                               config:
                                 class:
                                   - display-flex
-                                  - justify-content-center
+                                  - justify-content-flex-end
                                   - align-items-center
                                   - flex-shrink-0
                                   - no-margin
                                 style:
                                   height: 23px
-                                  width: 100px
-                                  border-bottom: 2pt solid lightgray
+                                  width: 85px
+                                  border-bottom: 1pt solid lightgray
                                   padding-right: 10px
                               slots:
                                 default:
-                                  - component: f7-block
-                                    # touch screen
+                                  - component: f7-icon
                                     config:
+                                      f7: circle_fill
+                                      size: 10
+                                      color: gray
+                                  - component: f7-icon
+                                    config:
+                                      f7: circle_fill
+                                      size: 10
+                                      color: gray
+                                  - component: f7-icon
+                                    config:
+                                      f7: '=props.state == "OFF" ? "circle_fill" : "sun_min"'
+                                      size: 10
                                       style:
-                                        backgroundColor: black
-                                        margin-top: 0px
-                                        height: 12px
-                                        width: 50px
-                                        border-radius: 2px 2px 0px 0px
-                                    slots:
-                                      default:
-                                        - component: f7-icon
-                                          # selection wheel
-                                          config:
-                                            f7: circle_bottomthird_split
-                                            size: 13
-                                            style:
-                                              margin-left: 2px
-                                              margin-top: -13px
-                                              color: "silver"
+                                        color: '=props.state == "OFF" ? "gray" : "red"'
                             - component: f7-block
-                              config:
-                                class:
-                                  - no-padding
-                                style:
-                                  height: calc(100% - 23px)
-                                  width: 90%
-                                  bottom: 0px
-                                  position: absolute
-                                  background: whitesmoke
-                            - component: f7-block
-                              # plate left
                               config:
                                 class:
                                   - display-flex
                                   - justify-content-center
                                   - align-items-center
                                 style:
-                                  position: absolute
-                                  bottom: 0px
-                                  left: 30%
-                                  width: 40px
-                                  height: 40px
-                                  background: beige
-                                  box-shadow: 0 0 16px 8px rgba(0, 0, 0, 0.10) inset
+                                  height: 60px
+                                  width: 60px
+                                  border: 5pt solid lightgray
                                   border-radius: 50%
-                                  transition: transform 0.6s
-                                  transform: '=props.state == "FINISHED" ? "translate(-50%, -45px)" : "translate(-50%, 0)"'
-                                  transform-origin: left center
-                              slots:
-                                default:
-                                  - component: f7-icon
-                                    config:
-                                      f7: circle
-                                      size: 40
-                                      style:
-                                        color: beige
-                            - component: f7-block
-                              # plate middle
-                              config:
-                                class:
-                                  - display-flex
-                                  - justify-content-center
-                                  - align-items-center
-                                style:
-                                  position: absolute
-                                  bottom: 0px
-                                  left: 50%
-                                  width: 40px
-                                  height: 40px
-                                  background: beige
-                                  box-shadow: 0 0 16px 8px rgba(0, 0, 0, 0.10) inset
-                                  border-radius: 50%
-                                  transition: transform 0.6s
-                                  transform: '=props.state == "FINISHED" ? "translate(-50%, -47px)" : "translate(-50%, 0)"'
-                                  transform-origin: left center
-                              slots:
-                                default:
-                                  - component: f7-icon
-                                    config:
-                                      f7: circle
-                                      size: 40
-                                      style:
-                                        color: beige
-                            - component: f7-block
-                              # plate right
-                              config:
-                                class:
-                                  - display-flex
-                                  - justify-content-center
-                                  - align-items-center
-                                style:
-                                  position: absolute
-                                  bottom: 0px
-                                  left: 70%
-                                  width: 40px
-                                  height: 40px
-                                  background: beige
-                                  box-shadow: 0 0 16px 8px rgba(0, 0, 0, 0.10) inset
-                                  border-radius: 50%
-                                  transition: transform 0.6s
-                                  transform: '=props.state == "FINISHED" ? "translate(-50%, -49px)" : "translate(-50%, 0)"'
-                                  transform-origin: left center
-                              slots:
-                                default:
-                                  - component: f7-icon
-                                    config:
-                                      f7: circle
-                                      size: 40
-                                      style:
-                                        color: beige
-                            - component: f7-block
-                              # door
-                              config:
-                                style:
-                                  height: 100%
-                                  transform: translate3d(0, 0, 0)
+                                  margin-top: 7px
                               slots:
                                 default:
                                   - component: f7-block
                                     config:
-                                      class:
-                                        - display-flex
-                                        - flex-direction-column
-                                        - justify-content-flex-start
-                                        - align-items-center
+                                      colorTheme: '=props.dryer == "ON" ? "red" : "lightblue"'
+                                      class: custom-preloader-container-dummy
                                       style:
-                                        height: 100%
-                                        width: 120px
-                                        backgroundColor: '=props.state == "RUNNING" ? "black" : "black"'
-                                        transition: transform 0.6s
-                                        transform: '=props.state != "RUNNING" ? "perspective(600px) rotateX(-80deg)" : "perspective(0px) rotateX(0deg)"'
-                                        transform-origin: bottom center
-                                        margin-top: auto
-                                        box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px
+                                        display: '=props.state == "RUNNING" ? "" : "none"'
+                                        margin: 0
+                                        padding: 0
+                                        --f7-preloader-size: 50px
+                                        --f7-preloader-color: var(--f7-theme-color)
+                                        position: absolute
+                                        left: 50%
+                                        top: 50%
+                                        transform: translate(-50%, -50%)
                                     slots:
                                       default:
                                         - component: f7-block
                                           config:
+                                            class: custom-preloader-dummy
                                             style:
-                                              height: 10px
-                                              width: 90px
-                                              position: absolute
-                                              margin-top: -10px
-                                              backgroundColor: white
-                                              transition: transform 0.6s
-                                              transform: '=props.state != "RUNNING" ? "perspective(600px) rotateX(35deg)" : "perspective(600px) rotateX(90deg)"'
-                                              transform-origin: bottom center
-                                              border-radius: 2px 2px 0px 0px
-                                        - component: f7-block
-                                          # handle
-                                          config:
-                                            style:
-                                              backgroundColor: silver
-                                              margin-top: 10px
-                                              height: 8px
-                                              width: 90px
-                                              border-radius: 2px 2px 0px 0px
-                                        - component: f7-block
-                                          # info element
-                                          config:
-                                            class:
-                                              - no-padding
-                                            style:
-                                              margin-top: 10px
-                                              height: calc(100% - 40px)
-                                              width: 100%
+                                              margin: 0
+                                              padding: 0
+                                              width: var(--f7-preloader-size)
+                                              height: var(--f7-preloader-size)
                                           slots:
                                             default:
                                               - component: f7-block
-                                                # rotating element
                                                 config:
-                                                  colorTheme: lightblue
-                                                  class: custom-preloader-container-dummy
+                                                  class: custom-preloader-inner-dummy
                                                   style:
-                                                    display: '=props.state == "RUNNING" ? "" : "none"'
                                                     margin: 0
                                                     padding: 0
-                                                    --f7-preloader-size: 50px
-                                                    --f7-preloader-color: var(--f7-theme-color)
                                                     position: absolute
-                                                    left: 50%
-                                                    top: 50%
-                                                    transform: translate(-50%, -50%)
+                                                    left: 0
+                                                    top: 0
+                                                    width: 100%
+                                                    height: 100%
                                                 slots:
                                                   default:
                                                     - component: f7-block
                                                       config:
-                                                        class: custom-preloader-dummy
+                                                        class: custom-preloader-inner-circle-dummy
                                                         style:
                                                           margin: 0
                                                           padding: 0
-                                                          width: var(--f7-preloader-size)
-                                                          height: var(--f7-preloader-size)
-                                                      slots:
-                                                        default:
-                                                          - component: f7-block
-                                                            config:
-                                                              class: custom-preloader-inner-dummy
-                                                              style:
-                                                                margin: 0
-                                                                padding: 0
-                                                                position: absolute
-                                                                left: 0
-                                                                top: 0
-                                                                width: 100%
-                                                                height: 100%
-                                                            slots:
-                                                              default:
-                                                                - component: f7-block
-                                                                  config:
-                                                                    class: custom-preloader-inner-circle-dummy
-                                                                    style:
-                                                                      margin: 0
-                                                                      padding: 0
-                                                                      border-radius: 50%
-                                                                      border: calc(var(--f7-preloader-size)/8) solid var(--f7-preloader-color)
-                                                                      border-top-color: transparent
-                                                                      box-sizing: border-box
-                                                                      animation: aurora-preloader-rotate 1s linear infinite
-                                                                      position: absolute
-                                                                      left: 0
-                                                                      top: 0
-                                                                      width: 100%
-                                                                      height: 100%
-                                              - component: f7-block-header
-                                                # time
-                                                config:
-                                                  class:
-                                                    - no-margin
-                                                  style:
-                                                    position: absolute
-                                                    top: 50%
-                                                    left: 50%
-                                                    transition: transform 0.6s
-                                                    transform: '=props.state == "RUNNING" ? "scale(1, 1) translate(-50%, -50%)" : "scale(0, 0) translate(-50%, -50%)"'
-                                                    transform-origin: left center
-                                                slots:
-                                                  default:
-                                                    - component: Label
-                                                      config:
-                                                        text: '=Math.floor(props.runtime / 60) + ":" + ((props.runtime % 60) < 10 ? ("0" + props.runtime % 60) : (props.runtime % 60))'
-                                                        style:
-                                                          color: black
+                                                          border-radius: 50%
+                                                          border: calc(var(--f7-preloader-size)/8) solid var(--f7-preloader-color)
+                                                          border-top-color: transparent
+                                                          box-sizing: border-box
+                                                          animation: aurora-preloader-rotate 1s linear infinite
+                                                          position: absolute
+                                                          left: 0
+                                                          top: 0
+                                                          width: 100%
+                                                          height: 100%
+                                  - component: f7-icon
+                                    config:
+                                      f7: '=props.state == "FINISHED" ? "circle_bottomthird_split" : "circle"'
+                                      size: 50
+                                      style:
+                                        color: '=props.state == "OFF" ? "lightgray" : (props.dryer == "ON" ? "orange" : "lightblue")'
+                                        border-radius: 50%
+                                        box-shadow: 0 0 16px 8px rgba(0, 0, 0, 0.25) inset
+                                  - component: f7-block-header
+                                    config:
+                                      visible: =props.state == "RUNNING"
+                                      class:
+                                        - no-margin
+                                      style:
+                                        position: absolute
+                                    slots:
+                                      default:
+                                        - component: Label
+                                          config:
+                                            text: '=Math.floor(props.runtime / 60) + ":" + ((props.runtime % 60) < 10 ? ("0" + props.runtime % 60) : (props.runtime % 60))'
+                                            style:
+                                              color: black
     - component: f7-card-footer
       slots:
         default:
