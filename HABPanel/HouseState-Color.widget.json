@@ -1,0 +1,52 @@
+{
+    "author": "from Michael Roßner - based on Matthew Skinner",
+    "description": "Shows if it is safe to leave the house",
+    "id": "HouseState-Color",
+    "name": "Security State",
+    "readme_url": "https://community.openhab.org/t/103475",
+    "template": "<html>\n  <head>\n  <style>\n.circle\n{\n  width:60;height:60;\n\tbox-shadow: 0px 0px 30px -10px red inset;\n  border-radius:100%;\n  z-index:-1\n}\n  </style></head>\n<body>\n   <div>\n      <div class=\"row\">\n         <div class=\"col-xs-3\" ng-if=\"itemValue(config.light_switch_item) =='ON'\" ng-click=\"sendCmd(config.light_switch_item, 'OFF')\" style=\"z-index:10\">\n           <div class=\"box circle switch-glowing-on\">\n            <widget-icon class=\"mini-icon-on\" iconset=\"'freepik-household'\" icon=\"'light-bulb'\" size=\"60\"></widget-icon>  \n\t\t\t\t\t</div>\n\t\t\t    <h5><span class=\"glow-switch-status on\" ng-if=\"config.show_status\" style=\"position:absolute; bottom:-20%;right:30%;\">{{itemValue(config.light_switch_item)}}</span></h5>\n         </div>\n         <div class=\"col-xs-3\" ng-if=\"itemValue(config.light_switch_item) !='ON'\">\n           <div class=\"box\">\n            <widget-icon class=\"mini-icon-off\"  iconset=\"'freepik-household'\" icon=\"'light-bulb'\"   size=\"60\"></widget-icon>  \n\t\t\t\t\t</div>\n\t\t\t    <h5><span class=\"glow-switch-status on\" ng-if=\"config.show_status\" style=\"position:absolute; bottom:-20%;right:30%;\">{{itemValue(config.light_switch_item)}}</span></h5>\n         </div>\n        \n         <div class=\"col-xs-3\" ng-if=\"itemValue(config.window_open_item) =='OPEN'\">\n           <div class=\"box circle\" size=\"60\">\n            <widget-icon class=\"mini-icon-on\" iconset=\"'freepik-household'\" icon=\"'window-3'\" size=\"60\"></widget-icon>  \n\t\t\t\t\t</div>\n\t\t\t    <h5><span class=\"glow-switch-status on\" ng-if=\"config.show_status\" style=\"position:absolute; bottom:-20%;right:30%;\">{{itemValue(config.window_open_item)}}</span></h5>\n        </div>\n         <div class=\"col-xs-3\" ng-if=\"itemValue(config.window_open_item) !='OPEN'\">\n           <div class=\"box\"size=\"60\">\n            <widget-icon class=\"mini-icon-off\"  iconset=\"'freepik-household'\" icon=\"'window-3'\"   size=\"60\"></widget-icon>  \n\t\t\t\t\t</div>\n\t\t\t    <h5><span class=\"glow-switch-status on\" ng-if=\"config.show_status\" style=\"position:absolute; bottom:-20%;right:30%;\">{{itemValue(config.window_open_item)}}</span></h5>\n         </div>\n\n         <div class=\"col-xs-3\" ng-if=\"itemValue(config.door_open_item) =='OPEN'\">\n           <div class=\"box circle\" size=\"60\">\n            <widget-icon class=\"mini-icon-on\" iconset=\"'freepik-household'\" icon=\"'door-5'\" size=\"60\"></widget-icon>  \n\t\t\t\t\t</div>\n\t\t\t    <h5><span class=\"glow-switch-status on\" ng-if=\"config.show_status\" style=\"position:absolute; bottom:-20%;right:30%;\">{{itemValue(config.door_open_item)}}</span></h5>\n        </div>\n         <div class=\"col-xs-3\" ng-if=\"itemValue(config.door_open_item) !='OPEN'\">\n           <div class=\"box\"size=\"60\">\n            <widget-icon class=\"mini-icon-off\"  iconset=\"'freepik-household'\" icon=\"'door-5'\"   size=\"60\"></widget-icon>  \n\t\t\t\t\t</div>\n\t\t\t    <h5><span class=\"glow-switch-status on\" ng-if=\"config.show_status\" style=\"position:absolute; bottom:-20%;right:30%;\">{{itemValue(config.door_open_item)}}</span></h5>\n         </div>\n\n         <div class=\"col-xs-3\" ng-if=\"itemValue(config.door_lock_state_item) !='LOCKED'\" ng-click=\"sendCmd(config.door_lock_command_item, 'LOCKED')\" style=\"z-index:12\">\n           <div class=\"box circle\" size=\"60\">\n            <widget-icon class=\"mini-icon-on\" iconset=\"'smarthome-set'\" icon=\"'lock-b'\" size=\"60\"></widget-icob>  \n\t\t\t\t\t</div>\n\t\t\t    <h5><span class=\"glow-switch-status on\" ng-if=\"config.show_status\" style=\"position:absolute; bottom:-20%;right:10%;\">{{itemValue(config.door_lock_state_item)}}</span></h5>\n        </div>\n         <div class=\"col-xs-3\" ng-if=\"itemValue(config.door_lock_state_item) =='LOCKED'\">\n           <div class=\"box\"size=\"60\">\n            <widget-icon class=\"mini-icon-off\"  iconset=\"'smarthome-set'\" icon=\"'lock-a'\"   size=\"60\"></widget-icon>  \n\t\t\t\t\t</div>\n\t\t\t    <h5><span class=\"glow-switch-status on\" ng-if=\"config.show_status\" style=\"position:absolute; bottom:-20%;right:10%;\">{{itemValue(config.door_lock_state_item)}}</span></h5>\n         </div>\n      </div>\n   </div>   \n   <!-- widget-icon class=\"backdrop-icon-on\" iconset=\"'freepik-household'\" icon=\"'door-5'\" backdrop=\"true\" center=\"true\" style=\"position:absolute; top:0%; left:0%; width:100%; height:100%;\"></widget-icon -->\n\n   <div class=\"switch-glowing\" style=\"position:absolute; top:0%; left: 0%;width:100%;height:100%;z-index:-1;\">\n      <div class=\"box switch-glowing-on\" style=\"position:absolute; top:0%; left: 0%;width:100%;height:100%;box-shadow: 0px 0px 30px 10px green;\">\n      </div>\n   </div>\n   <div class=\"switch-glowing\" style=\"position:absolute; top:0%; left: 0%;width:100%;height:100%;z-index:1;\" ng-if=\"itemValue(config.light_switch_item) !='OFF'\">\n      <div class=\"box switch-glowing-on\" style=\"position:absolute; top:0%; left: 0%;width:100%;height:100%;box-shadow: 0px 0px 30px 10px yellow;\">\n      </div>\n   </div>\n   <div class=\"switch-glowing\" style=\"position:absolute; top:0%; left: 0%;width:100%;height:100%;z-index:2;\" ng-if=\"itemValue(config.window_open_item) !='CLOSED'\">\n      <div class=\"box switch-glowing-on\" style=\"position:absolute; top:0%; left: 0%;width:100%;height:100%;box-shadow: 0px 0px 30px 10px blue;\">\n      </div>\n   </div>\n   <div class=\"switch-glowing\" style=\"position:absolute; top:0%; left: 0%;width:100%;height:100%;z-index:3;\" ng-if=\"itemValue(config.door_open_item) !='CLOSED'\">\n      <div class=\"box switch-glowing-on\" style=\"position:absolute; top:0%; left: 0%;width:100%;height:100%;box-shadow: 0px 0px 30px 10px purple;\">\n      </div>\n   </div>\n   <div class=\"switch-glowing\" style=\"position:absolute; top:0%; left: 0%;width:100%;height:100%;z-index:4\" ng-if=\"itemValue(config.door_lock_state_item) !='LOCKED'\">\n      <div class=\"box switch-glowing-on\" style=\"position:absolute; top:0%; left: 0%;width:100%;height:100%;box-shadow: 0px 0px 30px 10px red;\">\n      </div>\n   </div>\n   <h5><span class=\"glow-switch-label-on\" style=\"position:absolute; bottom:0%;left:0%;width:100%;text-align: center;\">{{ngModel.name}}</span></h5>\n</body>\n</html>",
+    "settings": [
+        {
+            "description": "Select the item that shows that all lights or turned OFF",
+            "id": "light_switch_item",
+            "label": "State of Lights",
+            "default": "OFF",
+            "type": "item"
+        },
+        {
+            "id": "window_open_item",
+            "label": "State of Windows",
+            "default": "CLOSED",
+            "description": "Select the item that shows if all windows are closed",
+            "type": "item"
+        },
+        {
+            "id": "door_open_item",
+            "label": "State of Doors",
+            "default": "CLOSED",
+            "description": "Select the item that shows if all doors are closed",
+            "type": "item"
+        },
+        {
+            "id": "door_lock_state_item",
+            "label": "State of DoorLock",
+            "default": "UNLOCKED",
+            "description": "Select item that shows the state of the door lock",
+            "type": "item"
+        },
+        {
+            "id": "door_lock_command_item",
+            "label": "Command for DoorLock",
+            "default": "LOCK",
+            "description": "Select the item that allows sending commands to the door lock",
+            "type": "item"
+        },
+        {
+            "description": "Show the value of the switch items status.",
+            "id": "show_status",
+            "label": "Show Status",
+            "default": true,
+            "type": "checkbox"
+        }
+    ]
+}

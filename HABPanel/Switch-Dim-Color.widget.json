@@ -1,87 +1,87 @@
 {
-    "template": "<html>\n<head>\n  <style>\n.knob_modal{\n     border-radius: 10px;display: flex; align-items: center; justify-content: center;\n}\n    \n.switch-glowing-knob{\n    color: grey;\n}\n    \n.switch-glowing-colorPicker .c-ckolor__picker {\n    width: 25px;\n    height: 25px;\n}\n \n.switch_glowing_mini_knob {\n\n}\n\t</style>\n</head>\n<body>\n  <div class=\"switch-glowing-colorPicker\" ng-if=\"config.show_color\" ng-init=\"switch_glowing_colorPicker={item: config.color_item, style: 'aCKolor'}\" style=\"position:absolute; top:-6px;right: 0%; width:100%; z-index: 2\">\n\t\t<widget-colorpicker ng-model=\"switch_glowing_colorPicker\"/>\n\t</div>\n  \n\t<div class=\"switch-glowing-knob\" ng-if=\"config.show_knob\" ng-click=\"openModal('SliderModal.html', false, 'lg' )\" ng-init=\"switch_glowing_knob={\n\t\tunit: '%',\n\t\titem: config.switch_item,\n\t\ttrackColor: 'rgba(0,0,0,0)',\n    readOnly: true,\n\t\ttype: 'knob',\n\t\tbarWidth: 2,\n\t\ttrackWidth: 1,\n\t\tfontSize: 8,\n\t\tdisplayInput: true,\n\t\tfloor: 0,\n\t\tceil: 100,\n\t\tstep: 1,\n\t\tstartAngle: 2,\n\t\tendAngle: 358,                                    \n\t\t}\">\n    \n      <script type=\"text/ng-template\" id=\"SliderModal.html\">\n        <div class=\"knob_modal\">\n        \t<div class=\"switch-glowing-knob-modal\" ng-init=\"switch_glowing_knob={\n\t\tunit: '%',\n\t\titem: config.switch_item,\n\t\ttype: 'knob',\n\t\tbarWidth: 30,\n\t\ttrackWidth: 4,\n\t\tdisplayInput: true,\n\t\tfloor: 0,\n\t\tceil: 100,\n\t\tstep: 1,\n\t\tstartAngle: 2,\n\t\tendAngle: 358,                                    \n\t\t}\">\n       \t    <div class=\"box\" style=\"width:400px; height:400px;\">\n\t\t\t        <div>\n\t\t\t          <div>\n\t\t\t\t          <widget-knob ng-model=\"switch_glowing_knob\"/>\n\t\t\t          </div>\n\t\t\t        </div>\n\t\t\t      </div>\n\t\t\t    </div>\n        </div>\n      </script>\n\n\t    <div class=\"switch_glowing_mini_knob\" style=\"width:46px;position:absolute; top:-7px; right: -7px ;z-index: 3\">\n\t\t\t  <div>\n\t\t\t    <div>\n\t\t\t\t    <widget-knob ng-model=\"switch_glowing_knob\"/>\n\t\t\t    </div>\n\t\t\t  </div>\n\t\t  </div>\n    </div>\n    <div class=\"switch-glowing\" ng-click=\"itemValue(config.switch_item) !='OFF' && itemValue(config.switch_item) !='0' ? sendCmd(config.switch_item, 'OFF') : sendCmd(config.switch_item, 'ON') \" style=\"position:absolute; top:0%; left: 0%;width:100%;height:100%;\">\n\t    <div class=\"box switch-glowing-on\" ng-if=\"itemValue(config.switch_item) !='OFF' && itemValue(config.switch_item) !='0'\" style=\"position:absolute; top:0%; left: 0%;width:100%;height:100%;box-shadow: {{config.shadow}};\">\n        <widget-icon class=\"backdrop-icon-on\" ng-if=\"config.show_icon\" iconset=\"config.icon_iconset\" icon=\"config.icon\" backdrop=\"true\" center=\"true\" style=\"position:absolute; top:0%; left: 0%;width:100%;height:100%;\"></widget-icon>\n\t\t    <widget-icon class=\"mini-icon-on\" ng-if=\"config.show_mini\" iconset=\"config.mini_iconset\" icon=\"config.mini\" state=itemValue(config.switch_item) size=\"config.mini_size\" style=\"position:absolute; top:1%; left: 0%; z-index: 1\"></widget-icon>\n\t\t    <h5><span class=\"glow-switch-label-on\" style=\"position:absolute; bottom:0%;left:0%;width:100%;text-align: center;\">{{ngModel.name}}</span></h5>\n\t\t    <h5><span class=\"glow-switch-status on\" ng-if=\"config.show_status\" style=\"position:absolute; bottom:0%;right:0%;\">{{itemValue(config.switch_item)}}</span></h5>\n      </div>\n \t    <div class=\"box switch-glowing-off\" ng-if=\"itemValue(config.switch_item) =='OFF' || itemValue(config.switch_item) =='0'\" style=\"position:absolute; top:0%; left: 0%;width:100%;height:100%;\">\n\t\t    <widget-icon class=\"backdrop-icon-off\" ng-if=\"config.show_icon\" iconset=\"config.icon_iconset\" icon=\"config.icon\" backdrop=\"true\" center=\"true\" style=\"color:white; position:absolute; top:0%; left: 0%;width:100%;height:100%;\"></widget-icon>\n\t\t    <widget-icon class=\"mini-icon-off\" ng-if=\"config.show_mini\" iconset=\"config.mini_iconset\" icon=\"config.mini\" state=itemValue(config.switch_item) size=\"config.mini_size\" style=\"position:absolute; top:1%; left: 0%; z-index: 1\"></widget-icon>\n\t\t    <h5><span class=\"glow-switch-label-off\" style=\"position:absolute; bottom:0%;left:0%;width:100%;text-align: center;\">{{ngModel.name}}</span></h5>\n        <h5><span class=\"glow-switch-status off\" ng-if=\"config.show_status\" style=\"position:absolute; bottom:0%;right:0%;\">{{itemValue(config.switch_item)}}</span></h5>\n\t    </div>\n    </div>\n    <div class=\"row\" ng-if=\"config.show_list\" ng-repeat=\"item in itemsInGroup(config.switch_item)\">\n      <div ng-if=\"itemValue(item.name)== 'ON'\"  style=\"color: yellow\">\n        <div class=\"col-sm-8 text-right\">{{'%s' | sprintf:item.name.split('_')[0]}}</div>\n      </div>\n    </div>\n  </body>\n</html>",
-    "name": "Switch-Dim-Color",
-    "author": "Matthew Skinner",
+    "author": "from Michael Roßner - based on Matthew Skinner",
     "description": "A combination Switch, Dimmer and Color Picker that can have glowing shadows.",
-    "readme_url": "https://community.openhab.org/t/103475",
     "id": "Switch-Dim-Color",
+    "name": "Switch-Dim-Color",
+    "readme_url": "https://community.openhab.org/t/103475",
+    "template": "<html>\n<head>\n  <style>\n.knob_modal{\n     border-radius: 10px;display: flex; align-items: center; justify-content: center;\n}\n    \n.switch-glowing-knob{\n    color: grey;\n}\n    \n.switch-glowing-colorPicker .c-ckolor__picker {\n    width: 25px;\n    height: 25px;\n}\n \n.switch_glowing_mini_knob {\n\n}\n\t</style>\n</head>\n<body>\n  <div class=\"switch-glowing-colorPicker\" ng-if=\"config.show_color\" ng-init=\"switch_glowing_colorPicker={item: config.color_item, style: 'aCKolor'}\" style=\"position:absolute; top:-6px;right: 0%; width:100%; z-index: 2\">\n\t\t<widget-colorpicker ng-model=\"switch_glowing_colorPicker\"/>\n\t</div>\n  \n\t<div class=\"switch-glowing-knob\" ng-if=\"config.show_knob\" ng-click=\"openModal('SliderModal.html', false, 'lg' )\" ng-init=\"switch_glowing_knob={\n\t\tunit: '%',\n\t\titem: config.switch_item,\n\t\ttrackColor: 'rgba(0,0,0,0)',\n    readOnly: true,\n\t\ttype: 'knob',\n\t\tbarWidth: 2,\n\t\ttrackWidth: 1,\n\t\tfontSize: 8,\n\t\tdisplayInput: true,\n\t\tfloor: 0,\n\t\tceil: 100,\n\t\tstep: 1,\n\t\tstartAngle: 2,\n\t\tendAngle: 358,                                    \n\t\t}\">\n    \n      <script type=\"text/ng-template\" id=\"SliderModal.html\">\n        <div class=\"knob_modal\">\n        \t<div class=\"switch-glowing-knob-modal\" ng-init=\"switch_glowing_knob={\n\t\tunit: '%',\n\t\titem: config.switch_item,\n\t\ttype: 'knob',\n\t\tbarWidth: 30,\n\t\ttrackWidth: 4,\n\t\tdisplayInput: true,\n\t\tfloor: 0,\n\t\tceil: 100,\n\t\tstep: 1,\n\t\tstartAngle: 2,\n\t\tendAngle: 358,                                    \n\t\t}\">\n       \t    <div class=\"box\" style=\"width:400px; height:400px;\">\n\t\t\t        <div>\n\t\t\t          <div>\n\t\t\t\t          <widget-knob ng-model=\"switch_glowing_knob\"/>\n\t\t\t          </div>\n\t\t\t        </div>\n\t\t\t      </div>\n\t\t\t    </div>\n        </div>\n      </script>\n\n\t    <div class=\"switch_glowing_mini_knob\" style=\"width:46px;position:absolute; top:-7px; right: -7px ;z-index: 3\">\n\t\t\t  <div>\n\t\t\t    <div>\n\t\t\t\t    <widget-knob ng-model=\"switch_glowing_knob\"/>\n\t\t\t    </div>\n\t\t\t  </div>\n\t\t  </div>\n    </div>\n    <div class=\"switch-glowing\" ng-click=\"itemValue(config.switch_item) !='OFF' && itemValue(config.switch_item) !='0' ? sendCmd(config.switch_item, 'OFF') : sendCmd(config.switch_item, 'ON') \" style=\"position:absolute; top:0%; left: 0%;width:100%;height:100%;\">\n\t    <div class=\"box switch-glowing-on\" ng-if=\"itemValue(config.switch_item) !='OFF' && itemValue(config.switch_item) !='0'\" style=\"position:absolute; top:0%; left: 0%;width:100%;height:100%;box-shadow: {{config.shadow}};\">\n        <widget-icon class=\"backdrop-icon-on\" ng-if=\"config.show_icon\" iconset=\"config.icon_iconset\" icon=\"config.icon\" backdrop=\"true\" center=\"true\" style=\"position:absolute; top:0%; left: 0%;width:100%;height:100%;\"></widget-icon>\n\t\t    <widget-icon class=\"mini-icon-on\" ng-if=\"config.show_mini\" iconset=\"config.mini_iconset\" icon=\"config.mini\" state=itemValue(config.switch_item) size=\"config.mini_size\" style=\"position:absolute; top:1%; left: 0%; z-index: 1\"></widget-icon>\n\t\t    <h5><span class=\"glow-switch-label-on\" style=\"position:absolute; bottom:0%;left:0%;width:100%;text-align: center;\">{{ngModel.name}}</span></h5>\n\t\t    <h5><span class=\"glow-switch-status on\" ng-if=\"config.show_status\" style=\"position:absolute; bottom:0%;right:0%;\">{{itemValue(config.switch_item)}}</span></h5>\n      </div>\n \t    <div class=\"box switch-glowing-off\" ng-if=\"itemValue(config.switch_item) =='OFF' || itemValue(config.switch_item) =='0'\" style=\"position:absolute; top:0%; left: 0%;width:100%;height:100%;\">\n\t\t    <widget-icon class=\"backdrop-icon-off\" ng-if=\"config.show_icon\" iconset=\"config.icon_iconset\" icon=\"config.icon\" backdrop=\"true\" center=\"true\" style=\"color:white; position:absolute; top:0%; left: 0%;width:100%;height:100%;\"></widget-icon>\n\t\t    <widget-icon class=\"mini-icon-off\" ng-if=\"config.show_mini\" iconset=\"config.mini_iconset\" icon=\"config.mini\" state=itemValue(config.switch_item) size=\"config.mini_size\" style=\"position:absolute; top:1%; left: 0%; z-index: 1\"></widget-icon>\n\t\t    <h5><span class=\"glow-switch-label-off\" style=\"position:absolute; bottom:0%;left:0%;width:100%;text-align: center;\">{{ngModel.name}}</span></h5>\n        <h5><span class=\"glow-switch-status off\" ng-if=\"config.show_status\" style=\"position:absolute; bottom:0%;right:0%;\">{{itemValue(config.switch_item)}}</span></h5>\n\t    </div>\n    </div>\n    <div class=\"row\" ng-if=\"config.show_list\" ng-repeat=\"item in itemsInGroup(config.switch_item)\">\n      <div ng-if=\"itemValue(item.name)== 'ON'\"  style=\"color: yellow\">\n        <div class=\"col-sm-8 text-right\">{{'%s' | sprintf:(item.name.split('_')[0]).replace(\"gLichter\",\"\").replace(\"Licht\",\"\")}}</div>\n      </div>\n    </div>\n  </body>\n</html>",
     "settings": [
         {
+            "description": "Select the item that you wish to Switch or Dim, does not work for Color items.",
             "id": "switch_item",
             "label": "Switch or Dimmer Item",
-            "description": "Select the item that you wish to Switch or Dim, does not work for Color items.",
             "type": "item"
         },
         {
-            "label": "Show Backdrop Icon",
-            "id": "show_icon",
-            "description": "Show the larger Backdrop Icon",
             "default": true,
+            "description": "Show the larger Backdrop Icon",
+            "id": "show_icon",
+            "label": "Show Backdrop Icon",
             "type": "checkbox"
         },
         {
+            "description": "Backdrop Icon",
             "id": "icon",
             "label": "Backdrop Icon",
-            "description": "Backdrop Icon",
             "type": "icon"
         },
         {
+            "default": true,
+            "description": "Show the mini icon that shows in the top corner.",
             "id": "show_mini",
             "label": "Show Mini Icon",
-            "description": "Show the mini icon that shows in the top corner.",
-            "default": true,
             "type": "checkbox"
         },
         {
+            "description": "Mini Icon that shows in corner by default.",
             "id": "mini",
             "label": "Mini Icon",
-            "description": "Mini Icon that shows in corner by default.",
             "type": "icon"
         },
         {
-            "id": "mini_size",
             "default": "32",
-            "label": "Mini Icon Size",
             "description": "Enter the size of the mini icon, default is 32.",
+            "id": "mini_size",
+            "label": "Mini Icon Size",
             "type": "number"
         },
         {
-            "id": "show_knob",
-            "label": "Show Knob",
             "default": true,
             "description": "Show the knob and % for Dimmers and Color items.",
+            "id": "show_knob",
+            "label": "Show Knob",
             "type": "checkbox"
         },
         {
-            "label": "Show Color Picker",
-            "id": "show_color",
             "description": "Show a color picker for the item you select below.",
+            "id": "show_color",
+            "label": "Show Color Picker",
             "type": "checkbox"
         },
         {
+            "description": "Select an Item that links to a Color channel.",
             "id": "color_item",
             "label": "Item for Color Picker",
-            "description": "Select an Item that links to a Color channel.",
             "type": "item"
         },
         {
-            "id": "shadow",
-            "label": "Shadow Format",
             "default": "0px 0px 6px 3px rgba(0, 95, 255,0.8)",
             "description": "Set the shadow format, or set to none to remove the shadow.",
+            "id": "shadow",
+            "label": "Shadow Format",
             "type": "string"
         },
         {
+            "description": "Show the value of the switch items status.",
             "id": "show_status",
             "label": "Show Status",
-            "description": "Show the value of the switch items status.",
             "type": "checkbox"
         },
         {
+            "default": true,
+            "description": "Show all active items",
             "id": "show_list",
             "label": "Show List of active items",
-            "description": "Show all active items",
-            "default": true,
             "type": "checkbox"
         }
     ]

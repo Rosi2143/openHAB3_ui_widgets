@@ -1,61 +1,61 @@
 {
-    "template": "<html>\n<head>\n  <style>\n.knob_modal{\n     border-radius: 10px;display: flex; align-items: center; justify-content: center;\n}\n    \n.switch-glowing-knob{\n    color: grey;\n}\n    \n.switch-glowing-colorPicker .c-ckolor__picker {\n    width: 25px;\n    height: 25px;\n}\n \n.switch_glowing_mini_knob {\n\n}\n\t</style>\n</head>\n<body>\n\t<div class=\"switch-glowing-knob\" ng-init=\"switch_glowing_knob={\n\t\tunit: '%',\n\t\titem: config.blind_act_item,\n\t\ttrackColor: 'rgba(0,0,0,0)',\n    barColor: '#002F6C',\n    textColor: '#002F6C',\n    readOnly: true,\n\t\ttype: 'knob',\n\t\tbarWidth: 2,\n\t\ttrackWidth: 1,\n\t\tfontSize: 8,\n\t\tdisplayInput: true,\n\t\tfloor: 0,\n\t\tceil: 100,\n\t\tstep: 1,\n\t\tstartAngle: 5,\n\t\tendAngle: 355,                                    \n\t\t}\">\n    \n      <script type=\"text/ng-template\" id=\"SliderModal.html\">\n        <div class=\"knob_modal\">\n        \t<div class=\"switch-glowing-knob-modal\" ng-init=\"switch_glowing_knob={\n\t\tunit: '%',\n\t\titem: config.blind_cmd_item,\n    trackColor: 'rbga(0,0,0,0)',\n    barColor: '#002F6C',\n    textColor: '#002F6C',\n\t\ttype: 'slider',\n\t\tbarWidth: 30,\n\t\ttrackWidth: 4,\n\t\tdisplayInput: true,\n\t\tfloor: 0,\n\t\tceil: 100,\n\t\tstep: 1,\n\t\tstartAngle: 5,\n\t\tendAngle: 355,                                    \n\t\t}\">\n       \t    <div class=\"box\" style=\"width:400px; height:400px;\">\n\t\t\t        <div>\n\t\t\t          <div>\n\t\t\t\t          <widget-knob ng-model=\"switch_glowing_knob\"/>\n\t\t\t          </div>\n\t\t\t        </div>\n\t\t\t      </div>\n\t\t\t    </div>\n        </div>\n      </script>\n\n\t    <div class=\"switch_glowing_mini_knob\" style=\"width:46px;position:absolute; top:-7px; right: -7px ;z-index: 3\">\n\t\t\t  <div>\n\t\t\t    <div>\n\t\t\t\t    <widget-knob ng-model=\"switch_glowing_knob\"/>\n\t\t\t    </div>\n\t\t\t  </div>\n\t\t  </div>\n    </div>\n    <div class=\"switch-glowing\" ng-click=\"openModal('SliderModal.html', false, 'lg' )\" style=\"position:absolute; top:0%; left: 0%;width:100%;height:100%;\">\n\t    <div class=\"box switch-glowing-on\" ng-if=\"itemValue(config.blind_act_item) !='0'\" style=\"position:absolute; top:0%; left: 0%;width:100%;height:100%;box-shadow: {{config.shadow}};\">\n        <widget-icon class=\"backdrop-icon-on\" ng-if=\"config.show_icon\" iconset=\"config.icon_iconset\" icon=\"config.icon\" backdrop=\"true\" center=\"true\" style=\"position:absolute; top:0%; left: 0%;width:100%;height:100%;\"></widget-icon>\n\t\t    <widget-icon class=\"mini-icon-on\" ng-if=\"config.show_mini\" iconset=\"config.mini_iconset\" icon=\"config.mini\" state=itemValue(config.blind_act_item) size=\"config.mini_size\" style=\"position:absolute; top:1%; left: 0%; z-index: 1\"></widget-icon>\n\t\t    <h5><span class=\"glow-switch-label-on\" style=\"position:absolute; bottom:0%;left:0%;width:100%;text-align: center;\">{{ngModel.name}}</span></h5>\n\t\t    <h5><span class=\"glow-switch-status on\" ng-if=\"config.show_status\" style=\"position:absolute; bottom:0%;right:0%;\">{{itemValue(config.blind_act_item)}}</span></h5>\n      </div>\n \t    <div class=\"box switch-glowing-off\" ng-if=\"itemValue(config.blind_act_item) =='0'\" style=\"position:absolute; top:0%; left: 0%;width:100%;height:100%;\">\n\t\t    <widget-icon class=\"backdrop-icon-off\" ng-if=\"config.show_icon\" iconset=\"config.icon_iconset\" icon=\"config.icon\" backdrop=\"true\" center=\"true\" style=\"color:white; position:absolute; top:0%; left: 0%;width:100%;height:100%;\"></widget-icon>\n\t\t    <widget-icon class=\"mini-icon-off\" ng-if=\"config.show_mini\" iconset=\"config.mini_iconset\" icon=\"config.mini\" state=itemValue(config.blind_act_item) size=\"config.mini_size\" style=\"position:absolute; top:1%; left: 0%; z-index: 1\"></widget-icon>\n\t\t    <h5><span class=\"glow-switch-label-off\" style=\"position:absolute; bottom:0%;left:0%;width:100%;text-align: center;\">{{ngModel.name}}</span></h5>\n        <h5><span class=\"glow-switch-status off\" ng-if=\"config.show_status\" style=\"position:absolute; bottom:0%;right:0%;\">{{itemValue(config.blind_act_item)}}</span></h5>\n\t    </div>\n    </div>\n  </body>\n</html>",
-    "name": "Blind",
     "author": "Michael Roßner - based on Matthew Skinner",
     "description": "A blinbd state widget that can have glowing shadows.",
-    "readme_url": "https://community.openhab.org/t/103475",
     "id": "Blind",
+    "name": "Blind",
+    "readme_url": "https://community.openhab.org/t/103475",
+    "template": "<html>\n<head>\n  <style>\n.knob_modal{\n     border-radius: 10px;display: flex; align-items: center; justify-content: center;\n}\n    \n.switch-glowing-knob{\n    color: grey;\n}\n    \n.switch-glowing-colorPicker .c-ckolor__picker {\n    width: 25px;\n    height: 25px;\n}\n \n.switch_glowing_mini_knob {\n\n}\n\t</style>\n</head>\n<body>\n\t<div class=\"switch-glowing-knob\" ng-init=\"switch_glowing_knob={\n\t\tunit: '%',\n\t\titem: config.blind_act_item,\n\t\ttrackColor: 'rgba(0,0,0,0)',\n    barColor: '#002F6C',\n    textColor: '#002F6C',\n    readOnly: true,\n\t\ttype: 'knob',\n\t\tbarWidth: 2,\n\t\ttrackWidth: 1,\n\t\tfontSize: 8,\n\t\tdisplayInput: true,\n\t\tfloor: 0,\n\t\tceil: 100,\n\t\tstep: 1,\n\t\tstartAngle: 5,\n\t\tendAngle: 355,                                    \n\t\t}\">\n    \n      <script type=\"text/ng-template\" id=\"SliderModal.html\">\n        <div class=\"knob_modal\">\n        \t<div class=\"switch-glowing-knob-modal\" ng-init=\"switch_glowing_knob={\n\t\tunit: '%',\n\t\titem: config.blind_cmd_item,\n    trackColor: 'rbga(0,0,0,0)',\n    barColor: '#002F6C',\n    textColor: '#002F6C',\n\t\ttype: 'slider',\n\t\tbarWidth: 30,\n\t\ttrackWidth: 4,\n\t\tdisplayInput: true,\n\t\tfloor: 0,\n\t\tceil: 100,\n\t\tstep: 1,\n\t\tstartAngle: 5,\n\t\tendAngle: 355,                                    \n\t\t}\">\n       \t    <div class=\"box\" style=\"width:400px; height:400px;\">\n\t\t\t        <div>\n\t\t\t          <div>\n\t\t\t\t          <widget-knob ng-model=\"switch_glowing_knob\"/>\n\t\t\t          </div>\n\t\t\t        </div>\n\t\t\t      </div>\n\t\t\t    </div>\n        </div>\n      </script>\n\n\t    <div class=\"switch_glowing_mini_knob\" style=\"width:46px;position:absolute; top:-7px; right: -7px ;z-index: 3\">\n\t\t\t  <div>\n\t\t\t    <div>\n\t\t\t\t    <widget-knob ng-model=\"switch_glowing_knob\"/>\n\t\t\t    </div>\n\t\t\t  </div>\n\t\t  </div>\n    </div>\n    <div class=\"switch-glowing\" ng-click=\"openModal('SliderModal.html', false, 'lg' )\" style=\"position:absolute; top:0%; left: 0%;width:100%;height:100%;\">\n\t    <div class=\"box switch-glowing-on\" ng-if=\"itemValue(config.blind_act_item) !='0'\" style=\"position:absolute; top:0%; left: 0%;width:100%;height:100%;box-shadow: {{config.shadow}};\">\n        <widget-icon class=\"backdrop-icon-on\" ng-if=\"config.show_icon\" iconset=\"config.icon_iconset\" icon=\"config.icon\" backdrop=\"true\" center=\"true\" style=\"position:absolute; top:0%; left: 0%;width:100%;height:100%;\"></widget-icon>\n\t\t    <widget-icon class=\"mini-icon-on\" ng-if=\"config.show_mini\" iconset=\"config.mini_iconset\" icon=\"config.mini\" state=itemValue(config.blind_act_item) size=\"config.mini_size\" style=\"position:absolute; top:1%; left: 0%; z-index: 1\"></widget-icon>\n\t\t    <h5><span class=\"glow-switch-label-on\" style=\"position:absolute; bottom:0%;left:0%;width:100%;text-align: center;\">{{ngModel.name}}</span></h5>\n\t\t    <h5><span class=\"glow-switch-status on\" ng-if=\"config.show_status\" style=\"position:absolute; bottom:0%;right:0%;\">{{itemValue(config.blind_act_item)}}</span></h5>\n      </div>\n \t    <div class=\"box switch-glowing-off\" ng-if=\"itemValue(config.blind_act_item) =='0'\" style=\"position:absolute; top:0%; left: 0%;width:100%;height:100%;\">\n\t\t    <widget-icon class=\"backdrop-icon-off\" ng-if=\"config.show_icon\" iconset=\"config.icon_iconset\" icon=\"config.icon\" backdrop=\"true\" center=\"true\" style=\"color:white; position:absolute; top:0%; left: 0%;width:100%;height:100%;\"></widget-icon>\n\t\t    <widget-icon class=\"mini-icon-off\" ng-if=\"config.show_mini\" iconset=\"config.mini_iconset\" icon=\"config.mini\" state=itemValue(config.blind_act_item) size=\"config.mini_size\" style=\"position:absolute; top:1%; left: 0%; z-index: 1\"></widget-icon>\n\t\t    <h5><span class=\"glow-switch-label-off\" style=\"position:absolute; bottom:0%;left:0%;width:100%;text-align: center;\">{{ngModel.name}}</span></h5>\n        <h5><span class=\"glow-switch-status off\" ng-if=\"config.show_status\" style=\"position:absolute; bottom:0%;right:0%;\">{{itemValue(config.blind_act_item)}}</span></h5>\n\t    </div>\n    </div>\n  </body>\n</html>",
     "settings": [
         {
+            "description": "Select the item that show the current state",
             "id": "blind_act_item",
             "label": "Blind act Item",
-            "description": "Select the item that show the current state",
             "type": "item"
         },
         {
+            "description": "Select the item where commands are send with",
             "id": "blind_cmd_item",
             "label": "Blind command item",
-            "description": "Select the item where commands are send with",
             "type": "item"
         },
         {
-            "label": "Show Backdrop Icon",
-            "id": "show_icon",
-            "description": "Show the larger Backdrop Icon",
             "default": true,
+            "description": "Show the larger Backdrop Icon",
+            "id": "show_icon",
+            "label": "Show Backdrop Icon",
             "type": "checkbox"
         },
         {
+            "description": "Backdrop Icon",
             "id": "icon",
             "label": "Backdrop Icon",
-            "description": "Backdrop Icon",
             "type": "icon"
         },
         {
+            "description": "Mini Icon that shows in corner by default.",
             "id": "mini",
             "label": "Mini Icon",
-            "description": "Mini Icon that shows in corner by default.",
             "type": "icon"
         },
         {
+            "default": true,
+            "description": "Show the mini icon that shows in the top corner.",
             "id": "show_mini",
             "label": "Show Mini Icon",
-            "description": "Show the mini icon that shows in the top corner.",
-            "default": true,
             "type": "checkbox"
         },
         {
-            "id": "mini_size",
             "default": "32",
-            "label": "Mini Icon Size",
             "description": "Enter the size of the mini icon, default is 32.",
+            "id": "mini_size",
+            "label": "Mini Icon Size",
             "type": "number"
         },
         {
-            "id": "shadow",
-            "label": "Shadow Format",
             "default": "0px 0px 6px 3px rgba(0, 95, 255,0.8)",
             "description": "Set the shadow format, or set to none to remove the shadow.",
+            "id": "shadow",
+            "label": "Shadow Format",
             "type": "string"
         }
     ]
