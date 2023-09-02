@@ -14,3 +14,17 @@
 - branch conventions
    - main branches are the "originals"
    - master branches are "my" versions
+
+# tips and tricks
+## Display State vs. State
+* https://www.openhab.org/docs/ui/building-pages.html#dynamically-configuring-components-with-expressions
+
+The @ symbol can be used in front of an item name string as a shortcut to the displayState from the items dictionary with a fallback to the raw state:
+
+    footer: =@'Switch1'
+
+is the same as
+
+    footer: =items['Switch1'].displayState || items['Switch1'].state
+
+Similarly, @@ can be used as a shortcut for just the item state.
