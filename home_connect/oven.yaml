@@ -7,7 +7,7 @@ props:
       name: title
       required: false
       type: TEXT
-    - description: Header text above dishwasher
+    - description: Header text above oven
       label: Header
       name: header
       required: false
@@ -72,8 +72,14 @@ props:
       name: operation_mode
       required: true
       type: TEXT
+    - context: item
+      description: Remote access state
+      label: Remote access
+      name: remote_access
+      required: false
+      type: TEXT
   parameterGroups: []
-timestamp: Sep 2, 2023, 4:08:14 PM
+timestamp: Sep 4, 2023, 8:07:06 PM
 component: f7-card
 config:
   title: =(props.title)
@@ -158,6 +164,15 @@ slots:
                                               color: silver
                                               margin-left: 14px
                                               margin-top: -13px
+                                        - component: f7-icon
+                                          config:
+                                            f7: antenna_radiowaves_left_right
+                                            size: 16
+                                            style:
+                                              color: "=items[props.remote_access].state === 'ON' ? 'green' : 'red'"
+                                              margin-left: -70px
+                                              margin-top: -13px
+                                            visible: "=props.remote_access ? true : false"
                             - component: f7-block
                               config:
                                 class:
@@ -347,12 +362,13 @@ slots:
                                                       config:
                                                         style:
                                                           color: lightblue
-                                                        text: '=(items[props.remaining_runtime].state == "UNDEF") ? ((items[props.elapsed_runtime].state == "UNDEF") ? "00:00" : items[props.elapsed_runtime].state) : Math.floor(items[props.remaining_runtime].state.split(" ")[0] / 60) + ":" + ((items[props.remaining_runtime].state.split(" ")[0]  % 60) < 10 ? ("0" + items[props.remaining_runtime].state.split(" ")[0]  % 60) : (items[props.remaining_runtime].state.split(" ")[0]  % 60))'
+                                                        text: '=(items[props.remaining_runtime].state == "UNDEF") ? ((items[props.elapsed_runtime].state == "UNDEF") ? "00:00" : Number.parseInt(@props.elapsed_runtime)) : Number.parseInt(@props.remaining_runtime) + ":" + ((((Number.parseFloat(@props.remaining_runtime) * 60 ) % 60) < 10) ? ("0" + Math.round((Number.parseFloat(@props.remaining_runtime) * 60) % 60 )) : (Math.round((Number.parseFloat(@props.remaining_runtime) * 60) % 60 )))'
                                         - component: oh-slider
                                           config:
                                             item: =props.progress
                                             max: 100
                                             min: 0
+                                            unit: true
                                             visible: =items[props.progress].state != "UNDEF"
     - component: f7-card-footer
       config:
