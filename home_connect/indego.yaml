@@ -1,0 +1,236 @@
+uid: indego_v1
+tags: []
+props:
+  parameters:
+    - default: Indego
+      description: Title of the card
+      label: Title
+      name: title
+      required: false
+      type: TEXT
+    - default: Battery
+      description: use to tranlate "Battery"
+      label: Word for "Battery"
+      name: translate_battery
+      required: false
+      type: TEXT
+      groupName: translate
+    - default: of
+      description: use to tranlate "of"
+      label: Word for "of"
+      name: translate_of
+      required: false
+      type: TEXT
+      groupName: translate
+    - default: mowed
+      description: use to tranlate "mowed"
+      label: Word for "mowed"
+      name: translate_mowed
+      required: false
+      type: TEXT
+      groupName: translate
+    - default: State
+      description: use to tranlate "State"
+      label: Word for "State"
+      name: translate_state
+      required: false
+      type: TEXT
+      groupName: translate
+    - default: Low Battery
+      description: use to tranlate "Low Battery"
+      label: Word for "low battery"
+      name: translate_lowbat
+      required: false
+      type: TEXT
+      groupName: translate
+    - default: Battery Temperature
+      description: use to tranlate "Battery Temperature"
+      label: Word for "Battery Temperature"
+      name: translate_battemp
+      required: false
+      type: TEXT
+      groupName: translate
+    - default: last time
+      description: use to tranlate "last cutting"
+      label: Word for "Last cutting"
+      name: translate_lastcut
+      required: false
+      type: TEXT
+      groupName: translate
+    - default: next cutting
+      description: use to tranlate "next cutting"
+      label: Word for "Next cutting"
+      name: translate_nextcut
+      required: false
+      type: TEXT
+      groupName: translate
+    - context: item
+      description: item that contains the map
+      label: map item
+      name: mower_map
+      required: true
+      type: TEXT
+      groupName: items
+    - context: item
+      description: item that contains the battery change level
+      label: charge item
+      name: mower_battery_charge
+      required: true
+      type: TEXT
+      groupName: items
+    - context: item
+      description: item that contains the state text
+      label: state item
+      name: mower_state_text
+      required: true
+      type: TEXT
+      groupName: items
+    - context: item
+      description: item that contains the progress in %
+      label: progress item
+      name: mower_progress
+      required: true
+      type: TEXT
+      groupName: items
+    - context: item
+      description: item that contains the area
+      label: area item
+      name: mower_area
+      required: true
+      type: TEXT
+      groupName: items
+    - context: item
+      description: item for low battery state
+      label: low-battery item
+      name: mower_lowbat
+      required: true
+      type: TEXT
+      groupName: items
+    - context: item
+      description: item for mower error
+      label: mower error code item
+      name: mower_error
+      required: true
+      type: TEXT
+      groupName: items
+    - context: item
+      description: item for battery temperature
+      label: battery temperature item
+      name: mower_battemp
+      required: false
+      type: TEXT
+      groupName: items
+    - context: item
+      description: item for last cutting
+      label: last cutting item
+      name: mower_lastcut
+      required: false
+      type: TEXT
+      groupName: items
+    - context: item
+      description: item for next cutting
+      label: next cutting item
+      name: mower_nextcut
+      required: false
+      type: TEXT
+      groupName: items
+  parameterGroups:
+    - name: translate
+      label: translations
+    - name: items
+      label: items of mower
+timestamp: Oct 2, 2023, 6:02:51 PM
+component: f7-card
+config:
+  title: =props.title
+slots:
+  default:
+    - component: f7-row
+      config:
+        visible: true
+      slots:
+        default:
+          - component: f7-col
+            config:
+              style:
+                z-index: 95
+            slots:
+              default:
+                - component: Label
+                  config:
+                    text: =props.translate_state
+                - component: f7-row
+                  config:
+                    class:
+                      - align-items-center
+                    style:
+                      flex-wrap: nowrap
+                  slots:
+                    default:
+                      - component: oh-icon
+                        config:
+                          icon: iconify:mdi:robot-mower-outline
+                          width: 40
+                          color: "=items[props.mower_error].state == '0' ? 'green' : 'red'"
+          - component: f7-col
+            config:
+              style:
+                z-index: 95
+              visible: "=items[props.mower_lowbat].state == 'ON' ? true : false"
+            slots:
+              default:
+                - component: Label
+                  config:
+                    text: =props.translate_lowbat
+                - component: oh-icon
+                  config:
+                    icon: iconify:mdi:battery-charging-low
+                    width: 40
+                    color: red
+                    rotate: 90deg
+                    horizontalFlip: true
+          - component: f7-col
+            config:
+              style:
+                z-index: 95
+            slots:
+              default:
+                - component: Label
+                  config:
+                    text: =props.translate_battemp
+                    visible: "=props.mower_battemp ? true : false"
+                - component: Label
+                  config:
+                    text: "=@props.mower_battemp"
+                    visible: "=props.mower_battemp ? true : false"
+          - component: f7-col
+            config:
+              style:
+                z-index: 95
+              visible: "=props.mower_lastcut ? true : false"
+            slots:
+              default:
+                - component: Label
+                  config:
+                    text: =props.translate_lastcut
+                - component: Label
+                  config:
+                    text: "=@props.mower_lastcut"
+          - component: f7-col
+            config:
+              style:
+                z-index: 95
+              visible: "=props.mower_nextcut ? true : false"
+            slots:
+              default:
+                - component: Label
+                  config:
+                    text: =props.translate_nextcut
+                - component: Label
+                  config:
+                    text: "=@props.mower_lastcut"
+    - component: oh-image-card
+      config:
+        item: =props.mower_map
+        outline: true
+        footer: =props.translate_battery + " " + items[props.mower_battery_charge].state + "% - " + items[props.mower_state_text].state + " - " + items[props.mower_progress].state + "% " + props.translate_of + " " + items[props.mower_area].state + props.translate_mowed
