@@ -228,7 +228,7 @@ slots:
                     text: =props.translate_nextcut
                 - component: Label
                   config:
-                    text: "=@props.mower_lastcut"
+                    text: "=@props.mower_nextcut"
     - component: oh-image-card
       config:
         item: =props.mower_map
