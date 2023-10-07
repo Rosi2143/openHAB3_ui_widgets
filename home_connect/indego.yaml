@@ -2,6 +2,86 @@ uid: indego_v1
 tags: []
 props:
   parameters:
+    - context: item
+      default: Bosch_Indego_Garden_Map
+      description: item that contains the map
+      label: map item
+      name: mower_map
+      required: true
+      type: TEXT
+      groupName: items
+    - context: item
+      default: Bosch_Indego_Batterieladung
+      description: item that contains the battery change level
+      label: charge item
+      name: mower_battery_charge
+      required: true
+      type: TEXT
+      groupName: items
+    - context: item
+      default: Bosch_Indego_Zustand_numerisch
+      description: item that contains the state text
+      label: state item
+      name: mower_state_text
+      required: true
+      type: TEXT
+      groupName: items
+    - context: item
+      default: Bosch_Indego_Gras_schneiden
+      description: item that contains the progress in %
+      label: progress item
+      name: mower_progress
+      required: true
+      type: TEXT
+      groupName: items
+    - context: item
+      default: Bosch_Indego_Garden_Size
+      description: item that contains the area
+      label: area item
+      name: mower_area
+      required: true
+      type: TEXT
+      groupName: items
+    - context: item
+      default: Bosch_Indego_Niedriger_Batteriestatus
+      description: item for low battery state
+      label: low-battery item
+      name: mower_lowbat
+      required: true
+      type: TEXT
+      groupName: items
+    - context: item
+      default: Bosch_Indego_Fehlercode
+      description: item for mower error
+      label: mower error code item
+      name: mower_error
+      required: true
+      type: TEXT
+      groupName: items
+    - context: item
+      default: Bosch_Indego_Battery_Temperature
+      description: item for battery temperature
+      label: battery temperature item
+      name: mower_battemp
+      required: false
+      type: TEXT
+      groupName: items
+    - context: item
+      default: Bosch_Indego_Last_Cutting
+      description: item for last cutting
+      label: last cutting item
+      name: mower_lastcut
+      required: false
+      type: TEXT
+      groupName: items
+    - context: item
+      default: Bosch_Indego_Next_Cutting
+      description: item for next cutting
+      label: next cutting item
+      name: mower_nextcut
+      required: false
+      type: TEXT
+      groupName: items
     - default: Indego
       description: Title of the card
       label: Title
@@ -43,13 +123,6 @@ props:
       required: false
       type: TEXT
       groupName: translate
-    - default: Battery Temperature
-      description: use to tranlate "Battery Temperature"
-      label: Word for "Battery Temperature"
-      name: translate_battemp
-      required: false
-      type: TEXT
-      groupName: translate
     - default: last time
       description: use to tranlate "last cutting"
       label: Word for "Last cutting"
@@ -64,82 +137,12 @@ props:
       required: false
       type: TEXT
       groupName: translate
-    - context: item
-      description: item that contains the map
-      label: map item
-      name: mower_map
-      required: true
-      type: TEXT
-      groupName: items
-    - context: item
-      description: item that contains the battery change level
-      label: charge item
-      name: mower_battery_charge
-      required: true
-      type: TEXT
-      groupName: items
-    - context: item
-      description: item that contains the state text
-      label: state item
-      name: mower_state_text
-      required: true
-      type: TEXT
-      groupName: items
-    - context: item
-      description: item that contains the progress in %
-      label: progress item
-      name: mower_progress
-      required: true
-      type: TEXT
-      groupName: items
-    - context: item
-      description: item that contains the area
-      label: area item
-      name: mower_area
-      required: true
-      type: TEXT
-      groupName: items
-    - context: item
-      description: item for low battery state
-      label: low-battery item
-      name: mower_lowbat
-      required: true
-      type: TEXT
-      groupName: items
-    - context: item
-      description: item for mower error
-      label: mower error code item
-      name: mower_error
-      required: true
-      type: TEXT
-      groupName: items
-    - context: item
-      description: item for battery temperature
-      label: battery temperature item
-      name: mower_battemp
-      required: false
-      type: TEXT
-      groupName: items
-    - context: item
-      description: item for last cutting
-      label: last cutting item
-      name: mower_lastcut
-      required: false
-      type: TEXT
-      groupName: items
-    - context: item
-      description: item for next cutting
-      label: next cutting item
-      name: mower_nextcut
-      required: false
-      type: TEXT
-      groupName: items
   parameterGroups:
     - name: translate
       label: translations
     - name: items
       label: items of mower
-timestamp: Oct 3, 2023, 5:44:00 PM
+timestamp: Oct 6, 2023, 10:03:44 PM
 component: f7-card
 config:
   title: =props.title
@@ -172,37 +175,14 @@ slots:
                           icon: iconify:mdi:robot-mower-outline
                           width: 40
                           color: "=items[props.mower_error].state == '0' ? 'green' : 'red'"
-          - component: f7-col
-            config:
-              style:
-                z-index: 95
-              visible: "=items[props.mower_lowbat].state == 'ON' ? true : false"
-            slots:
-              default:
-                - component: Label
-                  config:
-                    text: =props.translate_lowbat
                 - component: oh-icon
                   config:
+                    visible: "=items[props.mower_lowbat].state == 'ON' ? true : false"
                     icon: iconify:mdi:battery-charging-low
                     width: 40
                     color: red
                     rotate: 90deg
                     horizontalFlip: true
-          - component: f7-col
-            config:
-              style:
-                z-index: 95
-            slots:
-              default:
-                - component: Label
-                  config:
-                    text: =props.translate_battemp
-                    visible: "=props.mower_battemp ? true : false"
-                - component: Label
-                  config:
-                    text: =@props.mower_battemp
-                    visible: "=props.mower_battemp ? true : false"
           - component: f7-col
             config:
               style:
@@ -233,4 +213,19 @@ slots:
       config:
         item: =props.mower_map
         outline: true
-        footer: =props.translate_battery + " " + @props.mower_battery_charge + " - " + @props.mower_state_text + " - " + @props.mower_progress + " " + props.translate_of + " " + @props.mower_area + props.translate_mowed
+    - component: f7-block
+      config:
+        style:
+          margin: 0px
+          padding: 0px
+      slots:
+        default:
+          - component: Label
+            config:
+              text: = @props.mower_state_text
+          - component: Label
+            config:
+              text: =props.translate_battery + " " + @props.mower_battery_charge + " / " + @props.mower_battemp
+          - component: Label
+            config:
+              text: =@props.mower_progress + " " + props.translate_of + " " + @props.mower_area + props.translate_mowed
