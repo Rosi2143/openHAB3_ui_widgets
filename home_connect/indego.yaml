@@ -82,8 +82,7 @@ props:
       required: false
       type: TEXT
       groupName: items
-    - default: Indego
-      description: Title of the card
+    - description: Title of the card
       label: Title
       name: title
       required: false
@@ -142,7 +141,7 @@ props:
       label: translations
     - name: items
       label: items of mower
-timestamp: Oct 6, 2023, 10:03:44 PM
+timestamp: Oct 7, 2023, 8:10:26 AM
 component: f7-card
 config:
   title: =props.title
