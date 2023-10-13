@@ -171,17 +171,17 @@ slots:
                     default:
                       - component: oh-icon
                         config:
+                          color: "=items[props.mower_error].state == '0' ? 'green' : 'red'"
                           icon: iconify:mdi:robot-mower-outline
                           width: 40
-                          color: "=items[props.mower_error].state == '0' ? 'green' : 'red'"
                 - component: oh-icon
                   config:
-                    visible: "=items[props.mower_lowbat].state == 'ON' ? true : false"
-                    icon: iconify:mdi:battery-charging-low
-                    width: 40
                     color: red
-                    rotate: 90deg
                     horizontalFlip: true
+                    icon: iconify:mdi:battery-charging-low
+                    rotate: 90deg
+                    visible: "=items[props.mower_lowbat].state == 'ON' ? true : false"
+                    width: 40
           - component: f7-col
             config:
               style:
@@ -212,6 +212,8 @@ slots:
       config:
         item: =props.mower_map
         outline: true
+        action: popup
+        actionModal: widget:indego_v1
     - component: f7-block
       config:
         style:
