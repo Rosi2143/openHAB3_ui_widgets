@@ -67,6 +67,14 @@ props:
       type: TEXT
       groupName: items
     - context: item
+      default: Bosch_Indego_Battery_Voltage
+      description: item for battery voltage
+      label: battery voltage item
+      name: mower_batvolt
+      required: false
+      type: TEXT
+      groupName: items
+    - context: item
       default: Bosch_Indego_Last_Cutting
       description: item for last cutting
       label: last cutting item
@@ -186,7 +194,7 @@ slots:
             config:
               style:
                 z-index: 95
-              visible: "=props.mower_lastcut ? true : false"
+              visible: '=items[props.mower_lastcut].state != "-" ? true : false'
             slots:
               default:
                 - component: Label
@@ -199,7 +207,7 @@ slots:
             config:
               style:
                 z-index: 95
-              visible: "=props.mower_nextcut ? true : false"
+              visible: '=items[props.mower_nextcut].state != "-" ? true : false'
             slots:
               default:
                 - component: Label
@@ -226,7 +234,7 @@ slots:
               text: = @props.mower_state_text
           - component: Label
             config:
-              text: =props.translate_battery + " " + @props.mower_battery_charge + " / " + @props.mower_battemp
+              text: '=props.translate_battery + " " + @props.mower_battery_charge + (items[props.mower_battemp].state != "-" ? (" / " + @props.mower_battemp) : "") + (items[props.mower_batvolt].state != "-" ? (" / " + @props.mower_batvolt) : "")'
           - component: Label
             config:
-              text: =@props.mower_progress + " " + props.translate_of + " " + @props.mower_area + props.translate_mowed
+              text: '=@props.mower_progress + " " + (items[props.mower_area].state != "-" ? (props.translate_of + " " + @props.mower_area) : "") + " " + props.translate_mowed'
