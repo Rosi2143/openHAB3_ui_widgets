@@ -144,11 +144,20 @@ props:
       required: false
       type: TEXT
       groupName: translate
+    - default: false
+      description: DO NOT SET
+      label: DO NOT SET
+      name: is_popup
+      required: false
+      type: TEXT
+      groupName: popup
   parameterGroups:
     - name: translate
       label: translations
     - name: items
       label: items of mower
+    - name: popup
+      label: popup settings
 timestamp: Oct 7, 2023, 8:10:26 AM
 component: f7-card
 config:
@@ -157,7 +166,7 @@ slots:
   default:
     - component: f7-row
       config:
-        visible: true
+        visible: '=props.is_popup != true'
       slots:
         default:
           - component: f7-col
@@ -220,18 +229,21 @@ slots:
       config:
         item: =props.mower_map
         outline: true
-        action: popup
+        action: "=(props.is_popup != true) ? 'popup' : 'none'"
         actionModal: widget:indego_v1
+        actionModalConfig:
+          is_popup: true
     - component: f7-block
       config:
         style:
           margin: 0px
           padding: 0px
+        visible: '=props.is_popup != true'
       slots:
         default:
           - component: Label
             config:
-              text: = @props.mower_state_text
+              text: '= @props.mower_state_text + props.is_popup'
           - component: Label
             config:
               text: '=props.translate_battery + " " + @props.mower_battery_charge + (items[props.mower_battemp].state != "-" ? (" / " + @props.mower_battemp) : "") + (items[props.mower_batvolt].state != "-" ? (" / " + @props.mower_batvolt) : "")'
