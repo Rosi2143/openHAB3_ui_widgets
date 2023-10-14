@@ -243,7 +243,7 @@ slots:
         default:
           - component: Label
             config:
-              text: '= @props.mower_state_text + props.is_popup'
+              text: '= @props.mower_state_text'
           - component: Label
             config:
               text: '=props.translate_battery + " " + @props.mower_battery_charge + (items[props.mower_battemp].state != "-" ? (" / " + @props.mower_battemp) : "") + (items[props.mower_batvolt].state != "-" ? (" / " + @props.mower_batvolt) : "")'
