@@ -90,6 +90,42 @@ props:
       required: false
       type: TEXT
       groupName: items
+    - context: item
+      default: Bosch_Indego_Zustand_numerisch
+      description: item for sending commands (state channel) - see binding documentation
+      label: command item
+      name: command_state
+      required: false
+      type: TEXT
+      groupName: buttons
+    - default: false
+      description: only show command buttons in popup
+      label: hide buttons
+      name: hide_buttons
+      required: false
+      type: BOOLEAN
+      groupName: buttons
+    - default: Mow
+      description: Button text "Mov"
+      label: Button text for "Mov"
+      name: button_translate_mow
+      required: false
+      type: TEXT
+      groupName: buttons
+    - default: Pause
+      description: Button text "Pause"
+      label: Button text for "Pause"
+      name: button_translate_pause
+      required: false
+      type: TEXT
+      groupName: buttons
+    - default: Dock
+      description: Button text "Dock"
+      label: Button text for "Dock"
+      name: button_translate_dock
+      required: false
+      type: TEXT
+      groupName: buttons
     - description: Title of the card
       label: Title
       name: title
@@ -144,7 +180,7 @@ props:
       required: false
       type: TEXT
       groupName: translate
-    - default: false
+    - default: "false"
       description: DO NOT SET
       label: DO NOT SET
       name: is_popup
@@ -156,9 +192,11 @@ props:
       label: translations
     - name: items
       label: items of mower
+    - name: buttons
+      label: command buttons
     - name: popup
       label: popup settings
-timestamp: Oct 7, 2023, 8:10:26 AM
+timestamp: Oct 14, 2023, 9:06:57 PM
 component: f7-card
 config:
   title: =props.title
@@ -166,7 +204,7 @@ slots:
   default:
     - component: f7-row
       config:
-        visible: '=props.is_popup != true'
+        visible: =props.is_popup != true
       slots:
         default:
           - component: f7-col
@@ -233,17 +271,117 @@ slots:
         actionModal: widget:indego_v1
         actionModalConfig:
           is_popup: true
+          button_translate_mow: '=props.button_translate_mow'
+          button_translate_pause: '=props.button_translate_pause'
+          button_translate_dock: '=props.button_translate_dock'
+    - component: f7-row
+      config:
+        width: auto
+        visible: '=(props.hide_buttons || props.is_popup == true) ? true : false'
+        class:
+          - display-flex
+          - justify-content-flex-center
+          - align-items-center
+        style:
+          margin-top: 5px
+          white-space: nowrap
+          flex-wrap: nowrap
+          overflow: hidden
+          height: auto
+          width: auto
+      slots:
+        default:
+          - component: f7-col
+            config:
+              style:
+                margin-right: 1px
+                margin-left: 10px
+                width: auto
+                height: auto
+              class:
+                - display-flex
+                - justify-content-flex-center
+            slots:
+              default:
+                - component: oh-button
+                  config:
+                    color: "=items[props.command_state].state != '1' ? 'teal' : 'gray'"
+                    fill: "=items[props.command_state].state != '1' ? true : false"
+                    outline: true
+                    round: true
+                    small: false
+                    action: "=items[props.command_state].state != '1' ? 'command' : ''"
+                    actionItem: =props.command_state
+                    actionCommand: 1
+                    text: =props.button_translate_mow
+                    style:
+                      font-size: min(max(5px, 2.1vw), 20px)
+                      width: auto
+                      height: auto
+          - component: f7-col
+            config:
+              style:
+                margin-right: 1px
+                margin-left: 1px
+                width: auto
+                height: auto
+              class:
+                - display-flex
+                - justify-content-flex-center
+            slots:
+              default:
+                - component: oh-button
+                  config:
+                    color: "=items[props.command_state].state == '1' ? 'teal' : 'gray'"
+                    fill: "=items[props.command_state].state == '1' ? true : false"
+                    outline: true
+                    round: true
+                    small: false
+                    action: "=items[props.command_state].state == '1' ? 'command' : ''"
+                    actionItem: =props.command_state
+                    actionCommand: 3
+                    text: =props.button_translate_pause
+                    style:
+                      font-size: min(max(5px, 2.1vw), 20px)
+                      width: auto
+                      height: auto
+          - component: f7-col
+            config:
+              style:
+                margin-right: 10px
+                margin-left: 1px
+                width: auto
+              class:
+                - display-flex
+                - justify-content-flex-center
+            slots:
+              default:
+                - component: oh-button
+                  config:
+                    color: "=items[props.command_state].state != '2' ? 'teal' : 'gray'"
+                    fill: "=items[props.command_state].state != '2' ? true : false"
+                    outline: true
+                    round: true
+                    small: false
+                    action: "=items[props.command_state].state != '2' ? 'command' : ''"
+                    actionItem: =props.command_state
+                    actionCommand: 2
+                    text: =props.button_translate_dock
+                    style:
+                      font-size: min(max(5px, 2.1vw), 20px)
+                      width: auto
+                      height: auto
     - component: f7-block
       config:
         style:
           margin: 0px
           padding: 0px
-        visible: '=props.is_popup != true'
+        visible: =props.is_popup != true
       slots:
         default:
           - component: Label
             config:
-              text: '= @props.mower_state_text'
+              text: = @props.mower_state_text
           - component: Label
             config:
               text: '=props.translate_battery + " " + @props.mower_battery_charge + (items[props.mower_battemp].state != "-" ? (" / " + @props.mower_battemp) : "") + (items[props.mower_batvolt].state != "-" ? (" / " + @props.mower_batvolt) : "")'
