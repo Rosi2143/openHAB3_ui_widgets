@@ -1,5 +1,8 @@
 uid: oven_v1
-tags: []
+tags:
+  - marketplace:149449
+  - home_connect
+  - oven
 props:
   parameters:
     - description: Title of the card
