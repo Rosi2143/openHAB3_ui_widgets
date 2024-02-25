@@ -1,134 +1,520 @@
-uid: preset_popup_v2
-tags: []
+uid: universal_light_widget_v1
+tags:
+  - lights
+  - colorlights
 props:
   parameters:
-    - context: item
-      description: Rollershutter position (receives 0 to 100 commands)
-      label: Rollershutter position
-      name: position
-      required: true
-      type: TEXT
-    - context: item
-      description: Presets
-      label: Preset Item
-      name: presets
-      required: true
-      type: TEXT
-    - context: item
-      description: Item that can be used to add a preset
-      label: Add Preset
-      name: add_preset
-      required: true
-      type: TEXT
-    - context: item
-      description: Item that can be used to delete a preset
-      label: Delete Preset
-      name: delete_preset
-      required: true
-      type: TEXT
-    - description: Localisation of term Apply
-      label: Apply Translation
-      name: apply_trans
+    - description: Name
+      label: Header
+      name: header1
       required: false
       type: TEXT
-      advanced: true
-    - description: Localisation of term Add
-      label: Add Translation
-      name: add_trans
+    - description: oh:iconName or iconName (openHAB icon), f7:iconName (Framework7 icon), material:iconName (Material icon) or iconify:iconSet:iconName (Iconify icon, requires being online if not in cache)
+      label: Main icon
+      name: mainIcon
       required: false
       type: TEXT
-      advanced: true
-    - description: Localisation of term Delete
-      label: Delete Translation
-      name: delete_trans
+    - description: Icon Size
+      label: IconSize
+      name: mainIconSize
       required: false
       type: TEXT
-      advanced: true
-    - description: Localisation of term Close
-      label: Close Translation
-      name: close_trans
+    - description: HEX or rgba
+      label: Main icon color (activ)
+      name: mainIconColor
       required: false
       type: TEXT
-      advanced: true
+    - description: oh:iconName or iconName (openHAB icon), f7:iconName (Framework7 icon), material:iconName (Material icon) or iconify:iconSet:iconName (Iconify icon, requires being online if not in cache)
+      label: Header icon
+      name: smallIcon
+      required: false
+      type: TEXT
+    - description: HEX or rgba
+      label: Header icon color
+      name: headerIconColor
+      required: false
+      type: TEXT
+    - description: HEX or rgba
+      label: Background color
+      name: bgcolor
+      required: false
+      type: TEXT
+    - context: item
+      description: Switch item or dimmer item
+      label: Switch item
+      name: switchItem
+      required: false
+      type: TEXT
+    - context: item
+      description: Dimmer item
+      label: Dimmer item
+      name: dimmerItem
+      required: false
+      type: TEXT
+    - description: Dimmer Presets
+      label: Dimmer preset e.g. 25,50,75,100
+      name: dimmerPresets
+      required: false
+      type: TEXT
+    - context: item
+      description: Color item
+      label: Color item
+      name: colorItem
+      required: false
+      type: TEXT
+    - context: item
+      description: Color temperature item
+      label: Color temperature item
+      name: tempItem
+      required: false
+      type: TEXT
+    - context: item
+      description: Power item (number)
+      label: Power item
+      name: powerItem
+      required: false
+      type: TEXT
+    - context: item
+      description: Energy item (number)
+      label: Energy item
+      name: energyItem
+      required: false
+      type: TEXT
+    - context: item
+      description: Voltage item (number)
+      label: Voltage item
+      name: voltageItem
+      required: false
+      type: TEXT
+    - context: item
+      description: Current item (number)
+      label: Current item
+      name: currentItem
+      required: false
+      type: TEXT
+    - context: item
+      description: Signal quality item (number)
+      label: Link quality item
+      name: sigItem
+      required: false
+      type: TEXT
+    - context: item
+      description: Reachable item (switch)
+      label: Reachable item
+      name: connItem
+      required: false
+      type: TEXT
   parameterGroups: []
-timestamp: Feb 7, 2021, 10:09:38 PM
-component: f7-card-content
+timestamp: Jan 28, 2024, 6:28:25 PM
+component: f7-card
 config:
-  padding: false
-  class:
-    - margin-vertical
-    - display-flex
-    - flex-direction-column
-    - flex-justify-content-flex-start
-    - flex-align-items-center
+  style:
+    background-image: icon(f7:drop)
+    noShadow: false
+    margin: 2px
+    font-size: 1em
+    class:
+      - padding
+    border-radius: var(--f7-card-expandable-border-radius)
+    box-shadow: var(--f7-card-expandable-box-shadow)
+    background-color: '=props.bgcolor ? props.bgcolor : ""'
 slots:
-  default:
-    - component: f7-list
+  content:
+    - component: f7-row
+      config:
+        class:
+          - justify-content-flex-start
+          - display-flex
+        visible: true
+        style:
+          margin-top: -0.5em
+          flex-wrap: nowrap
+          overflow: hidden
       slots:
         default:
-          - component: oh-repeater
+          - component: oh-icon
             config:
-              for: preset
-              in: =items[props.presets].state.split('|')
-              fragment: true
+              visible: "=props.smallIcon ? true : false"
+              color: "=props.headerIconColor ? props.headerIconColor : props.mainIconColor"
+              icon: '=props.smallIcon ? props.smallIcon : "f7:light_max"'
+              width: min(max(5px, 4vw), 22px)
+              class:
+                - align-self-center
+              style:
+                margin-left: 0px
+          - component: Label
+            config:
+              text: =props.header1
+              class:
+                - align-self-center
+              style:
+                white-space: normal
+                line-height: 1rem
+                margin-left: 15px
+                letter-spacing: .75px
+                font-size: min(max(5px, 2.5vw), 18px)
+                font-weight: 400
+    - component: f7-block
+      config:
+        class:
+          - display-flex
+          - flex-direction-column
+          - align-items-center
+        style:
+          width: 100% auto
+          height: 100% auto
+          margin-top: 0.1em
+      slots:
+        default:
+          - component: oh-link
+            config:
+              action: toggle
+              actionCommand: ON
+              actionCommandAlt: OFF
+              actionItem: "=props.switchItem ? props.switchItem : props.dimmerItem"
             slots:
               default:
-                - component: f7-list-item
+                - component: oh-icon
                   config:
-                    title: =loop.preset + "%"
-                    visible: =loop.preset != ""
-                    swipeout: true
-                  slots:
-                    after:
-                      - component: oh-button
-                        config:
-                          disabled: =items[props.position].state.split(".")[0] == loop.preset
-                          text: '=props.apply_trans ? props.apply_trans : "Apply"'
-                          actionItem: =props.position
-                          actionCommand: =loop.preset
-                          action: command
-                          class:
-                            - popup-close
-                    default:
-                      - component: f7-swipeout-actions
-                        config:
-                          right: true
-                        slots:
-                          default:
-                            - component: oh-link
-                              config:
-                                text: '=props.delete_trans ? props.delete_trans : "Delete"'
-                                bgColor: red
-                                actionItem: =props.delete_preset
-                                actionCommand: =loop.preset
-                                action: command
-                                class:
-                                  - swipeout-close
-          - component: f7-list-item-row
+                    color: '=((items[props.switchItem].state == "ON") || (items[props.switchItem].state > 0) || (items[props.dimmerItem].state > 0)) ? props.mainIconColor : "gray"'
+                    icon: '=props.mainIcon ? props.mainIcon : "f7:lightbulb"'
+                    width: '=props.mainIconSize ? props.mainIconSize : "10vw"'
+          - component: f7-row
             config:
+              visible: "=props.dimmerItem ? true : false"
+              width: auto
               class:
                 - display-flex
+                - justify-content-flex-center
                 - align-items-center
-                - justify-content-center
+              style:
+                margin-top: 5px
+                white-space: nowrap
+                flex-wrap: nowrap
+                overflow: hidden
+                height: auto
+                width: auto
             slots:
               default:
-                - component: oh-button
+                - component: oh-repeater
                   config:
-                    iconF7: plus_circle_fill
-                    iconSize: 15
-                    text: '=props.add_trans ? props.add_trans : "Add"'
-                    action: command
-                    actionItem: =props.add_preset
-                    actionCommand: =items[props.position].state
-                    popoverClose: true
+                    for: preset
+                    in: [25, 50, 75, 100]
+                    #in: =items[props.dimmerPresets].state.split(',')
+                    fragment: true
+                  slots:
+                    default:
+                      - component: f7-col
+                        config:
+                          style:
+                            margin-right: 1px
+                            margin-left: 1px
+                            width: auto
+                            height: auto
+                          class:
+                            - display-flex
+                            - justify-content-flex-center
+                        slots:
+                          default:
+                            - component: oh-button
+                              config:
+                                textColor: '=((items[props.dimmerItem].state >= loop.preset)) ? props.mainIconColor : "gray"'
+                                outline: true
+                                round: true
+                                small: true
+                                action: command
+                                actionItem: =props.dimmerItem
+                                actionCommand: =loop.preset
+                                text: =loop.preset + "%"
+                                style:
+                                  font-size: min(max(5px, 3vw), 22px)
+                                  --f7-button-outline-border-width: 1px
+                                  --f7-button-outline-border-color: rgba(163, 161, 159, 0.9)
+                                  --f7-button-small-font-weight: 400
+          - component: f7-row
+            config:
+              visible: "=(props.dimmerItem ? true : false) || (props.tempItem ? true : false)  || (props.colorItem ? true : false)"
+              class:
+                - display-flex
+                - justify-content-flex-center
+                - align-self-center
+              style:
+                margin-top: 5px
+                white-space: nowrap
+                flex-wrap: nowrap
+                overflow: hidden
+            slots:
+              default:
+                - component: f7-col
+                  config:
+                    visible: "=props.dimmerItem ? true : false"
                     style:
-                      width: 100%
-    - component: oh-button
+                      margin-right: 1px
+                      margin-left: 1px
+                      width: auto
+                    class:
+                      - justify-content-flex-center
+                      - display-flex
+                  slots:
+                    default:
+                      - component: oh-button
+                        config:
+                          color: '=((items[props.switchItem].state == "ON") || (items[props.switchItem].state > 0) || (items[props.dimmerItem].state > 0)) ? "gray" : "gray"'
+                          textColor: '=((items[props.dimmerItem].state > 95) && (items[props.dimmerItem].state <= 100)) ? props.mainIconColor : "gray"'
+                          text: =(Number.parseFloat(items[props.dimmerItem].state.split(" ")[0]) * 100 / 100).toFixed(0)
+                          iconF7: light_max
+                          iconSize: min(max(5px, 3vw), 20px)
+                          outline: true
+                          round: true
+                          small: true
+                          action: popover
+                          popoverOpen: ='.' + props.dimmerItem.split("_")[0] + '.brightPopover'
+                          style:
+                            font-size: min(max(5px, 3vw), 22px)
+                            --f7-button-outline-border-width: 1px
+                            --f7-button-outline-border-color: rgba(163, 161, 159, 0.9)
+                            --f7-button-small-font-weight: 400
+                        slots:
+                          default:
+                            - component: f7-popover
+                              config:
+                                class: =props.dimmerItem.split("_")[0] + ' brightPopover'
+                                style:
+                                  --f7-popover-border-radius: 10px
+                              slots:
+                                default:
+                                  - component: oh-slider-card
+                                    config:
+                                      title: Dimmer
+                                      item: =props.dimmerItem
+                                      visible: true
+                                      label: true
+                                      scale: true
+                                      scaleSteps: 10
+                                      scaleSubSteps: 2
+                                      min: 0
+                                      max: 100
+                                      step: 1
+                                      unit: "%"
+                                      vertical: true
+                                      releaseOnly: true
+                                      style:
+                                        width: auto
+                                        border-radius: var(--f7-card-expandable-border-radius)
+                                        box-shadow: var(--f7-card-expandable-box-shadow)
+                                        --f7-range-bar-size: 18px
+                                        --f7-range-bar-border-radius: 10px
+                                        --f7-range-knob-size: 22px
+                                        --f7-range-bar-active-bg-color: rgba(241, 245, 39, 0.8)
+                                        --f7-range-bar-bg-color: linear-gradient(to top, rgba(0,0,0,0.9), rgba(246,158,81,0))
+                                        --f7-range-knob-box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3)
+                                        --f7-range-label-text-color: white
+                                        --f7-range-scale-font-size: min(max(5px, 2.5vw), 18px)
+                                        --f7-range-scale-text-color: gray
+                - component: f7-col
+                  config:
+                    visible: "=props.tempItem ? true : false"
+                    style:
+                      margin-right: 1px
+                      margin-left: 1px
+                      width: auto
+                    class:
+                      - justify-content-flex-center
+                      - display-flex
+                  slots:
+                    default:
+                      - component: oh-button
+                        config:
+                          color: '=((items[props.switchItem].state == "ON") || (items[props.switchItem].state > 0)) ? "gray" : "gray"'
+                          textColor: '=((items[props.switchItem].state == "ON") || (items[props.switchItem].state > 0) || (items[props.dimmerItem].state > 0)) ? "orange" : "gray"'
+                          text: =(Number.parseFloat(items[props.tempItem].state.split(" ")[0]) * 100 / 100).toFixed(0)
+                          iconF7: thermometer_sun
+                          iconSize: min(max(5px, 3vw), 20px)
+                          outline: true
+                          round: true
+                          small: true
+                          action: popover
+                          popoverOpen: ='.' + props.tempItem.split("_")[0] + '.tempPopover'
+                          style:
+                            font-size: min(max(5px, 3vw), 22px)
+                            --f7-button-outline-border-width: 1px
+                            --f7-button-outline-border-color: rgba(163, 161, 159, 0.9)
+                            --f7-button-small-font-weight: 400
+                        slots:
+                          default:
+                            - component: f7-popover
+                              config:
+                                class: =props.tempItem.split("_")[0] + ' tempPopover'
+                                style:
+                                  --f7-popover-border-radius: 10px
+                              slots:
+                                default:
+                                  - component: oh-slider-card
+                                    config:
+                                      title: Color Temperature
+                                      item: =props.tempItem
+                                      visible: true
+                                      label: true
+                                      scale: true
+                                      scaleSteps: 10
+                                      scaleSubSteps: 2
+                                      min: 0
+                                      max: 100
+                                      step: 1
+                                      unit: "%"
+                                      vertical: true
+                                      releaseOnly: true
+                                      style:
+                                        width: auto
+                                        border-radius: var(--f7-card-expandable-border-radius)
+                                        box-shadow: var(--f7-card-expandable-box-shadow)
+                                        --f7-range-bar-size: 18px
+                                        --f7-range-bar-border-radius: 10px
+                                        --f7-range-knob-size: 22px
+                                        --f7-range-bar-active-bg-color: transparent
+                                        --f7-range-bar-bg-color: linear-gradient(to top, rgba(254, 254, 254, 1), rgba(236, 172, 17, 1))
+                                        --f7-range-knob-box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3)
+                                        --f7-range-label-text-color: white
+                                        --f7-range-scale-font-size: min(max(5px, 2.5vw), 18px)
+                                        --f7-range-scale-text-color: gray
+                - component: f7-col
+                  config:
+                    visible: "=props.colorItem ? true : false"
+                    style:
+                      margin-right: 1px
+                      margin-left: 1px
+                      width: auto
+                    class:
+                      - justify-content-flex-center
+                      - display-flex
+                  slots:
+                    default:
+                      - component: oh-button
+                        config:
+                          iconF7: paintbrush
+                          iconSize: min(max(5px, 3.5vw), 20px)
+                          fill: '=((items[props.switchItem].state == "ON") || (items[props.switchItem].state > 0) || (items[props.dimmerItem].state > 0)) ? true : false'
+                          outline: true
+                          round: true
+                          small: true
+                          visible: true
+                          action: popover
+                          popoverOpen: ='.' + props.colorItem.split("_")[0] + '.colorPopover'
+                          style:
+                            font-size: min(max(5px, 3vw), 22px)
+                            --f7-button-fill-bg-color: >
+                              = "hsl("  + items[props.colorItem].state.split(",")[0]+ "," + ((0 === 100* (Number.parseInt( items[props.colorItem].state.split(",")[2] )/100 * (1-0.5 * Number.parseInt( items[props.colorItem].state.split(",")[1])/100))) || (100 === 100* (Number.parseInt( items[props.colorItem].state.split(",")[2] )/100 * (1-0.5 * Number.parseInt( items[props.colorItem].state.split(",")[1])/100))) ? 0 : 100* ((Number.parseInt( items[props.colorItem].state.split(",")[2] ) - 100* (Number.parseInt( items[props.colorItem].state.split(",")[2] )/100 * (1-0.5 * Number.parseInt( items[props.colorItem].state.split(",")[1])/100))) / Math.min(100* (Number.parseInt( items[props.colorItem].state.split(",")[2] )/100 * (1-0.5 * Number.parseInt( items[props.colorItem].state.split(",")[1])/100)), 100- 100* (Number.parseInt( items[props.colorItem].state.split(",")[2] )/100 * (1-0.5 * Number.parseInt( items[props.colorItem].state.split(",")[1])/100))))) +"%," + 100* (Number.parseInt( items[props.colorItem].state.split(",")[2] )/100 * (1-0.5 * Number.parseInt( items[props.colorItem].state.split(",")[1])/100)) +"%)"
+                            --f7-button-outline-border-color: var(--f7-button-fill-bg-color)
+                            --f7-button-outline-border-width: 1px
+                            --f7-button-small-font-weight: 400
+                        slots:
+                          default:
+                            - component: f7-popover
+                              config:
+                                class: =props.colorItem.split("_")[0] + ' colorPopover'
+                                style:
+                                  --f7-popover-border-radius: 10px
+                              slots:
+                                default:
+                                  - component: oh- -card
+                                    config:
+                                      visible: true
+                                      modules:
+                                        - palette
+                                        - hue-slider
+                                        - initial-current-colors
+                                      item: =props.colorItem
+                                      title: Color
+                                      noBorder: false
+    - component: f7-row
       config:
-        popupClose: true
-        round: true
-        fill: true
-        large: true
-        text: '=props.close_trans ? props.close_trans : "Close"'
         class:
-          - margin-horizontal
+          - justify-content-flex-start
+          - padding-top
+          - display-flex
+          - justify-content-space-around
+        style:
+          margin-top: 0.3em
+          margin-bottom: -0.9em
+          text-overflow: ellipsis
+          overflow: hidden
+      slots:
+        default:
+          - component: f7-row
+            config:
+              visible: "=props.connItem ? true : (props.sigItem ? true : false)"
+              class:
+                - justify-content-flex-start
+                - display-flex
+            slots:
+              default:
+                - component: f7-icon
+                  config:
+                    f7: '=(props.connItem ? (items[props.connItem].state == "ON" ? "wifi" : "wifi_slash") : "wifi")'
+                    size: min(max(5px, 4vw), 22px)
+                    tooltip: '=(props.connItem ? (items[props.connItem].state == "ON" ? "Połączono z siecią" : "Brak połączenia z siecią") : "Siła sygnału")'
+                    class:
+                      - align-self-center
+                    style:
+                      color: '=(props.connItem ? (items[props.connItem].state == "ON" ? "gray" : "red") : "gray")'
+                      margin-left: 0px
+                      margin-right: 1px
+                - component: Label
+                  config:
+                    text: =(Number.parseFloat(items[props.sigItem].state.split(" ")[0]) * 100 / 100).toFixed(0)
+                    visible: "=props.sigItem ? true : false"
+                    class:
+                      - align-self-center
+                    style:
+                      margin-left: 1px
+                      margin-right: 1px
+                      color: gray
+                      font-size: min(max(5px, 2.2vw), 14px)
+          - component: Label
+            config:
+              text: =(Number.parseFloat(items[props.voltageItem].state.split(" ")[0]) * 100 / 100).toFixed(0) + "V"
+              visible: "=props.voltageItem ? true : false"
+              class:
+                - align-self-center
+              style:
+                margin-left: 1px
+                margin-right: 1px
+                color: gray
+                letter-spacing: .75px
+                font-size: min(max(5px, 2.5vw), 18px)
+          - component: Label
+            config:
+              text: =(Number.parseFloat(items[props.currentItem].state.split(" ")[0]) * 100 / 100).toFixed(1) + "A"
+              visible: "=props.currentItem ? true : false"
+              class:
+                - align-self-center
+              style:
+                margin-left: 1px
+                margin-right: 1px
+                color: gray
+                letter-spacing: .75px
+                font-size: min(max(5px, 2.5vw), 18px)
+          - component: Label
+            config:
+              text: =(Number.parseFloat(items[props.powerItem].state.split(" ")[0]) * 100 / 100).toFixed(1) + "W"
+              visible: "=props.powerItem ? true : false"
+              class:
+                - align-self-center
+              style:
+                margin-left: 1px
+                margin-right: 1px
+                color: gray
+                letter-spacing: .75px
+                font-size: min(max(5px, 2.5vw), 18px)
+          - component: Label
+            config:
+              text: =(Number.parseFloat(items[props.energyItem].state.split(" ")[0]) * 100 / 100).toFixed(1) + "kWh"
+              visible: "=props.energyItem ? true : false"
+              class:
+                - align-self-center
+              style:
+                margin-left: 1px
+                margin-right: 0px
+                color: gray
+                letter-spacing: .75px
+                font-size: min(max(5px, 2.5vw), 18px)
