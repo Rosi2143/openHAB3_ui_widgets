@@ -1,5 +1,8 @@
 uid: dishwasher_v6
-tags: []
+tags:
+- marketplace:149449
+- home_connect
+- dish_washer
 props:
   parameters:
     - description: Title of the card
