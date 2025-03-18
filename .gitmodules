@@ -10,3 +10,6 @@
 [submodule "oh3-widgets"]
 	path = oh3-widgets
 	url = git@github.com:Rosi2143/oh3-widgets.git
+[submodule "ScrewPlate"]
+	path = ScrewPlate
+	url = git@github.com:Rosi2143/ScrewPlate.git
