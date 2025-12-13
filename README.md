@@ -9,6 +9,7 @@
 1. [HeatingWidget](https://github.com/NRquadrat/oh3-widgetHeating)
 1. [oh3-widgets](git@github.com:Rosi2143/oh3-widgets.git)
 1. [ScrewPlate](git@github.com:Rosi2143/ScrewPlate.git)
+1. [robowidget](git@github.com:Hypfer/Valetudo-Openhab.git)
 
 ### [openhab community](https://community.openhab.org/)
 - see the readme file in the directory

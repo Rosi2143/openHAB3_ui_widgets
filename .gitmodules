@@ -13,3 +13,6 @@
 [submodule "ScrewPlate"]
 	path = ScrewPlate
 	url = git@github.com:Rosi2143/ScrewPlate.git
+[submodule "Valetudo-Openhab"]
+	path = Valetudo-Openhab
+	url = git@github.com:Hypfer/Valetudo-Openhab.git
