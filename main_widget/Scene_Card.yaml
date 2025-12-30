@@ -12,18 +12,22 @@ props:
       name: sceneName
       required: true
       type: TEXT
+timestamp: Dec 18, 2022, 4:15:52 PM
 component: f7-card
 config:
   noShadow: false
   padding: false
   style:
-    padding: 0px
+    background: '=items[props.scene].state == "ON" ? "linear-gradient(to bottom
+      right, rgba(230, 230, 0) 0%, rgba(255, 255, 255) 100%)" :
+      "linear-gradient(to bottom right, rgba(255, 255, 255) 0%, rgba(255, 255,
+      255) 100%)"'
     border-radius: var(--f7-card-expandable-border-radius)
     box-shadow: 5px 5px 15px 1px rgba(0,0,0,0.05)
     margin-left: 5px
     margin-right: 5px
-    background: '=items[props.scene].state == "ON" ? "linear-gradient(to bottom right, rgba(230, 230, 0) 0%, rgba(255, 255, 255) 100%)" : "linear-gradient(to bottom right, rgba(255, 255, 255) 0%, rgba(255, 255, 255) 100%)"'
-  stylesheet: >
+    padding: 0px
+  stylesheet: |
     .card-header:after {
       display: none;
     }
@@ -37,40 +41,40 @@ slots:
         default:
           - component: oh-icon
             config:
-              icon: f7:rectangle_on_rectangle_angled
               height: 36
+              icon: f7:rectangle_on_rectangle_angled
               style:
                 color: '=items[props.scene].state == "ON" ? "orange" : "black"'
+                left: 20px
                 position: absolute
                 top: 25px
-                left: 20px
           - component: Label
             config:
-              text: =props.sceneName
               style:
                 color: black
-                font-weight: 600
                 font-size: 15px
+                font-weight: 600
+                margin-left: 4rem
                 position: absolute
                 top: 20px
-                margin-left: 4rem
+              text: =props.sceneName
           - component: Label
             config:
-              text: SCENE
               style:
                 color: black
-                font-weight: 400
                 font-size: 10px
+                font-weight: 400
+                margin-left: 5rem
                 position: absolute
                 top: 45px
-                margin-left: 5rem
+              text: SCENE
           - component: oh-toggle
             config:
-              item: =props.scene
               color: yellow
+              item: =props.scene
               style:
-                position: absolute
-                top: 30px
-                right: 20px
                 --f7-toggle-height: 30px
                 --f7-toggle-width: 60px
+                position: absolute
+                right: 20px
+                top: 30px

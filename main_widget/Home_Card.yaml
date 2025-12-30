@@ -7,6 +7,11 @@ props:
       name: locationTitle
       required: false
       type: TEXT
+    - description: number of hours for forecase
+      label: Forecast hours
+      name: forecastHours
+      required: false
+      type: TEXT
     - context: item
       description: Name of scenes group item
       label: Scenes Group
@@ -14,41 +19,77 @@ props:
       required: false
       type: TEXT
     - context: item
-      description: Name of security group item
-      label: Security Group
-      name: securityGroup
+      description: Name of presence group item
+      label: Presence Group
+      name: presenceGroup
       required: false
       type: TEXT
     - context: item
-      description: Security Mode Item
-      label: Security Mode
-      name: securityMode
-      required: true
+      description: Name of presence group item
+      label: Presence Group
+      name: sec_motionDetect
+      required: false
       type: TEXT
     - context: item
-      description: Security PIN Item
-      label: Security PIN
-      name: referencePIN
+      description: Name of presence group item
+      label: Presence Group
+      name: sec_motionDetect
+      required: false
+      type: TEXT
+    - context: item
+      description: Name of outer door group item
+      label: Outer Doors Group
+      name: sec_gDoorsOpen
+      required: false
+      type: TEXT
+    - context: item
+      description: Name of outer windows group item
+      label: Outer Windows Group
+      name: sec_gWindowsOpen
+      required: false
+      type: TEXT
+    - context: item
+      description: Name of security mode item
+      label: Security Mode
+      name: sec_securityMode
+      required: false
+      type: TEXT
+    - context: item
+      description: Name of security reference item
+      label: Security Reference PIN
+      name: sec_referencePIN
       required: false
       type: TEXT
   parameterGroups: []
+timestamp: Dec 17, 2025, 9:25:09 PM
 component: f7-block
 config:
   style:
     flex: 1 1 auto
-    overflow: scroll
-    margin-top: -1em
     margin-bottom: -1em
+    margin-top: -1em
+    overflow: scroll
+  visible: '=(!vars.objVar || ((vars.objVar.selectSection=="SECTION0") )) ? true :
+    false'
 slots:
   default:
-    - component: widget:main_widget_Weather_Card
+    - component: oh-repeater
       config:
-        bigCard: true
-        dateFormat: true
-        itemPrefix: OneCallAPIweatherandforecast_
-        locationTitle: =props.locationTitle
-        sunIndicator: true
-        visible: '=(!vars.objVar || ((vars.objVar.selectSection=="SECTION0") && !vars.objVar.selectThing)) ? true : false'
+        for: widgetItem
+        itemTags: WeatherService
+        sourceType: itemsWithTags
+      slots:
+        default:
+          - component: widget:main_widget_Weather_Card
+            config:
+              bigCard: true
+              dateFormat: true
+              forecastHours: =props.forecastHours
+              itemPrefix: = loop.widgetItem.name + "_"
+              locationTitle: =props.locationTitle
+              sunIndicator: true
+              visible: '=(!vars.objVar || ((vars.objVar.selectSection=="SECTION0") &&
+                !vars.objVar.selectThing)) ? true : false'
     - component: oh-repeater
       config:
         fetchMetadata: semantics,metadata,listWidget
@@ -61,10 +102,31 @@ slots:
             config:
               scene: =loop.sceneItem.name
               sceneName: =loop.sceneItem.label
-              visible: '=vars.objVar ? ((vars.objVar.selectSection + vars.objVar.selectThing)=="SECTION0Scenes") ? true : false : false'
+              visible: '=vars.objVar ? ((vars.objVar.selectSection +
+                vars.objVar.selectThing)=="SECTION0Scenes") ? true : false :
+                false'
+    - component: oh-repeater
+      config:
+        fetchMetadata: semantics,metadata,listWidget
+        for: presenceItem
+        groupItem: =props.presenceGroup
+        sourceType: itemsInGroup
+      slots:
+        default:
+          - component: widget:main_widget_Presence_Card
+            config:
+              presence: =loop.presenceItem.name
+              presenceName: =loop.presenceItem.label
+              visible: '=vars.objVar ? ((vars.objVar.selectSection +
+                vars.objVar.selectThing)=="SECTION0Presence") ? true : false :
+                false'
     - component: widget:main_widget_Security_Card
       config:
-        securityGroup: =props.securityGroup
-        securityMode: =props.securityMode
-        referencePIN: =props.referencePIN
-        visible: '=vars.objVar ? ((vars.objVar.selectSection + vars.objVar.selectThing)=="SECTION0Security") ? true : false : false'
+        gDoorsOpen: =props.sec_gDoorsOpen
+        gWindowsOpen: =props.sec_gWindowsOpen
+        motionDetect: =props.sec_motionDetect
+        referencePIN: =props.sec_referencePIN
+        securityGroup: =props.sec_securityGroup
+        securityMode: =props.sec_securityMode
+        visible: '=vars.objVar ? ((vars.objVar.selectSection +
+          vars.objVar.selectThing)=="SECTION0Security") ? true : false : false'

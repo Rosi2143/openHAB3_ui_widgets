@@ -2,7 +2,7 @@ uid: main_widget_FloorsAndRooms
 tags: []
 props:
   parameterGroups: []
-timestamp: Dec 12, 2025, 8:07:44 PM
+timestamp: Dec 14, 2025, 7:18:02 PM
 component: f7-block
 config:
   style:
@@ -42,17 +42,29 @@ slots:
                 - component: oh-repeater
                   config:
                     fetchMetadata: semantics,metadata,listWidget,uiSemantics
-                    filter: loop.lightItem.metadata.semantics.config.hasLocation ==
-                      loop.roomItem.name
+                    filter: (loop.lightItem.metadata && loop.lightItem.metadata.semantics &&
+                      loop.lightItem.metadata.uiSemantics && (
+                      (loop.lightItem.metadata.semantics.value).includes("Lightbulb")
+                      ||
+                      (loop.lightItem.metadata.semantics.value).includes("LightStripe")
+                      ) && (
+                      (loop.lightItem.metadata.semantics.config.hasLocation ==
+                      loop.roomItem.name) ||
+                      (loop.roomItem.name.includes(loop.lightItem.metadata.uiSemantics.config.location))
+                      ))
                     for: lightItem
-                    itemTags: Lightbulb
+                    itemTags: ","
                     sourceType: itemsWithTags
                   slots:
                     default:
                       - component: oh-repeater
                         config:
                           fetchMetadata: semantics,metadata,listWidget,uiSemantics
-                          filter: '(loop.lightPowerItem.type=="Switch") ? true : false'
+                          filter: '(loop.lightPowerItem.type == "Switch" || (loop.lightPowerItem.type ==
+                            "Group" && loop.lightPowerItem.members[0].type ==
+                            "Switch" ) ) && loop.lightPowerItem.metadata &&
+                            loop.lightPowerItem.metadata.uiSemantics ? true :
+                            false'
                           for: lightPowerItem
                           groupItem: =loop.lightItem.name
                           sourceType: itemsInGroup
@@ -66,7 +78,7 @@ slots:
                                   loop.lightPowerItem.metadata.uiSemantics.conf\
                                   ig.preposition +
                                   loop.lightPowerItem.metadata.uiSemantics.conf\
-                                  ig.location : loop.lightItem.label"
+                                  ig.location: loop.lightItem.label"
                                 groupCategory: =loop.lightItem.category
                                 groupItem: =loop.lightItem.name
                                 powerItem: = loop.lightPowerItem.name
@@ -134,10 +146,20 @@ slots:
                 - component: oh-repeater
                   config:
                     fetchMetadata: semantics,metadata,listWidget,uiSemantics
-                    filter: loop.radiatorItem.metadata.semantics.config.hasLocation ==
-                      loop.roomItem.name
+                    filter: (loop.radiatorItem.metadata && loop.radiatorItem.metadata.semantics &&
+                      loop.radiatorItem.metadata.uiSemantics && (
+                      (loop.radiatorItem.metadata.semantics.value).includes("RadiatorControl")
+                      ||
+                      (loop.radiatorItem.metadata.semantics.value).includes("FloorHeating")
+                      ) && (
+                      (loop.radiatorItem.metadata.semantics.config.hasLocation
+                      == loop.roomItem.name) ) && (
+                      (loop.radiatorItem.metadata.semantics.config.hasLocation
+                      == loop.roomItem.name) ||
+                      (loop.roomItem.name.includes(loop.radiatorItem.metadata.uiSemantics.config.location))
+                      ))
                     for: radiatorItem
-                    itemTags: RadiatorControl
+                    itemTags: ","
                     sourceType: itemsWithTags
                   slots:
                     default:

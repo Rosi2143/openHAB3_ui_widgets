@@ -1,0 +1,694 @@
+uid: main_widget_RadiatorControl_Card_extended
+tags: []
+props:
+  parameters:
+    - description: Title of the card
+      label: Title
+      name: Title
+      required: false
+      type: TEXT
+    - context: item
+      description: Temperature Equipment Group
+      label: Temperature Equipment Group
+      name: groupItem
+      required: false
+      type: TEXT
+timestamp: Jan 18, 2023, 10:03:48 PM
+component: f7-block
+config:
+  style:
+    background: "#F7F7F7"
+    border-bottom-left-radius: var(--f7-card-expandable-border-radius)
+    border-bottom-right-radius: var(--f7-card-expandable-border-radius)
+    border-top-left-radius: var(--f7-card-expandable-border-radius)
+    border-top-right-radius: var(--f7-card-expandable-border-radius)
+    box-shadow: 5px 5px 15px 1px rgba(0,0,0,0.05)
+    padding: 0px
+slots:
+  default:
+    - component: f7-block
+      config:
+        style:
+          align-items: center
+          background: transparent
+          display: flex
+          flex-direction: row
+          height: 60px
+      slots:
+        default:
+          - component: oh-repeater
+            config:
+              fetchMetadata: semantics,metadata
+              filter: (loop.boostItem.tags).includes("Control") &&
+                (loop.boostItem.tags).includes("Energy")
+              for: boostItem
+              groupItem: =props.groupItem
+              sourceType: itemsInGroup
+            slots:
+              default:
+                - component: oh-icon
+                  config:
+                    icon: '=(items[loop.boostItem.name].state == "ON")? "iconify:ion:flame-sharp" :
+                      "iconify:ion:flame-outline"'
+                    style:
+                      color: '=(items[loop.boostItem.name].state == "ON")? "#E74239" :
+                        "rgb(106,106,106)"'
+                      padding-right: 15px
+                    width: 40px
+          - component: f7-row
+            config:
+              style:
+                display: flex
+                flex-direction: column
+                flex-wrap: nowrap
+            slots:
+              default:
+                - component: Label
+                  config:
+                    style:
+                      color: black
+                      font-size: 14px
+                      font-weight: 400
+                      padding-top: 10px
+                    text: =props.Title
+                - component: f7-row
+                  config:
+                    style:
+                      display: flex
+                      flex-direction: row
+                  slots:
+                    default:
+                      - component: oh-repeater
+                        config:
+                          fetchMetadata: semantics,metadata
+                          filter: (loop.tempItem.tags).includes("Measurement") &&
+                            (loop.tempItem.tags).includes("Temperature")
+                          for: tempItem
+                          groupItem: =props.groupItem
+                          sourceType: itemsInGroup
+                        slots:
+                          default:
+                            - component: f7-chip
+                              config:
+                                style:
+                                  background-color: "#6a6a6a"
+                                  color: white
+                                  font-size: 16px
+                                  font-weight: 200
+                                  justify-content: flex-end
+                                text: "=items[loop.tempItem.name].displayState ?
+                                  items[loop.tempItem.name].displayState :
+                                  items[loop.tempItem.name].state"
+                      - component: oh-repeater
+                        config:
+                          fetchMetadata: semantics,metadata
+                          filter: (loop.setpointItem.tags).includes("Setpoint") &&
+                            (loop.setpointItem.tags).includes("Temperature")
+                          for: setpointItem
+                          groupItem: =props.groupItem
+                          sourceType: itemsInGroup
+                        slots:
+                          default:
+                            - component: oh-repeater
+                              config:
+                                fetchMetadata: semantics,metadata
+                                filter: (loop.partyItem.tags).includes("Setpoint") &&
+                                  (loop.partyItem.tags).includes("Presence")
+                                for: partyItem
+                                groupItem: =props.groupItem
+                                sourceType: itemsInGroup
+                              slots:
+                                default:
+                                  - component: f7-chip
+                                    config:
+                                      icon-color: black
+                                      icon-material: '=loop.setpointItem.name.includes("Party")? "celebration" :
+                                        "today"'
+                                      style:
+                                        color: "#E74239"
+                                        font-size: 18px
+                                        font-weight: 300
+                                      text: "=items[loop.setpointItem.name].displayState ?
+                                        items[loop.setpointItem.name].displaySt\
+                                        ate :
+                                        items[loop.setpointItem.name].state"
+                                      visible: =items[loop.partyItem.name].state == "ON" ||
+                                        !loop.setpointItem.name.includes("Party")
+          - component: f7-row
+            config:
+              style:
+                align-self: flex-end
+                display: flex
+                flex: 1 1 auto
+                flex-direction: row
+                flex-wrap: nowrap
+                justify-content: flex-end
+            slots:
+              default:
+                - component: oh-link
+                  config:
+                    action: popup
+                    popupOpen: ="."+props.groupItem
+                    style:
+                      margin-top: 15px
+                  slots:
+                    default:
+                      - component: oh-repeater
+                        config:
+                          fetchMetadata: semantics,metadata
+                          filter: (loop.windowItem.tags).includes("Control") &&
+                            (loop.windowItem.tags).includes("Opening")
+                          for: windowItem
+                          groupItem: =props.groupItem
+                          sourceType: itemsInGroup
+                        slots:
+                          default:
+                            - component: oh-icon
+                              config:
+                                icon: '= (items[loop.windowItem.name].state === "CLOSED") ?
+                                  "iconify:mdi:window-closed-variant" :
+                                  "iconify:mdi:window-open-variant"'
+                                style:
+                                  color: rgb(106,106,106)
+                                  padding-right: 15px
+                                  width: 40px
+                                width: 32px
+                      - component: oh-icon
+                        config:
+                          icon: iconify:mdi:gear
+                          style:
+                            color: rgb(106,106,106)
+                            padding-right: 15px
+                            width: 40px
+                          width: 32px
+                      - component: f7-popup
+                        config:
+                          class: =props.groupItem
+                          closeByBackdropClick: true
+                          closeByOutsideClick: true
+                          closeOnEscape: true
+                          swipeToClose: true
+                        slots:
+                          default:
+                            - component: f7-row
+                              config:
+                                noGap: true
+                                style:
+                                  align-items: center
+                                  align-self: center
+                                  display: flex
+                                  flex: 1 1 auto
+                                  flex-direction: row
+                                  flex-wrap: nowrap
+                                  justify-content: center
+                                  margin-top: 10px
+                              slots:
+                                default:
+                                  - component: oh-repeater
+                                    config:
+                                      fetchMetadata: semantics,metadata,widgetOrder
+                                      filter: (loop.heatingScheduleControl.tags).includes("Control") &&
+                                        (loop.heatingScheduleControl.tags).includes("Timestamp")
+                                        &&
+                                        (loop.heatingScheduleControl.type=="Switch")
+                                      for: heatingScheduleControl
+                                      groupItem: =props.groupItem
+                                      sourceType: itemsInGroup
+                                    slots:
+                                      default:
+                                        - component: f7-row
+                                          config:
+                                            style:
+                                              align-items: center
+                                              align-self: center
+                                              display: flex
+                                              flex: 1 1 auto
+                                              flex-direction: row
+                                              flex-wrap: nowrap
+                                              justify-content: flex-start
+                                              margin-top: 10px
+                                          slots:
+                                            default:
+                                              - component: oh-toggle
+                                                config:
+                                                  item: =loop.heatingScheduleControl.name
+                                              - component: Label
+                                                config:
+                                                  style:
+                                                    padding-left: 50px
+                                                  text: =loop.heatingScheduleControl.label
+                            - component: f7-row
+                              config:
+                                noGap: true
+                                style:
+                                  align-items: center
+                                  align-self: center
+                                  display: flex
+                                  flex: 1 1 auto
+                                  flex-direction: row
+                                  flex-wrap: nowrap
+                                  justify-content: center
+                                  margin-top: 10px
+                              slots:
+                                default:
+                                  - component: oh-repeater
+                                    config:
+                                      fetchMetadata: semantics,metadata,widgetOrder
+                                      filter: (loop.heatingSchedule.tags).includes("Control") &&
+                                        (loop.heatingSchedule.tags).includes("Timestamp")
+                                        &&
+                                        !(loop.heatingSchedule.type=="Switch")
+                                      for: heatingSchedule
+                                      groupItem: =props.groupItem
+                                      sourceType: itemsInGroup
+                                    slots:
+                                      default:
+                                        - component: f7-row
+                                          config:
+                                            style:
+                                              align-items: center
+                                              align-self: center
+                                              display: flex
+                                              flex: 1 1 auto
+                                              flex-direction: row
+                                              flex-wrap: nowrap
+                                              justify-content: flex-start
+                                              margin-top: 10px
+                                          slots:
+                                            default:
+                                              - component: oh-link
+                                                config:
+                                                  action: popover
+                                                  popoverOpen: ="."+loop.heatingSchedule.name
+                                                  style:
+                                                    background: transparent
+                                                    color: black
+                                                    height: 35px
+                                                    padding-right: 50px
+                                                slots:
+                                                  default:
+                                                    - component: f7-chip
+                                                      config:
+                                                        style:
+                                                          background-color: "#D3D3D3"
+                                                          color: black
+                                                        text: =items[loop.heatingSchedule.name].displayState
+                                                    - component: f7-popover
+                                                      config:
+                                                        backdrop: false
+                                                        class: =loop.heatingSchedule.name
+                                                        closeByBackdropClick: true
+                                                        closeByOutsideClick: true
+                                                        closeOnEscape: true
+                                                        style:
+                                                          --f7-popover-border-radius: 4px
+                                                          --f7-popover-width: 300px
+                                                      slots:
+                                                        default:
+                                                          - component: widget:timepicker
+                                                            config:
+                                                              item: =loop.heatingSchedule.name
+                                                              timeFormat: 24h
+                                              - component: Label
+                                                config:
+                                                  text: =loop.heatingSchedule.label
+    - component: f7-block
+      config:
+        style:
+          align-items: center
+          background: transparent
+          display: flex
+          flex-direction: row
+      slots:
+        default:
+          - component: f7-row
+            config:
+              style:
+                align-self: flex-start
+                display: flex
+                flex: 1 1 auto
+                flex-direction: row
+                flex-wrap: nowrap
+                justify-content: flex-start
+                margin-left: 5px
+            slots:
+              default:
+                - component: oh-repeater
+                  config:
+                    fetchMetadata: semantics,metadata
+                    filter: (loop.tempItem.tags).includes("Measurement") &&
+                      (loop.tempItem.tags).includes("Temperature")
+                    for: tempItem
+                    groupItem: =props.groupItem
+                    sourceType: itemsInGroup
+                  slots:
+                    default:
+                      - component: oh-trend
+                        config:
+                          trendGradient:
+                            - "#E74239"
+                          trendItem: =loop.tempItem.name
+                          trendSampling: 5
+          - component: oh-repeater
+            config:
+              fetchMetadata: semantics,metadata
+              filter: (loop.setpointItem.tags).includes("Setpoint") &&
+                (loop.setpointItem.tags).includes("Temperature")
+              for: setpointItem
+              groupItem: =props.groupItem
+              sourceType: itemsInGroup
+            slots:
+              default:
+                - component: oh-repeater
+                  config:
+                    fetchMetadata: semantics,metadata
+                    filter: (loop.partyItem.tags).includes("Setpoint") &&
+                      (loop.partyItem.tags).includes("Presence")
+                    for: partyItem
+                    groupItem: =props.groupItem
+                    sourceType: itemsInGroup
+                  slots:
+                    default:
+                      - component: f7-row
+                        config:
+                          style:
+                            align-self: flex-end
+                            display: flex
+                            flex: 1 1 auto
+                            flex-direction: row
+                            flex-wrap: nowrap
+                            justify-content: flex-end
+                          visible: =items[loop.partyItem.name].state == "ON" ||
+                            !loop.setpointItem.name.includes("Party")
+                        slots:
+                          default:
+                            - component: oh-button
+                              config:
+                                action: command
+                                actionCommand: =Number(items[loop.setpointItem.name].state.split(' ')[0]) + 0.5
+                                actionItem: =loop.setpointItem.name
+                                iconColor: "#E74239"
+                                iconF7: arrow_up_circle
+                                iconSize: 35
+                                style:
+                                  align-self: flex-end
+                                  background: transparent
+                                  display: flex
+                                  flex-direction: row
+                                  flex-wrap: nowrap
+                                  height: 35px
+                                  justify-content: flex-end
+                            - component: Label
+                              config:
+                                style:
+                                  color: black
+                                  font-size: 14px
+                                  font-weight: 400
+                                  justify-content: flex-end
+                                  padding-top: 5px
+                                text: '=loop.setpointItem.name.includes("Party")? "Party" : "Normal"'
+                            - component: oh-button
+                              config:
+                                action: command
+                                actionCommand: =Number(items[loop.setpointItem.name].state.split(' ')[0]) - 0.5
+                                actionItem: =loop.setpointItem.name
+                                iconColor: "#E74239"
+                                iconF7: arrow_down_circle
+                                iconSize: 35
+                                style:
+                                  align-self: flex-end
+                                  background: transparent
+                                  display: flex
+                                  flex-direction: row
+                                  flex-wrap: nowrap
+                                  height: 35px
+                                  justify-content: flex-end
+    - component: f7-block
+      config:
+        style:
+          --f7-card-footer-border-color: transparent
+          align-items: center
+          background: "#F2F2F2"
+          border-radius: 0 0 var(--f7-card-expandable-border-radius)
+            var(--f7-card-expandable-border-radius)
+          display: flex
+          flex-direction: row
+          height: 50px
+      slots:
+        default:
+          - component: f7-row
+            config:
+              style:
+                align-items: center
+                display: flex
+                flex-direction: column
+                flex-wrap: nowrap
+            slots:
+              default:
+                - component: f7-row
+                  config:
+                    style:
+                      align-items: center
+                      display: flex
+                      flex-direction: row
+                  slots:
+                    default:
+                      - component: oh-repeater
+                        config:
+                          fetchMetadata: semantics,metadata
+                          filter: (loop.updateItem.tags).includes("Status") &&
+                            (loop.updateItem.type=="Switch") &&
+                            (loop.updateItem.category=="settings")
+                          for: updateItem
+                          groupItem: =props.groupItem
+                          sourceType: itemsInGroup
+                        slots:
+                          default:
+                            - component: f7-chip
+                              config:
+                                icon-color: '=(items[loop.updateItem.name].state != "OFF") ? "red" : "black"'
+                                icon-material: update
+                                iconSize: 20
+                                style:
+                                  align-items: center
+                                  font-weight: 500
+                                  justify-content: flex-end
+                                text: "=(items[loop.updateItem.name].state == ON) ? 'update' : 'up-to-date'"
+                      - component: oh-repeater
+                        config:
+                          fetchMetadata: semantics,metadata
+                          filter: (loop.configItem.tags).includes("Status") &&
+                            (loop.configItem.type=="Switch") &&
+                            (loop.configItem.category=="heating")
+                          for: configItem
+                          groupItem: =props.groupItem
+                          sourceType: itemsInGroup
+                        slots:
+                          default:
+                            - component: f7-chip
+                              config:
+                                icon-color: '=(items[loop.configItem.name].state != "OFF") ? "red" : "black"'
+                                icon-material: tune
+                                iconSize: 20
+                                style:
+                                  align-items: center
+                                  font-weight: 500
+                                  justify-content: flex-end
+                                text: "=(items[loop.configItem.name].state == ON) ? 'configure' : 'working'"
+                      - component: oh-repeater
+                        config:
+                          fetchMetadata: semantics,metadata
+                          filter: (loop.modeItem.tags).includes("Control") &&
+                            (loop.modeItem.tags).includes("Temperature") &&
+                            (loop.modeItem.type=="String")
+                          for: modeItem
+                          groupItem: =props.groupItem
+                          sourceType: itemsInGroup
+                        slots:
+                          default:
+                            - component: oh-link
+                              config:
+                                action: options
+                                actionItem: =loop.modeItem.name
+                                style:
+                                  align-items: center
+                                  padding-left: 10px
+                              slots:
+                                default:
+                                  - component: f7-chip
+                                    config:
+                                      style:
+                                        align-items: center
+                                        font-weight: 500
+                                        justify-content: flex-end
+                                      text: "=items[loop.modeItem.name].displayState ?
+                                        items[loop.modeItem.name].displayState :
+                                        items[loop.modeItem.name].state"
+                      - component: oh-repeater
+                        config:
+                          fetchMetadata: semantics,metadata
+                          filter: (loop.modeItem.tags).includes("Control") &&
+                            (loop.modeItem.type=="String")
+                          for: modeItem
+                          groupItem: =props.groupItem
+                          sourceType: itemsInGroup
+                        slots:
+                          default:
+                            - component: oh-link
+                              config:
+                                action: options
+                                actionItem: =loop.modeItem.name
+                                style:
+                                  align-items: center
+                                  padding-left: 10px
+                              slots:
+                                default:
+                                  - component: f7-chip
+                                    config:
+                                      style:
+                                        align-items: center
+                                        font-weight: 500
+                                        justify-content: flex-end
+                                      text: "=items[loop.modeItem.name].displayState ?
+                                        items[loop.modeItem.name].displayState :
+                                        items[loop.modeItem.name].state"
+                      - component: oh-repeater
+                        config:
+                          fetchMetadata: semantics,metadata
+                          filter: (loop.boostItem.tags).includes("Control") &&
+                            (loop.boostItem.tags).includes("Energy") &&
+                            (loop.boostItem.type=="Switch")
+                          for: boostItem
+                          groupItem: =props.groupItem
+                          sourceType: itemsInGroup
+                        slots:
+                          default:
+                            - component: oh-link
+                              config:
+                                action: options
+                                actionItem: =loop.boostItem.name
+                                style:
+                                  padding-left: 10px
+                              slots:
+                                default:
+                                  - component: f7-chip
+                                    config:
+                                      bgColor: '=items[loop.boostItem.name].state == "ON" ? "red" : ""'
+                                      style:
+                                        align-items: center
+                                        font-weight: 500
+                                        justify-content: flex-end
+                                      text: Boost
+                      - component: oh-repeater
+                        config:
+                          fetchMetadata: semantics,metadata
+                          filter: (loop.levelItem.tags).includes("OpenLevel") &&
+                            (loop.levelItem.tags).includes("Level") &&
+                            (loop.levelItem.type=="Dimmer")
+                          for: levelItem
+                          groupItem: =props.groupItem
+                          sourceType: itemsInGroup
+                        slots:
+                          default:
+                            - component: oh-link
+                              config:
+                                action: options
+                                actionItem: =loop.boostItem.name
+                                style:
+                                  padding-left: 10px
+                              slots:
+                                default:
+                                  - component: f7-chip
+                                    config:
+                                      bgColor: '=items[loop.levelItem.name].state >= 90 ? "red" :
+                                        items[loop.levelItem.name].state <= 10 ?
+                                        "green" : "yellow"'
+                                      style:
+                                        align-items: center
+                                        font-weight: 500
+                                        justify-content: flex-end
+                                      text: '="Level: " + items[loop.levelItem.name].state'
+          - component: f7-row
+            config:
+              style:
+                align-items: center
+                align-self: flex-end
+                display: flex
+                flex: 1 1 auto
+                flex-direction: row
+                flex-wrap: nowrap
+                justify-content: flex-end
+            slots:
+              default:
+                - component: oh-repeater
+                  config:
+                    fetchMetadata: semantics,metadata
+                    filter: (loop.lowbat.tags).includes("LowBattery") &&
+                      (loop.lowbat.tags).includes("Voltage")
+                    for: lowbat
+                    groupItem: =props.groupItem
+                    sourceType: itemsInGroup
+                  slots:
+                    default:
+                      - component: f7-row
+                        config:
+                          style:
+                            align-items: center
+                            align-self: flex-end
+                            display: flex
+                            flex: 1 1 auto
+                            flex-direction: row
+                            flex-wrap: nowrap
+                            justify-content: flex-end
+                        slots:
+                          default:
+                            - component: oh-icon
+                              config:
+                                color: '=(items[loop.lowbat.name].state =="ON") ? "red" : "#D3D3D3"'
+                                icon: '=items[loop.lowbat.name].state === "OFF" ?
+                                  "iconify:ic:twotone-battery-std" :
+                                  "iconify:mdi:battery-alert-variant-outline"'
+                                style:
+                                  align-items: center
+                                  align-self: flex-end
+                                  display: flex
+                                  flex-direction: row
+                                  flex-wrap: nowrap
+                                  justify-content: flex-end
+                                  margin-bottom: 10px
+                                width: 28px
+                - component: oh-repeater
+                  config:
+                    fetchMetadata: semantics,metadata
+                    filter: (loop.batteryLevel.tags).includes("Measurement") &&
+                      (loop.batteryLevel.tags).includes("Voltage")
+                    for: batteryLevel
+                    groupItem: =props.groupItem
+                    sourceType: itemsInGroup
+                  slots:
+                    default:
+                      - component: f7-row
+                        config:
+                          style:
+                            align-items: center
+                            align-self: flex-end
+                            display: flex
+                            flex: 1 1 auto
+                            flex-direction: row
+                            flex-wrap: nowrap
+                            justify-content: flex-end
+                        slots:
+                          default:
+                            - component: Label
+                              config:
+                                style:
+                                  align-items: center
+                                  align-self: flex-end
+                                  color: gray
+                                  display: flex
+                                  flex-direction: row
+                                  flex-wrap: nowrap
+                                  justify-content: flex-end
+                                  margin-bottom: 10px
+                                  margin-right: 10px
+                                text: =items[loop.batteryLevel.name].state
