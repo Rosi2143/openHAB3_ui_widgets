@@ -1,0 +1,70 @@
+uid: FlashingExample
+tags:
+  - https://community.openhab.org/t/oh3-widget-f7-badge-flash-color/142380/11
+props:
+  parameters:
+    - description: Header text
+      label: Header
+      name: header
+      required: false
+      type: TEXT
+      groupName: header
+    - context: item
+      description: Item to control
+      label: Item
+      name: item
+      required: false
+      type: TEXT
+      groupName: setup
+  parameterGroups:
+    - name: header
+      description: Widget general settings
+    - name: setup
+      description: Widget specific settings
+timestamp: Aug 2, 2025, 9:48:05 AM
+component: f7-block
+config:
+  style:
+    margin: 0px
+    padding: 0px
+  stylesheet: |
+    .partial {
+      animation: flashingbg 4s linear 0s infinite;
+      color: red;
+    }
+    .on {
+      background-color: #4ad194;
+    }
+    .off {
+      background-color: white;
+    }
+    @keyframes flashingbg {
+      0%   {background-color: #fff;}
+      25%  {background-color: #4ad194;}
+      50%  {background-color: #4ad194;}
+      75%  {background-color: #fff;}
+      100% {background-color: #fff;}
+    }
+slots:
+  default:
+    - component: f7-card
+      config:
+        class: "=items[props.item].state == 'ON' ? 'partial' : (items[props.item].state
+          == 'OFF') ? 'off' : 'on'"
+        style:
+          border-radius: 15px
+          box-shadow: 0px 0px
+          margin: 5px 5px
+      slots:
+        content:
+          - component: f7-row
+            config:
+              style:
+                justify-content: center
+            slots:
+              default:
+                - component: Label
+                  config:
+                    style:
+                      color: black
+                    text: =props.header + " - " + @@props.item

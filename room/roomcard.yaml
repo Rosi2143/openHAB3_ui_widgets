@@ -1,6 +1,8 @@
+# description: room card with background image & state overview
+# author: Copyright (c) 2021 Florian Hotze under MIT License
+# credits: Mike P (@integer) at https://community.openhab.org/t/oh3-main-ui-examples/117928/22 for the concept
 uid: roomCard
 tags:
-  - https://community.openhab.org/t/room-card-with-status-overview/130544/6
   - community.openhab.org
   - florianh-widgetset
 props:
@@ -86,26 +88,14 @@ props:
       required: false
       type: TEXT
     - context: item
-      description: item for power outlet
-      label: poweroutlet item
-      name: poweroutlet
-      required: false
-      type: TEXT
-    - context: item
-      description: item for power outlet
-      label: poweroutlet number item
-      name: poweroutlet_number
-      required: false
-      type: TEXT
-    - context: item
       description: item for speaker(s)
       label: Speaker(s) item
       name: speaker
       required: false
       type: TEXT
     - context: item
-      description: item for heating level
-      label: Heating state level
+      description: item for heating state
+      label: Heating state item
       name: heating
       required: false
       type: TEXT
@@ -128,12 +118,6 @@ props:
       required: false
       type: TEXT
     - context: item
-      description: item for motion state
-      label: Motiondetector item
-      name: motion
-      required: false
-      type: TEXT
-    - context: item
       description: item for door state(s)
       label: Door state(s)
       name: door_state
@@ -151,7 +135,7 @@ props:
       name: garagedoor_state
       required: false
       type: TEXT
-timestamp: Dec 28, 2025, 11:34:20 AM
+timestamp: Aug 14, 2024, 12:55:22 PM
 component: f7-card
 config:
   style:
@@ -207,14 +191,10 @@ slots:
           - component: f7-chip
             config:
               iconColor: =props.color
-              iconF7: "=@@props.light == 'ON' ? 'lightbulb_fill' :
-                'lightbulb_slash'"
+              iconF7: "=@@props.light == 'ON' ? 'lightbulb_fill' : 'lightbulb_slash'"
               iconSize: 18
-              style:
-                --f7-chip-bg-color: rgba(255, 255, 255, 0)
-              text: "=props.lights_number ? ((@@props.light == 'ON') ?
-                @@props.lights_number : '') : ''"
-              textColor: =props.color
+              text: "=props.lights_number ? ((@@props.light == 'ON') ? @@props.lights_number :
+                '') : ''"
               visible: "=props.light ? true : false"
           - component: f7-chip
             config:
@@ -230,49 +210,25 @@ slots:
                       height: 24px
           - component: f7-chip
             config:
-              style:
-                --f7-chip-bg-color: rgba(255, 255, 255, 0)
               visible: "=props.door_state ? true : false"
             slots:
               media:
                 - component: oh-icon
                   config:
-                    icon: "=@@props.door_state === 'CLOSED' ? 'door-closed' :
-                      'door-open'"
+                    icon: "=@@props.door_state === 'CLOSED' ? 'door-closed' : 'door-open'"
                     iconSize: 24
                     style:
                       height: 24px
           - component: f7-chip
             config:
-              style:
-                --f7-chip-bg-color: rgba(255, 255, 255, 0)
-              text: "=props.poweroutlets_number ? ((@@props.poweroutlet == 'ON') ?
-                @@props.poweroutlets_number : '') : ''"
-              textColor: =props.color
-              visible: "=props.poweroutlet ? true : false"
-            slots:
-              media:
-                - component: oh-icon
-                  config:
-                    icon: "=@@props.poweroutlet === 'ON' ? 'poweroutlet-on' :
-                      'poweroutlet-off'"
-                    iconSize: 24
-                    style:
-                      height: 24px
-          - component: f7-chip
-            config:
-              style:
-                --f7-chip-bg-color: rgba(255, 255, 255, 0)
               text: "=(@@props.window == 'OPEN') ? (props.windows_number ?
                 @@props.windows_number : '') : ''"
-              textColor: =props.color
               visible: "=props.window ? true : false"
             slots:
               media:
                 - component: oh-icon
                   config:
-                    icon: "=@@props.window === 'CLOSED' ? 'window-closed' :
-                      'window-open'"
+                    icon: "=@@props.window === 'CLOSED' ? 'window-closed' : 'window-open'"
                     iconSize: 24
                     style:
                       height: 24px
@@ -281,30 +237,19 @@ slots:
               iconColor: =props.color
               iconF7: "=@@props.door_lock === 'ON' ? 'lock_open' : 'lock'"
               iconSize: 18
-              style:
-                --f7-chip-bg-color: rgba(255, 255, 255, 0)
-              text: "=@@props.door_lock === 'ON' ? '' : ''"
               visible: "=props.door_lock ? true : false"
           - component: f7-chip
             config:
               iconColor: =props.color
               iconF7: arrow_up_arrow_down
               iconSize: 18
-              style:
-                --f7-chip-bg-color: rgba(255, 255, 255, 0)
-              text: "=props.blinds2 ? @@props.blinds + ' | ' +
-                @@props.blinds2 :
-                @@props.blinds"
-              textColor: =props.color
+              text: "=props.blinds2 ? @props.blinds + ' | ' + @props.blinds2 : @props.blinds"
               visible: "=props.blinds ? true : false"
           - component: f7-chip
             config:
               iconColor: =props.color
-              iconF7: "=@@props.speaker === 'ON' ? 'speaker_3_fill' :
-                'speaker_slash'"
+              iconF7: "=@@props.speaker === 'ON' ? 'speaker_3_fill' : 'speaker_slash'"
               iconSize: 18
-              style:
-                --f7-chip-bg-color: rgba(255, 255, 255, 0)
               visible: "=props.speaker ? true : false"
     - component: f7-block
       config:
@@ -322,30 +267,19 @@ slots:
               iconColor: =props.color
               iconF7: thermometer
               iconSize: 18
-              style:
-                --f7-chip-bg-color: rgba(255, 255, 255, 0)
-              text: "=(@@props.temp ? @@props.temp :
-                @@props.temp) +  (props.settemp ? ' (' +
-                (@@props.settemp ?
-                @@props.settemp : @@props.settemp)
-                + ')' : '')"
-              textColor: =props.color
+              text: "=@props.temp + (props.settemp ? ' (' + @props.settemp + ')' : '')"
               visible: "=props.temp ? true : false"
           - component: f7-chip
             config:
               iconColor: =props.color
               iconF7: flame
               iconSize: 18
-              style:
-                --f7-chip-bg-color: rgba(255, 255, 255, 0)
-              visible: =@@props.heating > 20
+              visible: =@@props.heating === 'ON'
           - component: f7-chip
             config:
               iconColor: =props.color
               iconF7: circle_grid_hex
               iconSize: 18
-              style:
-                --f7-chip-bg-color: rgba(255, 255, 255, 0)
               visible: =@@props.cooling === 'ON'
     - component: f7-block
       config:
@@ -361,36 +295,16 @@ slots:
           - component: f7-chip
             config:
               iconColor: =props.color
-              iconMaterial: sensor_occupied
-              iconSize: 18
-              style:
-                --f7-chip-bg-color: rgba(255, 255, 255, 0)
-              text: "=@@props.motion ? @@props.motion :
-                @@props.motion"
-              textColor: =props.color
-              visible: "=props.motion ? true : false"
-          - component: f7-chip
-            config:
-              iconColor: =props.color
               iconF7: drop
               iconSize: 18
-              style:
-                --f7-chip-bg-color: rgba(255, 255, 255, 0)
-              text: "=@@props.humidity ? @@props.humidity
-                : @@props.humidity"
-              textColor: =props.color
+              text: =@props.humidity
               visible: "=props.humidity ? true : false"
           - component: f7-chip
             config:
               iconColor: =props.color
               iconF7: sun_min
               iconSize: 18
-              style:
-                --f7-chip-bg-color: rgba(255, 255, 255, 0)
-              text: "=@@props.illuminance ?
-                @@props.illuminance :
-                @@props.illuminance"
-              textColor: =props.color
+              text: =@props.illuminance
               visible: "=props.illuminance ? true : false"
     - component: oh-link
       config:

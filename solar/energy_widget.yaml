@@ -1,0 +1,498 @@
+uid: energy_widget_2
+tags:
+  - energy
+  - huawei
+  - solar
+props:
+  parameters:
+    - context: item
+      label: Grid power
+      name: gridpower
+      required: true
+      type: TEXT
+    - context: item
+      label: Solar power
+      name: solarpower
+      required: true
+      type: TEXT
+    - context: item
+      label: Inverter temperature
+      name: invertertemperature
+      required: true
+      type: TEXT
+    - context: item
+      label: Battery power
+      name: batterypower
+      required: true
+      type: TEXT
+    - context: item
+      label: Battery level
+      name: batterylevel
+      required: true
+      type: TEXT
+    - context: item
+      label: Battery Temperature
+      name: batterytemperature
+      required: true
+      type: TEXT
+    - default: "25"
+      description: Size of the icons
+      label: Icon Size
+      name: iconSize
+      required: false
+      type: TEXT
+  parameterGroups: []
+timestamp: Dec 11, 2025, 8:11:42 PM
+component: f7-card
+config:
+  class:
+    - display-flex
+    - flex-direction-column
+    - align-items-center
+  style:
+    height: 383px
+slots:
+  content:
+    - component: f7-block
+      config:
+        style:
+          --f7-theme-color: var(--f7-text-color)
+          display: flex
+          justify-content: space-between
+          padding: 0
+      slots:
+        default:
+          - component: f7-col
+            config:
+              style:
+                align-items: center
+                display: flex
+                flex-direction: row
+            slots:
+              default:
+                - component: f7-block
+                  config:
+                    style:
+                      align-items: center
+                      display: flex
+                      flex-direction: column
+                      height: 110px
+                      justify-content: center
+                      width: 110px
+                  slots:
+                    default:
+                      - component: oh-icon
+                        config:
+                          action: analyzer
+                          actionAnalyzerCoordSystem: time
+                          actionAnalyzerItems: =[props.gridpower]
+                          height: 110px
+                          icon: sma_grid_2
+                      - component: Label
+                        config:
+                          style:
+                            color: '=items[props.gridpower].state.split(" ")[0] < 0 ? "red" :
+                              items[props.gridpower].state.split(" ")[0] == 0 ?
+                              "lightgreen" : "green"'
+                            font-size: 25px
+                            font-weight: bold
+                            margin-top: -10px
+                            text-align: center
+                            width: 100px
+                          text: =Math.abs(items[props.gridpower].state.split(" ")[0]) + ' ᵂ'
+          - component: f7-col
+            config:
+              style:
+                align-items: center
+                display: flex
+                flex-direction: column
+                flex-grow: 1
+            slots:
+              default:
+                - component: f7-block
+                  config:
+                    style:
+                      align-items: center
+                      display: flex
+                      flex-direction: column
+                      height: 110px
+                      justify-content: center
+                      margin-top: 0
+                      width: 110px
+                  slots:
+                    default:
+                      - component: oh-link
+                        config:
+                          action: analyzer
+                          actionAnalyzerCoordSystem: time
+                          actionAnalyzerItems: =[props.invertertemperature]
+                          iconColor: '=items[props.invertertemperature].state.split(" ")[0] < 50 ?
+                            items[props.invertertemperature].state.split(" ")[0]
+                            < 20 ? "blue" : "yellow" : "red"'
+                          iconMaterial: thermostat
+                          iconSize: =props.iconSize
+                          style:
+                            --f7-chip-bg-color: rgba(255, 255, 255, 0)
+                            font-size: 15px
+                            font-weight: bold
+                            text-align: center
+                            width: 100px
+                          text: =items[props.invertertemperature].state
+                      - component: Label
+                        config:
+                          style:
+                            font-size: 25px
+                            font-weight: bold
+                            text-align: center
+                            width: 100px
+                          text: =items[props.solarpower].state.split(" ")[0] + ' ᵂ'
+                      - component: oh-icon
+                        config:
+                          action: analyzer
+                          actionAnalyzerCoordSystem: time
+                          actionAnalyzerItems: =[props.solarpower]
+                          height: 110px
+                          icon: sma_pv_2
+                          style:
+                            margin-top: -20px
+                - component: f7-block
+                  config:
+                    style:
+                      display: flex
+                      justify-content: center
+                      margin: 0
+                      padding: 0
+                      width: 100%
+                  slots:
+                    default:
+                      - component: f7-row
+                        config:
+                          preserveAspectRatio: xMidYMid slice
+                          style:
+                            height: 100px
+                            width: 100px
+                          tag: svg
+                          viewBox: 0 0 100 100
+                          xmlns: http://www.w3.org/2000/svg
+                        slots:
+                          default:
+                            - component: f7-row
+                              config:
+                                d: M60 -10 v10 c0 40  10 35  30  35  h20
+                                fill: none
+                                id: topright
+                                stroke: rgba(0, 255, 00, 0.8)
+                                stroke-width: 2
+                                tag: path
+                                vector-effect: non-scaling-stroke
+                                visible: =items[props.batterypower].state.split(" ")[0] > 0 &&
+                                  items[props.solarpower].state.split(" ")[0] >
+                                  0
+                            - component: f7-row
+                              config:
+                                fill: rgba(0, 255, 00, 0.8)
+                                r: 6
+                                style:
+                                  stroke-width: 4
+                                tag: circle
+                                vector-effect: non-scaling-stroke
+                                visible: =items[props.batterypower].state.split(" ")[0] > 0 &&
+                                  items[props.solarpower].state.split(" ")[0] >
+                                  0
+                              slots:
+                                default:
+                                  - component: f7-row
+                                    config:
+                                      calcMode: linear
+                                      dur: 4s
+                                      repeatCount: indefinite
+                                      tag: animateMotion
+                                    slots:
+                                      default:
+                                        - component: f7-row
+                                          config:
+                                            tag: mpath
+                                            xlink:href: "#topright"
+                            - component: f7-row
+                              config:
+                                d: M40 -10 v10 c0 40 -10 35 -30 35 h-20
+                                fill: none
+                                id: topleft
+                                stroke: rgba(0, 255, 00, 0.8)
+                                stroke-width: 2
+                                tag: path
+                                vector-effect: non-scaling-stroke
+                                visible: =items[props.solarpower].state.split(" ")[0] > 0 &&
+                                  items[props.gridpower].state.split(" ")[0] > 0
+                            - component: f7-row
+                              config:
+                                fill: rgba(0, 255, 00, 0.8)
+                                r: 6
+                                strokeWidth: 10
+                                tag: circle
+                                vectorEffect: non-scaling-stroke
+                                visible: =items[props.solarpower].state.split(" ")[0] > 0 &&
+                                  items[props.gridpower].state.split(" ")[0] > 0
+                              slots:
+                                default:
+                                  - component: f7-row
+                                    config:
+                                      calcMode: linear
+                                      dur: 4s
+                                      repeatCount: indefinite
+                                      tag: animateMotion
+                                    slots:
+                                      default:
+                                        - component: f7-row
+                                          config:
+                                            tag: mpath
+                                            xlink:href: "#topleft"
+                            - component: f7-row
+                              config:
+                                d: M50, 0 v100
+                                fill: none
+                                id: vertical
+                                stroke: rgba(0, 255, 00, 0.8)
+                                stroke-width: 2
+                                tag: path
+                                vector-effect: non-scaling-stroke
+                                visible: =items[props.solarpower].state.split(" ")[0] > 0
+                            - component: f7-row
+                              config:
+                                fill: rgba(0, 255, 00, 0.8)
+                                r: 6
+                                strokeWidth: 10
+                                tag: circle
+                                vectorEffect: non-scaling-stroke
+                                visible: =items[props.solarpower].state.split(" ")[0] > 0
+                              slots:
+                                default:
+                                  - component: f7-row
+                                    config:
+                                      calcMode: linear
+                                      dur: 4s
+                                      repeatCount: indefinite
+                                      tag: animateMotion
+                                    slots:
+                                      default:
+                                        - component: f7-row
+                                          config:
+                                            tag: mpath
+                                            xlink:href: "#vertical"
+                            - component: f7-row
+                              config:
+                                d: M-5 55 l10 0 c40 0 35 10 35 50 l0 20
+                                fill: none
+                                id: botleft
+                                stroke: rgba(255, 0, 0, 0.8)
+                                stroke-width: 2
+                                tag: path
+                                vector-effect: non-scaling-stroke
+                                visible: =items[props.gridpower].state.split(" ")[0] < 0
+                            - component: f7-row
+                              config:
+                                fill: rgba(255, 0, 0, 0.8)
+                                r: 6
+                                strokeWidth: 10
+                                tag: circle
+                                vectorEffect: non-scaling-stroke
+                                visible: =items[props.gridpower].state.split(" ")[0] < 0
+                              slots:
+                                default:
+                                  - component: f7-row
+                                    config:
+                                      calcMode: linear
+                                      dur: 4s
+                                      repeatCount: indefinite
+                                      tag: animateMotion
+                                    slots:
+                                      default:
+                                        - component: f7-row
+                                          config:
+                                            tag: mpath
+                                            xlink:href: "#botleft"
+                            - component: f7-row
+                              config:
+                                d: '=items[props.gridpower].state.split(" ")[0] < 0 ? "M0, 45 h100" : "M100, 45
+                                  h-100"'
+                                fill: none
+                                id: horizontal
+                                stroke: rgba(255, 215, 0, 0.8)
+                                stroke-width: 2
+                                tag: path
+                                vector-effect: non-scaling-stroke
+                                visible: =(items[props.gridpower].state.split(" ")[0] < 0 &&
+                                  items[props.solarpower].state.split(" ")[0] <
+                                  Math.abs(Math.min(0,
+                                  items[props.batterypower].state.split("
+                                  ")[0]))) ||
+                                  (items[props.batterypower].state.split(" ")[0]
+                                  < 0 && items[props.gridpower].state.split("
+                                  ")[0] > 0 &&
+                                  items[props.solarpower].state.split(" ")[0] <=
+                                  0)
+                            - component: f7-row
+                              config:
+                                fill: rgba(255, 215, 0, 0.8)
+                                r: 6
+                                strokeWidth: 10
+                                tag: circle
+                                vectorEffect: non-scaling-stroke
+                                visible: =(items[props.gridpower].state.split(" ")[0] < 0 &&
+                                  items[props.solarpower].state.split(" ")[0] <
+                                  Math.abs(Math.min(0,
+                                  items[props.batterypower].state.split("
+                                  ")[0]))) ||
+                                  (items[props.batterypower].state.split(" ")[0]
+                                  < 0 && items[props.gridpower].state.split("
+                                  ")[0] > 0 &&
+                                  items[props.solarpower].state.split(" ")[0] <=
+                                  0)
+                              slots:
+                                default:
+                                  - component: f7-row
+                                    config:
+                                      calcMode: linear
+                                      dur: 4s
+                                      repeatCount: indefinite
+                                      tag: animateMotion
+                                    slots:
+                                      default:
+                                        - component: f7-row
+                                          config:
+                                            tag: mpath
+                                            xlink:href: "#horizontal"
+                            - component: f7-row
+                              config:
+                                d: M 105 55 l-10 0 c-40 0 -35 10 -35 50 l0 20
+                                fill: none
+                                id: botright
+                                stroke: rgba(255, 215, 0, 0.8)
+                                stroke-width: 2
+                                tag: path
+                                vector-effect: non-scaling-stroke
+                                visible: =items[props.batterypower].state.split(" ")[0] < 0
+                            - component: f7-row
+                              config:
+                                fill: rgba(255, 215, 0, 0.8)
+                                r: 6
+                                strokeWidth: 10
+                                tag: circle
+                                vectorEffect: non-scaling-stroke
+                                visible: =items[props.batterypower].state.split(" ")[0] < 0
+                              slots:
+                                default:
+                                  - component: f7-row
+                                    config:
+                                      calcMode: linear
+                                      dur: 4s
+                                      repeatCount: indefinite
+                                      tag: animateMotion
+                                    slots:
+                                      default:
+                                        - component: f7-row
+                                          config:
+                                            tag: mpath
+                                            xlink:href: "#botright"
+                - component: f7-block
+                  config:
+                    style:
+                      align-items: center
+                      display: flex
+                      flex-direction: column
+                      height: 110px
+                      justify-content: center
+                      margin-top: -10px
+                      width: 110px
+                  slots:
+                    default:
+                      - component: oh-icon
+                        config:
+                          height: 110px
+                          icon: sma_consumption_2
+                      - component: Label
+                        config:
+                          style:
+                            font-size: 25px
+                            font-weight: bold
+                            margin-top: -10px
+                            text-align: center
+                            width: 100px
+                          text: =(items[props.solarpower].state.split(" ")[0] -
+                            items[props.gridpower].state.split(" ")[0] -
+                            items[props.batterypower].state.split(" ")[0]) + '
+                            ᵂ'
+          - component: f7-col
+            config:
+              style:
+                align-items: center
+                display: flex
+                flex-direction: row
+            slots:
+              default:
+                - component: f7-block
+                  config:
+                    style:
+                      align-items: center
+                      display: flex
+                      flex-direction: column
+                      height: 110px
+                      justify-content: center
+                      width: 110px
+                  slots:
+                    default:
+                      - component: oh-link
+                        config:
+                          action: analyzer
+                          actionAnalyzerCoordSystem: time
+                          actionAnalyzerItems: =[props.batterytemperature]
+                          iconColor: '=items[props.batterytemperature].state.split(" ")[0] < 50 ?
+                            items[props.batterytemperature].state.split(" ")[0]
+                            < 20 ? "blue" : "yellow" : "red"'
+                          iconMaterial: thermostat
+                          iconSize: =props.iconSize
+                          style:
+                            font-size: 15px
+                            font-weight: bold
+                            position: absolute
+                            top: -50px
+                            white-space: nowrap
+                          text: =items[props.batterytemperature].state
+                      - component: oh-link
+                        config:
+                          action: navigate
+                          actionPage: page:Solar_Batterie_Ladung_und_Temp
+                          iconColor: '=items[props.batterylevel].state.split(" ")[0] < 75 ?
+                            items[props.batterylevel].state.split(" ")[0] < 10 ?
+                            "red" : "orange" : "green"'
+                          iconF7: '=items[props.batterylevel].state.split(" ")[0] < 75 ?
+                            items[props.batterylevel].state.split(" ")[0] < 10 ?
+                            "battery_0" : "battery_25" : "battery_100"'
+                          iconSize: =props.iconSize
+                          style:
+                            font-size: 15px
+                            font-weight: bold
+                            position: absolute
+                            top: -25px
+                            white-space: nowrap
+                          text: =items[props.batterylevel].displayState
+                      - component: oh-icon
+                        config:
+                          action: analyzer
+                          actionAnalyzerCoordSystem: time
+                          actionAnalyzerItems: =[props.batterypower]
+                          height: 110px
+                          icon: sma_battery_2
+                      - component: Label
+                        config:
+                          style:
+                            color: '=items[props.batterypower].state.split(" ")[0] > 0 ? "green" :
+                              items[props.batterypower].state.split(" ")[0] == 0
+                              ? "lightgreen" : "red"'
+                            font-size: 25px
+                            font-weight: bold
+                            margin-top: -10px
+                            text-align: center
+                            white-space: nowrap
+                            width: 100px
+                          text: =Math.abs(items[props.batterypower].state.split(" ")[0]) + ' ᵂ'
