@@ -1,0 +1,644 @@
+uid: vacuum_widget
+tags:
+  - card
+  - standalone
+  - https://community.openhab.org/t/valetudo-vacuum-robot-control-widget/141068
+props:
+  parameters:
+    - context: item
+      description: Vacuum group item - Must be created from the Homie autodiscovery
+        with default names for all sub-items
+      label: Vacuum item
+      name: item
+      required: true
+      type: TEXT
+      groupName: general
+    - context: url
+      description: Optional map image URL
+      label: Map URL
+      name: map_url
+      required: false
+      type: TEXT
+      groupName: general
+    - context: url
+      description: Link to your Valetudo instance
+      label: Valetudo URL
+      name: valetudo_url
+      required: false
+      type: TEXT
+      groupName: general
+    - context: page
+      description: Optional floor plan page to show a button that links to it
+      label: Floor plan page
+      name: floorplan
+      required: false
+      type: TEXT
+      groupName: general
+    - description: A comma-separated list of "SEGMENT_ID=Name" values, such as
+        "10=Kitchen, 11=Bedroom", to be used instead of the ones provided by
+        Valetudo.
+      label: User-defined segments
+      name: segments
+      required: false
+      type: TEXT
+      groupName: general
+    - description: If set it will be displayed next to the status
+      label: Title
+      name: title
+      required: false
+      groupName: display
+    - description: If enabled, fan speed and water grade selection will be available
+        in a menu. If not enabled, buttons will be shown in the widget.
+      label: Compact fan speed / water grade
+      name: compact
+      required: true
+      type: BOOLEAN
+      groupName: display
+    - description: Hide attachments such as dust bin, water tank.. from the widget
+      label: Hide attachments
+      name: hide_attachments
+      required: false
+      type: BOOLEAN
+      groupName: display
+    - description: Hide locate button from widget
+      label: Hide locate
+      name: hide_locate
+      required: false
+      type: BOOLEAN
+      groupName: display
+  parameterGroups:
+    - name: general
+      label: General
+    - name: display
+      label: Display options
+timestamp: Oct 19, 2025, 11:03:17 AM
+component: f7-card
+config: {}
+slots:
+  default:
+    - component: f7-row
+      config:
+        style:
+          justify-content: '=props.compact ? "space-around" : "space-between"'
+      slots:
+        default:
+          - component: f7-col
+            config:
+              style:
+                padding: 10px
+              width: 90
+            slots:
+              default:
+                - component: oh-button
+                  config:
+                    disabled: true
+                    iconF7: chevron_right
+                    outline: true
+                    round: true
+                    style:
+                      --f7-button-text-color: var(--f7-text-color)
+                      opacity: 1 !important
+                      text-align: left
+                      text-transform: initial
+                    text: '=(props.title ? (props.title) + ": " : "") + (items[props.item +
+                      "_State"].displayState + ((items[props.item +
+                      "_Current_Cleaning_Mode"].displayState !== "none") ? (" /
+                      " + items[props.item +
+                      "_Current_Cleaning_Mode"].displayState) : ""))'
+          - component: f7-col
+            config:
+              style:
+                padding-leftt: 10px
+                padding-right: 10px
+              width: 190
+            slots:
+              default:
+                - component: oh-link
+                  config:
+                    iconF7: '=(items[props.item + "_State"].displayState === "Charging") ? "bolt" :
+                      (items[props.item + "_State"].displayState === "Running")
+                      ? "tornado" : "checkmark_seal"'
+                    style:
+                      padding-leftt: 10px
+                      padding-right: 10px
+                - component: oh-link
+                  config:
+                    iconColor: '=((items[props.item +  "_Batterieladung"].displayState) === "Ok") ?
+                      "green" : "darkred"'
+                    iconF7: '=(Number.parseInt(items[props.item + "_Batterieladung"].state) < 30) ?
+                      "battery_0" : (Number.parseInt(items[props.item +
+                      "_Batterieladung"].state) < 60) ? "battery_25" :
+                      "battery_100"'
+                    style:
+                      padding-leftt: 10px
+                      padding-right: 10px
+                    text: =(items[props.item + "_Batterieladung"].displayState)
+                - component: oh-link
+                  config:
+                    iconColor: black
+                    iconF7: '=(Number.parseInt(items[props.item + "_WiFi_Signal_Strength"].state) >
+                      -30) ? "dot_radiowaves_right" :
+                      (Number.parseInt(items[props.item +
+                      "_WiFi_Signal_Strength"].state) > -60) ?
+                      "radiowaves_right" : "badge_plus_radiowaves_right"'
+                    style:
+                      padding-leftt: 10px
+                      padding-right: 10px
+                    text: =(items[props.item + "_WiFi_Signal_Strength"].state)
+    - component: f7-row
+      config:
+        style:
+          display: '=(props.hide_attachments) ? "none" : "flex"'
+          justify-content: center
+          padding-bottom: 15px
+      slots:
+        default:
+          - component: oh-button
+            config:
+              action: command
+              actionCommand: '=(items[props.item + "_Auto_Empty"].state === "ON") ? "OFF" :
+                "ON"'
+              actionItem: =(props.item + "_Auto_Empty")
+              active: '=(items[props.item + "_Auto_Empty"]).state === "ON" ? true : false'
+              iconF7: tray
+              outline: '=(items[props.item + "_Auto_Empty"]).state === "ON" ? true : false'
+              round: true
+              style:
+                opacity: .7 !important
+              text: Auto Empty
+          - component: oh-button
+            config:
+              action: command
+              actionCommand: '=(items[props.item + "_Water_System_Present"].state === "ON") ?
+                "OFF" : "ON"'
+              actionItem: =(props.item + "_Water_System_Present")
+              active: '=(items[props.item + "_Water_System_Present"]).state === "ON" ? true :
+                false'
+              iconF7: drop
+              outline: '=(items[props.item + "_Water_System_Present"]).state === "ON" ? true :
+                false'
+              round: true
+              style:
+                opacity: .7 !important
+              text: Water tank
+          - component: oh-button
+            config:
+              action: command
+              actionCommand: '=(items[props.item + "_Continuous_Cleaning"].state === "ON") ?
+                "OFF" : "ON"'
+              actionItem: =(props.item + "_Continuous_Cleaning")
+              active: '=items[props.item + "_Continuous_Cleaning"].state === "ON" ? true :
+                false'
+              iconF7: arrow_clockwise_circle
+              outline: '=items[props.item + "_Continuous_Cleaning"].state === "ON" ? true :
+                false'
+              round: true
+              style:
+                opacity: .7 !important
+              text: Continues Cleaning
+    - component: f7-row
+      config:
+        style:
+          --f7-button-outline-border-color: var(--f7-text-color)
+          --f7-button-text-color: var(--f7-text-color)
+          display: '=(props.hide_attachments) ? "none" : "flex"'
+          justify-content: center
+          padding-bottom: 15px
+      slots:
+        default:
+          - component: oh-button
+            config:
+              disabled: true
+              iconColor: '=Number.parseInt(items[props.item + "_Dust_Filter_Lifetime"].state)
+                < 20 ? red: black'
+              iconF7: star_circle
+              style:
+                color: '=Number.parseInt(items[props.item + "_Dust_Filter_Lifetime"].state) < 20
+                  ? red: black'
+                opacity: .7 !important
+              text: '="Dust Filter: " + items[props.item + "_Dust_Filter_Lifetime"].state'
+          - component: oh-button
+            config:
+              disabled: true
+              iconColor: '=Number.parseInt(items[props.item + "_Main_Brush_Lifetime"].state) <
+                20 ? red: black'
+              iconMaterial: brush
+              style:
+                color: '=Number.parseInt(items[props.item + "_Main_Brush_Lifetime"].state) < 20
+                  ? red: black'
+                opacity: .7 !important
+              text: '="Main Brush: " + (items[props.item + "_Main_Brush_Lifetime"]).state'
+          - component: oh-button
+            config:
+              disabled: true
+              iconColor: '=Number.parseInt(items[props.item + "_Side_Brush_Lifetime"].state) <
+                20 ? red: black'
+              iconMaterial: brush
+              style:
+                color: '=Number.parseInt(items[props.item + "_Side_Brush_Lifetime"].state) < 20
+                  ? red: black'
+                opacity: .7 !important
+              text: '="Side Brush: " + (items[props.item + "_Side_Brush_Lifetime"]).state'
+          - component: oh-button
+            config:
+              disabled: true
+              iconColor: '=Number.parseInt(items[props.item +
+                "_Other_Component_Lifetime"].state) < 20 ? red: black'
+              iconMaterial: devices_other
+              style:
+                color: '=Number.parseInt(items[props.item + "_Other_Component_Lifetime"].state)
+                  < 20 ? red: black'
+                opacity: .7 !important
+              text: '="Other: " + (items[props.item + "_Other_Component_Lifetime"]).state'
+    - component: f7-row
+      config:
+        style:
+          --f7-button-outline-border-color: var(--f7-text-color)
+          --f7-button-text-color: var(--f7-text-color)
+          display: '=(props.hide_attachments) ? "none" : "flex"'
+          justify-content: center
+          padding-bottom: 15px
+      slots:
+        default:
+          - component: oh-button
+            config:
+              disabled: true
+              iconF7: timer
+              style:
+                opacity: .7 !important
+              text: =items[props.item + "_Last_Cleaning_Duration"].state + "(" +
+                items[props.item + "_Total_Cleaning_Time"].state + ")"
+          - component: oh-button
+            config:
+              disabled: true
+              iconF7: map
+              style:
+                opacity: .7 !important
+              text: =items[props.item + "_Last_Cleaned_Area"].state + "(" + items[props.item +
+                "_Total_Cleaned_Area"].state + ")"
+          - component: oh-button
+            config:
+              disabled: true
+              iconF7: arrow_clockwise
+              style:
+                opacity: .7 !important
+              text: '="All runs: " + items[props.item + "_Total_Clean_Runs"].state'
+          - component: oh-button
+            config:
+              disabled: true
+              iconColor: '=(items[props.item + "_Last_Error_Code"].state === "0") ? "black" :
+                "red"'
+              iconF7: barcode
+              style:
+                color: '=(items[props.item + "_Last_Error_Code"].state === "0") ? "black" :
+                  "red"'
+                opacity: .7 !important
+              text: '="ErrCode: " + items[props.item + "_Last_Error_Code"].state +
+                ((items[props.item + "_Last_Error_Code"].state === "0") ? "" :
+                (" - " + items[props.item + "_Last_Error_Description"].state))'
+    - component: f7-row
+      config:
+        style:
+          border-top: '=themeOptions.dark === "dark" ? "solid 1px rgba(255, 255, 255,
+            0.2)" : "solid 1px rgba(0, 0, 0, 0.2)"'
+          justify-content: space-around
+          padding-top: 5px
+      slots:
+        default:
+          - component: oh-button
+            config:
+              action: command
+              actionCommand: '=(items[props.item + "_State"].state === "cleaning") ? "pause" :
+                "clean"'
+              actionItem: =(props.item + "_Command")
+              active: =(items[props.item + "_State"].state === "cleaning")
+              iconF7: '=(items[props.item + "_State"].state === "cleaning") ? "pause_fill" :
+                "play_fill"'
+              large: true
+              style:
+                padding-left: 20px
+                padding-right: 20px
+              text: '=(items[props.item + "_State"].state === "paused") ? "Resume" :
+                (items[props.item + "_State"].state === "cleaning") ? "Pause" :
+                "Start"'
+          - component: oh-button
+            config:
+              action: command
+              actionCommand: Stop
+              actionItem: =(props.item + "_Command")
+              iconF7: '=(items[props.item + "_State"].state === "docked" || items[props.item +
+                "_State"].state === "idle") ? "stop" : "stop_fill"'
+              large: true
+              style:
+                padding-left: 20px
+                padding-right: 20px
+              text: Stop
+          - component: oh-button
+            config:
+              action: command
+              actionCommand: charge
+              actionItem: =(props.item + "_Command")
+              active: =(items[props.item + "_State"].state === "returning")
+              iconF7: '=(items[props.item + "_State"].state === "docked") ? "house_alt" :
+                "house_alt_fill"'
+              large: true
+              style:
+                padding-left: 20px
+                padding-right: 20px
+              text: '=(items[props.item + "_State"].state === "docked") ? "Docked" :
+                (items[props.item + "_State"].state === "returning") ?
+                "Returning" : "Dock"'
+          - component: oh-button
+            config:
+              action: command
+              actionCommand: Stop
+              actionItem: =(props.item + "_Locate")
+              iconF7: placemark
+              large: true
+              style:
+                display: '=(props.hide_locate ? "none" : undefined)'
+                padding-left: 20px
+                padding-right: 20px
+              text: Locate
+          - component: oh-button
+            config:
+              action: options
+              actionItem: =props.item + "_Cleansegments"
+              actionOptions: '=props.segments ? "{\"segment_ids\":[\""
+                +props.segments.replaceAll("=","\"]}=" ).replaceAll(", ", ",
+                {\"segment_ids\":[\"").slice(0, -1) : "{\"segment_ids\":[" +
+                JSON.stringify(JSON.parse(items[props.item +
+                "_Mapsegments"].state)).replaceAll("\{","").replaceAll("\}","").replaceAll("\":\"","\"]}="
+                ).replaceAll("\",\"",", {\"segment_ids\":[\"").slice(0, -1)'
+              iconF7: viewfinder
+              large: true
+              style:
+                display: '=((items[props.item + "_Mapsegments"].state !== "" && items[props.item
+                  + "_Mapsegments"].state !== "{}") || props.segments) &&
+                  items[props.item + "_Cleansegments"] !== undefined ? undefined
+                  : "none"'
+              text: Clean room
+    - component: f7-row
+      config:
+        style:
+          display: '=((items[props.item + "_Cleaning_Power_Level"] !== undefined &&
+            !props.compact) ? undefined : "none")'
+          margin-top: 15px
+      slots:
+        default:
+          - component: f7-col
+            config:
+              width: 10
+            slots:
+              default:
+                - component: f7-icon
+                  config:
+                    f7: wind
+                    style:
+                      padding-left: 15px
+          - component: f7-col
+            config:
+              style:
+                margin-bottom: 5px
+              width: 90
+            slots:
+              default:
+                - component: f7-segmented
+                  slots:
+                    default:
+                      - component: oh-repeater
+                        config:
+                          containerClass: row
+                          for: item
+                          fragment: true
+                          itemOptions: =props.item + "_Cleaning_Power_Level"
+                          sourceType: itemCommandOptions
+                        slots:
+                          default:
+                            - component: oh-button
+                              config:
+                                action: command
+                                actionCommand: =loop.item.command
+                                actionItem: =props.item + "_Cleaning_Power_Level"
+                                active: =items[props.item + "_Cleaning_Power_Level"].state === loop.item.command
+                                outline: true
+                                raised: true
+                                round: true
+                                small: true
+                                text: =loop.item.label
+    - component: f7-row
+      config:
+        style:
+          display: '=((items[props.item + "_Mopping_Water_Amount"] !== undefined &&
+            !props.compact) ? undefined : "none")'
+          margin-top: 15px
+      slots:
+        default:
+          - component: f7-col
+            config:
+              width: 10
+            slots:
+              default:
+                - component: f7-icon
+                  config:
+                    f7: drop
+                    style:
+                      padding-left: 15px
+          - component: f7-col
+            config:
+              style:
+                margin-bottom: 15px
+              width: 90
+            slots:
+              default:
+                - component: f7-segmented
+                  slots:
+                    default:
+                      - component: oh-repeater
+                        config:
+                          for: number
+                          fragment: true
+                          in: =["1", "20", "30", "40", "50"]
+                          sourceType: array
+                        slots:
+                          default:
+                            - component: oh-button
+                              config:
+                                action: command
+                                actionCommand: =loop.number
+                                actionItem: =props.item + "_Mopping_Water_Amount"
+                                active: =Number.parseInt(items[props.item + "_Mopping_Water_Amount"].state) ===
+                                  Number.parseInt(loop.number)
+                                outline: true
+                                raised: true
+                                round: true
+                                small: true
+                                text: =loop.number
+    - component: f7-row
+      config:
+        style:
+          display: '=((items[props.item + "_Voice_Volume"] !== undefined &&
+            !props.compact) ? undefined : "none")'
+          margin-top: 5px
+      slots:
+        default:
+          - component: f7-col
+            config:
+              width: 10
+            slots:
+              default:
+                - component: f7-icon
+                  config:
+                    f7: speaker
+                    style:
+                      padding-left: 15px
+          - component: f7-col
+            config:
+              style:
+                margin-bottom: 15px
+              width: 90
+            slots:
+              default:
+                - component: f7-segmented
+                  slots:
+                    default:
+                      - component: oh-repeater
+                        config:
+                          for: number
+                          fragment: true
+                          in: =["0", "20", "50", "70", "100"]
+                          sourceType: array
+                        slots:
+                          default:
+                            - component: oh-button
+                              config:
+                                action: command
+                                actionCommand: =loop.number
+                                actionItem: =props.item + "_Voice_Volume"
+                                active: =Number.parseInt(items[props.item + "_Voice_Volume"].state) ===
+                                  Number.parseInt(loop.number)
+                                outline: true
+                                raised: true
+                                round: true
+                                small: true
+                                text: =loop.number
+    - component: f7-row
+      config:
+        style:
+          display: '=(props.compact) ? undefined : "none"'
+          justify-content: space-around
+      slots:
+        default:
+          - component: f7-col
+            config:
+              style:
+                --f7-button-text-color: var(--f7-text-color)
+                display: '=(items[props.item + "_Cleaning_Power_Level"] !== undefined ?
+                  undefined : "none")'
+              width: '=(items[props.item + "_Mopping_Water_Amount"] !== undefined ? 30 : 100)'
+            slots:
+              default:
+                - component: oh-button
+                  config:
+                    action: options
+                    actionItem: =props.item + "_Cleaning_Power_Level"
+                    iconF7: wind
+                    large: true
+                    text: '="Fan: " + items[props.item + "_Cleaning_Power_Level"].state'
+          - component: f7-col
+            config:
+              style:
+                --f7-button-text-color: var(--f7-text-color)
+                display: '=(items[props.item + "_Mopping_Water_Amount"] !== undefined ?
+                  undefined : "none")'
+              width: '=(items[props.item + "_Cleaning_Power_Level"] !== undefined ? 30 : 100)'
+            slots:
+              default:
+                - component: oh-button
+                  config:
+                    action: options
+                    actionItem: =props.item + "_Mopping_Water_Amount"
+                    actionOptions: =none=1,low=20,mid=30,high=40,extreme=50
+                    iconF7: drop
+                    large: true
+                    text: '="Water: " + items[props.item + "_Mopping_Water_Amount"].state'
+          - component: f7-col
+            config:
+              style:
+                --f7-button-text-color: var(--f7-text-color)
+                display: '=(items[props.item + "_Voice_Volume"] !== undefined ? undefined :
+                  "none")'
+              width: '=(items[props.item + "_Cleaning_Power_Level"] !== undefined ? 30 : 100)'
+            slots:
+              default:
+                - component: oh-button
+                  config:
+                    action: options
+                    actionItem: =props.item + "_Voice_Volume"
+                    actionOptions: =off=0,low=20,mid=50,high=70,extreme=100
+                    iconF7: drop
+                    large: true
+                    text: '="Voice: " + items[props.item + "_Voice_Volume"].state'
+    - component: f7-row
+      config:
+        style:
+          display: '=((props.valetudo_url || props.floorplan || props.segments) ?
+            undefined : "none")'
+          justify-content: space-around
+      slots:
+        default:
+          - component: f7-col
+            config:
+              style:
+                --f7-button-text-color: var(--f7-text-color)
+                display: '=(props.floorplan ? undefined : "none")'
+              width: "=(props.valetudo_url) ? 50 : 100"
+            slots:
+              default:
+                - component: oh-button
+                  config:
+                    action: navigate
+                    actionPage: =props.floorplan
+                    iconF7: map
+                    large: true
+                    text: Floor plan
+          - component: f7-col
+            config:
+              style:
+                --f7-button-text-color: var(--f7-text-color)
+                display: '=(props.valetudo_url ? undefined : "none")'
+              width: "=(props.floorplan ? 50 : 100)"
+            slots:
+              default:
+                - component: oh-button
+                  config:
+                    action: url
+                    actionUrl: =props.valetudo_url
+                    actionUrlSameWindow: false
+                    iconF7: link
+                    large: true
+                    text: Valetudo
+    - component: f7-row
+      config:
+        style:
+          display: '=(props.map_url ? undefined : "none")'
+      slots:
+        default:
+          - component: oh-image
+            config:
+              lazy: false
+              style:
+                height: auto
+                width: 100%
+              url: =props.map_url
+    - component: f7-row
+      config: {}
+      slots:
+        default:
+          - component: oh-image
+            config:
+              lazy: false
+              style:
+                height: auto
+                width: 100%
+              url: =atob(items[props.item + "_Map"].state)

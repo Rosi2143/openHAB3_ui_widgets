@@ -1,0 +1,244 @@
+uid: vacuum_widget_small
+tags: []
+props:
+  parameters:
+    - description: Title of the card
+      label: Title
+      name: title
+      required: false
+      type: TEXT
+    - description: Header text
+      label: Header
+      name: header
+      required: false
+      type: TEXT
+    - description: Footer text
+      label: Footer
+      name: footer
+      required: false
+      type: TEXT
+    - context: item
+      description: Item for minutes since the begin of the current Mission (TODO,
+        likely via a rule & custom item!)
+      label: Minutes running
+      name: runtime
+      required: true
+      type: TEXT
+    - context: item
+      description: Item for tracking the current Battery Percentage
+      label: Battery
+      name: battery
+      required: true
+      type: TEXT
+    - context: item
+      description: Item for tracking the current State (i.e. charge, new, run, resume,
+        recharge, stuck, stop, pause (etc.)
+      label: State
+      name: state
+      required: true
+      type: TEXT
+    - context: item
+      description: Item to send Commands to (i.e. clean, pause, dock)
+      label: Command
+      name: command
+      required: true
+      type: TEXT
+    - context: item
+      description: Item for Run Mode (i.e. Mopping, Vacuuming, etc.)
+      label: Run Mode
+      name: runmode
+      required: true
+      type: TEXT
+    - context: item
+      description: Item for Clean Mode (i.e. Mopping, Vacuuming, etc.)
+      label: Clean Mode
+      name: cleanmode
+      required: true
+      type: TEXT
+    - context: item
+      description: Item for bin state (i.e. Bin Full)
+      label: Bin
+      name: bin
+      required: false
+      type: TEXT
+    - context: item
+      description: Item for WIFI signal
+      label: RSSI
+      name: RSSI
+      required: false
+      type: TEXT
+timestamp: Nov 26, 2025, 6:57:57 PM
+component: f7-card
+config:
+  title: =(props.title)
+slots:
+  default:
+    - component: f7-card-content
+      config:
+        style:
+          height: 230px
+      slots:
+        default:
+          - component: f7-icon
+            config:
+              f7: '=items[props.bin].state == "ok" ? "bin_xmark" : "arrow_up_bin_fill"'
+              style:
+                color: '=items[props.bin].state == "ok" ? "green" : "red"'
+              visible: "=props.bin ? true : false"
+          - component: f7-icon
+            config:
+              f7: .
+              style:
+                opacity: 0
+          - component: oh-link
+            config:
+              action: analyzer
+              actionAnalyzerCoordSystem: time
+              actionAnalyzerItems: =[props.RSSI]
+              icon-f7: '=Number.parseInt(items[props.RSSI].state) <= -40 ? "wifi" :
+                "wifi_slash"'
+              style:
+                color: '=Number.parseInt(items[props.RSSI].state) <= -40 ? "green" : "red"'
+              text: = items[props.RSSI].state
+          - component: oh-link
+            config:
+              action: analyzer
+              actionAnalyzerCoordSystem: time
+              actionAnalyzerItems: =[props.battery]
+              icon-f7: '=Number.parseInt(items[props.battery].state) >= 80 ? "battery_100" :
+                "battery_25"'
+              style:
+                color: '=Number.parseInt(items[props.battery].state) >= 80 ? "green" : "red"'
+                float: right
+              text: = items[props.battery].state
+          - component: oh-icon
+            config:
+              icon: f7:bolt_circle_fill
+              style:
+                color: green
+                float: right
+              visible: '=items[props.state].displayState == "Charging" ? true : false'
+          - component: f7-row
+            config:
+              class:
+                - display-flex
+                - justify-content-center
+              style:
+                width: 100%
+            slots:
+              default:
+                - component: f7-col
+                  config:
+                    style:
+                      height: 100%
+                      width: 180px
+                  slots:
+                    default:
+                      - component: f7-block-header
+                        slots:
+                          default:
+                            - component: Label
+                              config:
+                                style:
+                                  color: white
+                                text: =props.header
+                      - component: oh-image
+                        config:
+                          style:
+                            filter: invert(0%) drop-shadow(16px 16px 20px black)
+                            left: 50%
+                            position: absolute
+                            transform: translate(-50%)
+                            width: 180px
+                          url: /static/Ecovacs_X8_Top.png
+                      - component: f7-block
+                        config:
+                          style:
+                            height: auto
+                            width: auto
+                        slots:
+                          default:
+                            - component: f7-block
+                              config:
+                                style:
+                                  left: 38px
+                                  top: 85px
+                                  z-index: 10
+                              slots:
+                                default:
+                                  - component: oh-link
+                                    config:
+                                      action: options
+                                      actionItem: =[props.command]
+                                      actionOptions: 0=Idle,1=Cleaning,pause=Pause,stop=Stop,dock=Dock
+                                      color: green
+                                      f7: circle_fill
+                                      size: 35
+                                      style:
+                                        background: '=items[props.runmode].displayState !== "Idle" ? "green" : "red"'
+                                        border-radius: 50%
+                                        height: 40px
+                                        width: 40px
+                            - component: f7-block
+                              slots:
+                                default:
+                                  - component: f7-preloader
+                                    config:
+                                      colorTheme: green
+                                      size: 50
+                                      style:
+                                        left: 48px
+                                        position: absolute
+                                        top: +38px
+                                        z-index: 10
+                                      visible: =items[props.runmode].displayState !== "Idle"
+    - component: f7-row
+      slots:
+        default:
+          - component: Label
+            config:
+              size: 20
+              style:
+                color: red
+                white-space: nowrap
+              text: Error
+              visible: =(items[props.state].displayState == 'Error')
+    - component: f7-card-footer
+      config:
+        visible: =[props.footer]
+      slots:
+        default:
+          - component: oh-link
+            config:
+              action: analyzer
+              actionAnalyzerCoordSystem: time
+              actionAnalyzerItems: =[props.state]
+              size: 40
+              style:
+                color: grey
+                font-weight: bold
+              text: "=items[props.state] ? items[props.state].displayState + ' (' +
+                items[props.state].state + ')': ''"
+              visible: =[props.footer]
+          - component: oh-link
+            config:
+              action: analyzer
+              actionAnalyzerCoordSystem: time
+              actionAnalyzerItems: =[props.cleanmode]
+              size: 20
+              style:
+                color: grey
+                font-weight: bold
+              text: "=items[props.cleanmode] ? items[props.cleanmode].displayState + ' (' +
+                items[props.cleanmode].state + ')': ''"
+          - component: oh-link
+            config:
+              action: analyzer
+              actionAnalyzerCoordSystem: time
+              actionAnalyzerItems: =[props.runmode]
+              size: 20
+              style:
+                color: grey
+                font-weight: bold
+              text: "=items[props.runmode] ? items[props.runmode].displayState + ' (' +
+                items[props.runmode].state + ')': ''"
