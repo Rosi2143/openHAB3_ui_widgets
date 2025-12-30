@@ -1,0 +1,501 @@
+uid: Energy_animated_Widget
+tags:
+  - huawei
+  - pv
+  - version 1.3
+  - https://community.openhab.org/t/animated-energy-widget/133510
+props:
+  parameters:
+    - context: item
+      label: Stromnetz Bezug / Grid-to-Home
+      name: gridtohome
+      required: true
+      type: TEXT
+    - context: item
+      label: Stromnetz Einspeisung / Home-to-Grid
+      name: hometogrid
+      required: true
+      type: TEXT
+    - context: item
+      label: PV Leistung / PV Power
+      name: pv_power
+      required: true
+      type: TEXT
+    - context: item
+      label: Batterie Laden / Battery Charge
+      name: battery_charge
+      required: true
+      type: TEXT
+    - context: item
+      label: Batterie Entladen / Battery Discharge
+      name: battery_discharge
+      required: true
+      type: TEXT
+    - context: item
+      label: Batterie Ladezustand / Battery SoC
+      name: batterylevel
+      required: true
+      type: TEXT
+    - context: item
+      label: Wallbox Ladestrom / Wallbox Charging
+      name: wallbox_charge
+      required: false
+      type: TEXT
+    - context: item
+      label: externer Stromproduzent / External Inverter
+      name: external_energy
+      required: false
+      type: TEXT
+  parameterGroups: []
+timestamp: Jun 11, 2024, 8:27:38 PM
+component: f7-card
+config:
+  class:
+    - display-flex
+    - align-items-center
+  style:
+    justify-content: center
+    padding: 1%
+  stylesheet: |
+    .arrowleft {
+       #position: absolute;
+       #top: 50%;
+       #left: 50%;
+       #transform: translate(50%,50%);
+     }
+    .arrowleft div {
+       display: block;
+       width: 0.4em;
+       height: 0.4em;
+       border-bottom: 0.15em solid var(--f7-text-color);
+       border-right: 0.15em solid var(--f7-text-color);
+       transform: rotate(135deg);
+       #margin: -25px;
+       animation: animate 2s infinite;
+    }  .arrowleft div:nth-child(2){
+        animation-delay: -0.2s;
+    }  .arrowleft div:nth-child(3){
+        animation-delay: -0.4s;
+    }  @keyframes animate {
+        0%{
+            opacity: 0;
+            transform: rotate(135deg) translate(-0.7em,-0.7em);
+        }
+        50%{
+            opacity: 1;
+        }
+        100%{
+            opacity: 0;
+            transform: rotate(135deg) translate(0.7em,0.7em);
+        }
+    }                 .arrowright {
+       #position: absolute;
+       #top: 50%;
+       #left: 50%;
+       #transform: translate(-50%,-50%);
+     }
+    .arrowright div {
+       display: block;
+       width: 0.4em;
+       height: 0.4em;
+       border-bottom: 0.15em solid var(--f7-text-color);
+       border-right: 0.15em solid var(--f7-text-color);
+       transform: rotate(-45deg);
+       #margin: -25px;
+       animation: animate2 2s infinite;
+    }    .arrowright div:nth-child(2) {
+        animation-delay: 0.2s;
+    }      .arrowright div:nth-child(3) {
+        animation-delay: 0.4s;
+    }     @keyframes animate2 {
+        0%{
+            opacity: 0;
+            transform: rotate(-45deg) translate(-0.7em,-0.7em);
+        }
+        50%{
+            opacity: 1;
+        }
+        100%{
+            opacity: 0;
+            transform: rotate(-45deg) translate(0.7em,0.7em);
+        }
+    }
+slots:
+  default:
+    - component: f7-col
+      config:
+        style:
+          align-items: center
+          display: flex
+          flex-direction: column
+          justify-content: center
+          width: 20%
+      slots:
+        default:
+          - component: oh-icon
+            config:
+              height: 40em
+              icon: oh:energy_widget/pv_sun
+          - component: oh-icon
+            config:
+              height: 40em
+              icon: oh:energy_widget/home
+              style:
+                margin-top: 1em
+              visible: '=props.external_energy ?
+                (Number.parseFloat(items[props.external_energy].state.split("
+                ")[0]) > 0) ? true : false : false'
+          - component: Label
+            config:
+              style:
+                font-size: 1em
+                font-weight: bold
+                margin-top: 0.7em
+                text-align: center
+              text: =items[props.batterylevel].state
+          - component: oh-icon
+            config:
+              height: 40em
+              icon: oh:energy_widget/akku_0
+              visible: '=(Number.parseFloat(items[props.batterylevel].state.split(" ")[0]) <
+                2) ? true : false'
+          - component: oh-icon
+            config:
+              height: 40em
+              icon: oh:energy_widget/akku_25
+              visible: '=(Number.parseFloat(items[props.batterylevel].state.split(" ")[0]) >=
+                2 && Number.parseFloat(items[props.batterylevel].state.split("
+                ")[0]) < 25) ? true : false'
+          - component: oh-icon
+            config:
+              height: 40em
+              icon: oh:energy_widget/akku_50
+              visible: '=(Number.parseFloat(items[props.batterylevel].state.split(" ")[0]) >=
+                25 && Number.parseFloat(items[props.batterylevel].state.split("
+                ")[0]) < 50) ? true : false'
+          - component: oh-icon
+            config:
+              height: 40em
+              icon: oh:energy_widget/akku_75
+              visible: '=(Number.parseFloat(items[props.batterylevel].state.split(" ")[0]) >=
+                50 && Number.parseFloat(items[props.batterylevel].state.split("
+                ")[0]) < 75) ? true : false'
+          - component: oh-icon
+            config:
+              height: 40em
+              icon: oh:energy_widget/akku_90
+              visible: '=(Number.parseFloat(items[props.batterylevel].state.split(" ")[0]) >=
+                75 && Number.parseFloat(items[props.batterylevel].state.split("
+                ")[0]) < 99) ? true : false'
+          - component: oh-icon
+            config:
+              height: 40em
+              icon: oh:energy_widget/akku_100
+              visible: '=(Number.parseFloat(items[props.batterylevel].state.split(" ")[0]) >=
+                99) ? true : false'
+    - component: f7-col
+      config:
+        style:
+          align-items: center
+          display: flex
+          flex-direction: column
+          width: 20%
+      slots:
+        default:
+          - component: f7-row
+            config:
+              class: arrowright
+              visible: '=(Number.parseFloat(items[props.pv_power].state.split(" ")[0]) > 0) ?
+                true : false'
+            slots:
+              default:
+                - component: Label
+                  config:
+                    class: arrowright div
+                - component: Label
+                  config:
+                    class: arrowright div
+                - component: Label
+                  config:
+                    class: arrowright div
+          - component: f7-row
+            slots:
+              default:
+                - component: Label
+                  config:
+                    style:
+                      font-size: 1em
+                      font-weight: bold
+                      padding-bottom: 2.1em
+                      text-align: center
+                    text: =Math.abs(Number.parseFloat(items[props.pv_power].state.split(" ")[0])) +
+                      ' ᵂ'
+          - component: f7-row
+            config:
+              class: arrowright
+              visible: '=props.external_energy ?
+                (Number.parseFloat(items[props.external_energy].state.split("
+                ")[0]) > 0) ? true : false : false'
+            slots:
+              default:
+                - component: Label
+                  config:
+                    class: arrowright div
+                - component: Label
+                  config:
+                    class: arrowright div
+                - component: Label
+                  config:
+                    class: arrowright div
+          - component: f7-row
+            slots:
+              default:
+                - component: Label
+                  config:
+                    style:
+                      font-size: 1em
+                      font-weight: bold
+                      padding-bottom: 2.1em
+                      text-align: center
+                    text: '=props.external_energy ?
+                      Math.abs(Number.parseFloat(items[props.external_energy].state.split("
+                      ")[0])) + " ᵂ" : ""'
+                    visible: '=props.external_energy ?
+                      (Number.parseFloat(items[props.external_energy].state.split("
+                      ")[0]) > 0) ? true : false : false'
+          - component: f7-row
+            config:
+              class: arrowleft
+              visible: '=(Number.parseFloat(items[props.battery_charge].state.split(" ")[0])
+                >= 0) ? true : false'
+            slots:
+              default:
+                - component: Label
+                  config:
+                    class: arrowleft div
+                - component: Label
+                  config:
+                    class: arrowleft div
+                - component: Label
+                  config:
+                    class: arrowleft div
+          - component: f7-row
+            config:
+              class: arrowright
+              visible: '=(Number.parseFloat(items[props.battery_discharge].state.split("
+                ")[0]) < 0) ? true : false'
+            slots:
+              default:
+                - component: Label
+                  config:
+                    class: arrowright div
+                - component: Label
+                  config:
+                    class: arrowright div
+                - component: Label
+                  config:
+                    class: arrowright div
+          - component: Label
+            config:
+              style:
+                color: green
+                font-size: 1em
+                font-weight: bold
+                text-align: center
+              text: =Math.abs(Number.parseFloat(items[props.battery_charge].state.split("
+                ")[0])) + ' ᵂ'
+              visible: '=(Number.parseFloat(items[props.battery_charge].state.split(" ")[0]) >
+                0) ? true : false'
+          - component: Label
+            config:
+              style:
+                color: red
+                font-size: 1em
+                font-weight: bold
+                text-align: center
+              text: =Math.abs(Number.parseFloat(items[props.battery_discharge].state.split("
+                ")[0])) + ' ᵂ'
+              visible: '=(Number.parseFloat(items[props.battery_discharge].state.split("
+                ")[0]) < 0) ? true : false'
+    - component: f7-col
+      config:
+        style:
+          align-items: center
+          display: flex
+          flex-direction: column
+          justify-content: center
+          width: 20%
+      slots:
+        default:
+          - component: f7-block
+            config:
+              style:
+                align-items: center
+                display: flex
+                flex-direction: column
+                justify-content: center
+            slots: {}
+          - component: oh-icon
+            config:
+              color: green
+              height: 40em
+              icon: oh:energy_widget/huawei
+              width: 60em
+    - component: f7-col
+      config:
+        style:
+          align-items: center
+          display: flex
+          flex-direction: column
+          justify-content: center
+          width: 20%
+      slots:
+        default:
+          - component: f7-row
+            config:
+              class: arrowright
+              color: green
+              visible: '=(Number.parseFloat(items[props.hometogrid].state.split(" ")[0]) >= 0)
+                ? true : false'
+            slots:
+              default:
+                - component: Label
+                  config:
+                    class: arrowright div
+                - component: Label
+                  config:
+                    class: arrowright div
+                - component: Label
+                  config:
+                    class: arrowright div
+          - component: f7-row
+            config:
+              class: arrowleft
+              color: green
+              visible: '=(Number.parseFloat(items[props.gridtohome].state.split(" ")[0]) < 0)
+                ? true : false'
+            slots:
+              default:
+                - component: Label
+                  config:
+                    class: arrowleft div
+                - component: Label
+                  config:
+                    class: arrowleft div
+                - component: Label
+                  config:
+                    class: arrowleft div
+          - component: Label
+            config:
+              style:
+                color: red
+                font-size: 1em
+                font-weight: bold
+                padding-bottom: 2.1em
+                text-align: center
+              text: =Math.abs(Number.parseFloat(items[props.gridtohome].state.split(" ")[0]))
+                + ' ᵂ'
+              visible: '=(Number.parseFloat(items[props.hometogrid].state.split(" ")[0]) <= 0)
+                ? true : false'
+          - component: Label
+            config:
+              style:
+                color: green
+                font-size: 1em
+                font-weight: bold
+                padding-bottom: 2.1em
+                text-align: center
+              text: =Math.abs(Number.parseFloat(items[props.hometogrid].state.split(" ")[0]))
+                + ' ᵂ'
+              visible: '=(Number.parseFloat(items[props.hometogrid].state.split(" ")[0]) > 0)
+                ? true : false'
+          - component: f7-row
+            config:
+              class: arrowright
+              visible: '=props.wallbox_charge ?
+                (Number.parseFloat(items[props.wallbox_charge].state.split("
+                ")[0]) > 0) ? true : false : false'
+            slots:
+              default:
+                - component: Label
+                  config:
+                    class: arrowright div
+                - component: Label
+                  config:
+                    class: arrowright div
+                - component: Label
+                  config:
+                    class: arrowright div
+          - component: Label
+            config:
+              style:
+                font-size: 1em
+                font-weight: bold
+                padding-bottom: 2.1em
+                text-align: center
+              text: '=props.wallbox_charge ?
+                Math.abs(Number.parseFloat(items[props.wallbox_charge].state.split("
+                ")[0])) + " ᵂ" : ""'
+              visible: '=props.wallbox_charge ?
+                (Number.parseFloat(items[props.wallbox_charge].state.split("
+                ")[0]) > 0) ? true : false : false'
+          - component: f7-row
+            config:
+              class: arrowright
+              visible: '=((Number.parseFloat(items[props.pv_power].state.split(" ")[0]) -
+                (Number.parseFloat(items[props.gridtohome].state.split(" ")[0])
+                - (Number.parseFloat(items[props.battery_charge].state.split("
+                ")[0])) > 0) ? true : false'
+            slots:
+              default:
+                - component: Label
+                  config:
+                    class: arrowright div
+                - component: Label
+                  config:
+                    class: arrowright div
+                - component: Label
+                  config:
+                    class: arrowright div
+          - component: Label
+            config:
+              style:
+                color: red
+                font-size: 1em
+                font-weight: bold
+                text-align: center
+              text: =(Number.parseFloat(items[props.pv_power].state.split(" ")[0])) -
+                (Number.parseFloat(items[props.gridtohome].state.split(" ")[0]))
+                - (Number.parseFloat(items[props.battery_charge].state.split("
+                ")[0])) + ' ᵂ'
+    - component: f7-col
+      config:
+        style:
+          align-items: center
+          display: flex
+          flex-direction: column
+          justify-content: center
+          width: 20%
+      slots:
+        default:
+          - component: oh-icon
+            config:
+              color: blue
+              height: 40em
+              icon: oh:energy_widget/net
+          - component: oh-icon
+            config:
+              height: 3em
+              icon: iconify:mdi:wallbox
+              style:
+                margin-top: 1em
+              visible: '=props.wallbox_charge ?
+                (Number.parseFloat(items[props.wallbox_charge].state.split("
+                ")[0]) > 0) ? true : false : false'
+          - component: oh-icon
+            config:
+              color: orange
+              height: 40em
+              icon: oh:energy_widget/home
+              style:
+                margin-top: 1em

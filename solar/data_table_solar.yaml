@@ -1,0 +1,141 @@
+uid: data_table_solar
+tags:
+  - energy
+  - solar
+props:
+  parameters:
+    - description: Title for the table
+      label: Title
+      name: title
+      required: false
+      type: TEXT
+  parameterGroups: []
+timestamp: Apr 27, 2024, 2:30:09 PM
+component: div
+config:
+  class:
+    - card
+    - data-table
+    - data-table-collapsible
+    - data-table-init
+slots:
+  default:
+    - component: div
+      config:
+        class:
+          - card-header
+        visible: "=(props.title) ? true : false"
+      slots:
+        default:
+          - component: div
+            config:
+              class:
+                - data-table-title
+              content: =props.title
+    - component: table
+      config: {}
+      slots:
+        default:
+          - component: oh-repeater
+            config: {}
+          - component: thead
+            slots:
+              default:
+                - component: tr
+                  slots:
+                    default:
+                      - component: th
+                        config:
+                          class:
+                            - label-cell
+                          content: Data
+                      - component: th
+                        config:
+                          class:
+                            - numeric-cell
+                          content: Current
+                      - component: th
+                        config:
+                          class:
+                            - numeric-cell
+                          content: Day
+                      - component: th
+                        config:
+                          class:
+                            - numeric-cell
+                          content: Month
+                      - component: th
+                        config:
+                          class:
+                            - numeric-cell
+                          content: Year
+          - component: tbody
+            slots:
+              default:
+                - component: oh-repeater
+                  config:
+                    for: solar_data
+                    fragment: true
+                    in:
+                      - current: =@'HuaweiSolar_Statistic_ElectricityGeneratedTimeInThePreviousHour'
+                        day: =@'HuaweiSolar_Statistic_ElectricityGeneratedTimeInThePreviousDay'
+                        month: =@'HuaweiSolar_Statistic_ElectricityGeneratedTimeInThePreviousMonth'
+                        name: Generated Power
+                        year: =@'HuaweiSolar_Statistic_ElectricityGeneratedTimeInThePreviousYear'
+                      - current: =@'HuaweiSolar_Statistic_HourlyYieldEnergy'
+                        day: =@'HuaweiSolar_Statistic_DailyYieldEnergy'
+                        month: =@'HuaweiSolar_Statistic_MonthlyYieldEnergy'
+                        name: Energy Yield
+                        year: =@'HuaweiSolar_Statistic_YearlyYieldEnergy'
+                      - current: =@'HuaweiSolar_Battery_ChargeLevel'+" %"
+                        day: =@'HuaweiSolar_Battery_DayChargeCapacity'
+                        month: "-"
+                        name: Battery
+                        year: =@'HuaweiSolar_Battery_TotalCharge'
+                  slots:
+                    default:
+                      - component: tr
+                        slots:
+                          default:
+                            - component: td
+                              config:
+                                class:
+                                  - label-cell
+                                content: =loop.solar_data.name
+                                data-collapsible-title: Data
+                            - component: td
+                              config:
+                                class:
+                                  - numeric-cell
+                                content: =loop.solar_data.current
+                                data-collapsible-title: Current
+                            - component: td
+                              config:
+                                class:
+                                  - numeric-cell
+                                data-collapsible-title: Day
+                              slots:
+                                default:
+                                  - component: span
+                                    config:
+                                      content: =loop.solar_data.day
+                                  - component: f7-chip
+                                    config:
+                                      color: red
+                                      icon-f7: exclamationmark_triangle_fill
+                                      style:
+                                        font-size: var(--f7-table-body-font-size)
+                                      text: =loop.solar_data.day
+                                      visible: =loop.solar_data.day <= 0
+                            - component: td
+                              config:
+                                class:
+                                  - numeric-cell
+                                content: =loop.solar_data.month
+                                data-collapsible-title: month
+                            - component: td
+                              config:
+                                class:
+                                  - numeric-cell
+                                content: =loop.solar_data.year
+                                data-collapsible-title: year
