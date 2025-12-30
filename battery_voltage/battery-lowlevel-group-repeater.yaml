@@ -1,0 +1,38 @@
+uid: battery-lowlevel-group-repeater
+tags:
+  - battery
+props:
+  parameters:
+    - context: item
+      label: Group item name (required)
+      name: groupItem
+      required: true
+      type: TEXT
+    - label: Card Title
+      name: cardTitle
+      required: false
+      type: TEXT
+  parameterGroups: []
+timestamp: Dec 27, 2025, 9:52:00 PM
+component: oh-list-card
+config:
+  title: =props.cardTitle
+slots:
+  default:
+    - component: oh-repeater
+      config:
+        for: member
+        sourceType: itemsInGroup
+        groupItem: =props.groupItem
+        filter: "!loop.member.name.includes('HMRT')"
+      slots:
+        default:
+          - component: widget:battery-low-switch-listitem
+            config:
+              item: =loop.member.name
+              label: "=( 'Window: ' +
+                loop.member.name.replace(/^TFK/,'').replace(/_battery$/,'').rep\
+                lace(/_(ONLY|HIGH|LOW)$/,' - $1').replace(/_/g,'
+                ').replace(/([a-z])([A-Z])/g,'$1 $2').replace(/(\\D)(\\d+)/g,'$1
+                $2').replace(/ - ONLY$/,' - Only').replace(/ - HIGH$/,' -
+                High').replace(/ - LOW$/,' - Low') )"

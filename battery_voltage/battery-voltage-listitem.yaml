@@ -1,0 +1,383 @@
+uid: battery-voltage-listitem
+tags:
+  - battery
+  - https://community.openhab.org/t/visual-battery-voltage-indicator/167688
+props:
+  parameters:
+    - context: item
+      label: Voltage item
+      name: item
+      required: true
+      type: TEXT
+    - label: Left label text (optional)
+      name: label
+      required: false
+      type: TEXT
+    - label: Minimum voltage (default 2.5)
+      name: minV
+      required: false
+      type: TEXT
+    - label: Maximum voltage (default 3.0)
+      name: maxV
+      required: false
+      type: TEXT
+    - label: Green threshold (default 2.7)
+      name: greenV
+      required: false
+      type: TEXT
+    - label: Yellow threshold (default midpoint)
+      name: yellowV
+      required: false
+      type: TEXT
+timestamp: Dec 28, 2025, 11:26:55 AM
+component: f7-list-item
+config:
+  title: =props.label || (items[props.item] && items[props.item].label) || props.item
+  style:
+    align-items: center
+    padding-top: 6px
+    padding-bottom: 6px
+    --f7-list-item-title-white-space: nowrap
+    --f7-list-item-title-overflow: hidden
+    --f7-list-item-title-text-overflow: ellipsis
+slots:
+  after:
+    - component: f7-block
+      config:
+        style:
+          margin: 0
+          padding: 0
+          width: 100%
+          height: 30px
+          position: relative
+          overflow: visible
+          background: transparent
+          background-color: transparent
+      slots:
+        default:
+          - component: f7-block
+            config:
+              style:
+                margin: 0
+                padding: 0
+                width: 100px
+                height: 30px
+                position: relative
+                overflow: hidden
+                border: 2px solid var(--f7-text-color)
+                border-radius: 7px
+                box-sizing: border-box
+                background: transparent
+                background-color: transparent
+            slots:
+              default:
+                - component: f7-block
+                  config:
+                    style:
+                      margin: 0
+                      padding: 3px
+                      width: 100%
+                      height: 100%
+                      display: flex
+                      gap: 3px
+                      box-sizing: border-box
+                      align-items: stretch
+                      justify-content: space-between
+                      background: transparent
+                      background-color: transparent
+                  slots:
+                    default:
+                      - component: f7-block
+                        config:
+                          style:
+                            margin: 0
+                            padding: 0
+                            flex: 1
+                            height: 100%
+                            min-width: 0
+                            border-radius: 4px
+                            background: =( ( (Number((''+(items[props.item] &&
+                              (items[props.item].displayState ||
+                              items[props.item].state))).replace(',','.').split('
+                              ')[0]) === Number((''+(items[props.item] &&
+                              (items[props.item].displayState ||
+                              items[props.item].state))).replace(',','.').split('
+                              ')[0])) && (Number((''+(items[props.item] &&
+                              (items[props.item].displayState ||
+                              items[props.item].state))).replace(',','.').split('
+                              ')[0]) <= (Number(props.minV)||2.5)) &&
+                              'var(--f7-color-red)' ) || (
+                              (Number((''+(items[props.item] &&
+                              (items[props.item].displayState ||
+                              items[props.item].state))).replace(',','.').split('
+                              ')[0]) === Number((''+(items[props.item] &&
+                              (items[props.item].displayState ||
+                              items[props.item].state))).replace(',','.').split('
+                              ')[0])) && (Number((''+(items[props.item] &&
+                              (items[props.item].displayState ||
+                              items[props.item].state))).replace(',','.').split('
+                              ')[0]) < (Number(props.greenV)||2.7)) &&
+                              'var(--f7-color-yellow)' ) || (
+                              (Number((''+(items[props.item] &&
+                              (items[props.item].displayState ||
+                              items[props.item].state))).replace(',','.').split('
+                              ')[0]) === Number((''+(items[props.item] &&
+                              (items[props.item].displayState ||
+                              items[props.item].state))).replace(',','.').split('
+                              ')[0])) && 'var(--f7-color-green)' ) ||
+                              'var(--f7-color-gray)' )
+                            opacity: =( ( (Number((''+(items[props.item] && (items[props.item].displayState
+                              ||
+                              items[props.item].state))).replace(',','.').split('
+                              ')[0]) === Number((''+(items[props.item] &&
+                              (items[props.item].displayState ||
+                              items[props.item].state))).replace(',','.').split('
+                              ')[0])) &&
+                              (Math.round(Math.max(0,Math.min(1,(Number((''+(items[props.item]
+                              && (items[props.item].displayState ||
+                              items[props.item].state))).replace(',','.').split('
+                              ')[0])-(Number(props.minV)||2.5))/((Number(props.maxV)||3.0)-(Number(props.minV)||2.5))))*5)
+                              >= 1) && 0.9 ) || 0.12 )
+                      - component: f7-block
+                        config:
+                          style:
+                            margin: 0
+                            padding: 0
+                            flex: 1
+                            height: 100%
+                            min-width: 0
+                            border-radius: 4px
+                            background: =( ( (Number((''+(items[props.item] &&
+                              (items[props.item].displayState ||
+                              items[props.item].state))).replace(',','.').split('
+                              ')[0]) === Number((''+(items[props.item] &&
+                              (items[props.item].displayState ||
+                              items[props.item].state))).replace(',','.').split('
+                              ')[0])) && (Number((''+(items[props.item] &&
+                              (items[props.item].displayState ||
+                              items[props.item].state))).replace(',','.').split('
+                              ')[0]) <= (Number(props.minV)||2.5)) &&
+                              'var(--f7-color-red)' ) || (
+                              (Number((''+(items[props.item] &&
+                              (items[props.item].displayState ||
+                              items[props.item].state))).replace(',','.').split('
+                              ')[0]) === Number((''+(items[props.item] &&
+                              (items[props.item].displayState ||
+                              items[props.item].state))).replace(',','.').split('
+                              ')[0])) && (Number((''+(items[props.item] &&
+                              (items[props.item].displayState ||
+                              items[props.item].state))).replace(',','.').split('
+                              ')[0]) < (Number(props.greenV)||2.7)) &&
+                              'var(--f7-color-yellow)' ) || (
+                              (Number((''+(items[props.item] &&
+                              (items[props.item].displayState ||
+                              items[props.item].state))).replace(',','.').split('
+                              ')[0]) === Number((''+(items[props.item] &&
+                              (items[props.item].displayState ||
+                              items[props.item].state))).replace(',','.').split('
+                              ')[0])) && 'var(--f7-color-green)' ) ||
+                              'var(--f7-color-gray)' )
+                            opacity: =( ( (Number((''+(items[props.item] && (items[props.item].displayState
+                              ||
+                              items[props.item].state))).replace(',','.').split('
+                              ')[0]) === Number((''+(items[props.item] &&
+                              (items[props.item].displayState ||
+                              items[props.item].state))).replace(',','.').split('
+                              ')[0])) &&
+                              (Math.round(Math.max(0,Math.min(1,(Number((''+(items[props.item]
+                              && (items[props.item].displayState ||
+                              items[props.item].state))).replace(',','.').split('
+                              ')[0])-(Number(props.minV)||2.5))/((Number(props.maxV)||3.0)-(Number(props.minV)||2.5))))*5)
+                              >= 2) && 0.9 ) || 0.12 )
+                      - component: f7-block
+                        config:
+                          style:
+                            margin: 0
+                            padding: 0
+                            flex: 1
+                            height: 100%
+                            min-width: 0
+                            border-radius: 4px
+                            background: =( ( (Number((''+(items[props.item] &&
+                              (items[props.item].displayState ||
+                              items[props.item].state))).replace(',','.').split('
+                              ')[0]) === Number((''+(items[props.item] &&
+                              (items[props.item].displayState ||
+                              items[props.item].state))).replace(',','.').split('
+                              ')[0])) && (Number((''+(items[props.item] &&
+                              (items[props.item].displayState ||
+                              items[props.item].state))).replace(',','.').split('
+                              ')[0]) <= (Number(props.minV)||2.5)) &&
+                              'var(--f7-color-red)' ) || (
+                              (Number((''+(items[props.item] &&
+                              (items[props.item].displayState ||
+                              items[props.item].state))).replace(',','.').split('
+                              ')[0]) === Number((''+(items[props.item] &&
+                              (items[props.item].displayState ||
+                              items[props.item].state))).replace(',','.').split('
+                              ')[0])) && (Number((''+(items[props.item] &&
+                              (items[props.item].displayState ||
+                              items[props.item].state))).replace(',','.').split('
+                              ')[0]) < (Number(props.greenV)||2.7)) &&
+                              'var(--f7-color-yellow)' ) || (
+                              (Number((''+(items[props.item] &&
+                              (items[props.item].displayState ||
+                              items[props.item].state))).replace(',','.').split('
+                              ')[0]) === Number((''+(items[props.item] &&
+                              (items[props.item].displayState ||
+                              items[props.item].state))).replace(',','.').split('
+                              ')[0])) && 'var(--f7-color-green)' ) ||
+                              'var(--f7-color-gray)' )
+                            opacity: =( ( (Number((''+(items[props.item] && (items[props.item].displayState
+                              ||
+                              items[props.item].state))).replace(',','.').split('
+                              ')[0]) === Number((''+(items[props.item] &&
+                              (items[props.item].displayState ||
+                              items[props.item].state))).replace(',','.').split('
+                              ')[0])) &&
+                              (Math.round(Math.max(0,Math.min(1,(Number((''+(items[props.item]
+                              && (items[props.item].displayState ||
+                              items[props.item].state))).replace(',','.').split('
+                              ')[0])-(Number(props.minV)||2.5))/((Number(props.maxV)||3.0)-(Number(props.minV)||2.5))))*5)
+                              >= 3) && 0.9 ) || 0.12 )
+                      - component: f7-block
+                        config:
+                          style:
+                            margin: 0
+                            padding: 0
+                            flex: 1
+                            height: 100%
+                            min-width: 0
+                            border-radius: 4px
+                            background: =( ( (Number((''+(items[props.item] &&
+                              (items[props.item].displayState ||
+                              items[props.item].state))).replace(',','.').split('
+                              ')[0]) === Number((''+(items[props.item] &&
+                              (items[props.item].displayState ||
+                              items[props.item].state))).replace(',','.').split('
+                              ')[0])) && (Number((''+(items[props.item] &&
+                              (items[props.item].displayState ||
+                              items[props.item].state))).replace(',','.').split('
+                              ')[0]) <= (Number(props.minV)||2.5)) &&
+                              'var(--f7-color-red)' ) || (
+                              (Number((''+(items[props.item] &&
+                              (items[props.item].displayState ||
+                              items[props.item].state))).replace(',','.').split('
+                              ')[0]) === Number((''+(items[props.item] &&
+                              (items[props.item].displayState ||
+                              items[props.item].state))).replace(',','.').split('
+                              ')[0])) && (Number((''+(items[props.item] &&
+                              (items[props.item].displayState ||
+                              items[props.item].state))).replace(',','.').split('
+                              ')[0]) < (Number(props.greenV)||2.7)) &&
+                              'var(--f7-color-yellow)' ) || (
+                              (Number((''+(items[props.item] &&
+                              (items[props.item].displayState ||
+                              items[props.item].state))).replace(',','.').split('
+                              ')[0]) === Number((''+(items[props.item] &&
+                              (items[props.item].displayState ||
+                              items[props.item].state))).replace(',','.').split('
+                              ')[0])) && 'var(--f7-color-green)' ) ||
+                              'var(--f7-color-gray)' )
+                            opacity: =( ( (Number((''+(items[props.item] && (items[props.item].displayState
+                              ||
+                              items[props.item].state))).replace(',','.').split('
+                              ')[0]) === Number((''+(items[props.item] &&
+                              (items[props.item].displayState ||
+                              items[props.item].state))).replace(',','.').split('
+                              ')[0])) &&
+                              (Math.round(Math.max(0,Math.min(1,(Number((''+(items[props.item]
+                              && (items[props.item].displayState ||
+                              items[props.item].state))).replace(',','.').split('
+                              ')[0])-(Number(props.minV)||2.5))/((Number(props.maxV)||3.0)-(Number(props.minV)||2.5))))*5)
+                              >= 4) && 0.9 ) || 0.12 )
+                      - component: f7-block
+                        config:
+                          style:
+                            margin: 0
+                            padding: 0
+                            flex: 1
+                            height: 100%
+                            min-width: 0
+                            border-radius: 4px
+                            background: =( ( (Number((''+(items[props.item] &&
+                              (items[props.item].displayState ||
+                              items[props.item].state))).replace(',','.').split('
+                              ')[0]) === Number((''+(items[props.item] &&
+                              (items[props.item].displayState ||
+                              items[props.item].state))).replace(',','.').split('
+                              ')[0])) && (Number((''+(items[props.item] &&
+                              (items[props.item].displayState ||
+                              items[props.item].state))).replace(',','.').split('
+                              ')[0]) <= (Number(props.minV)||2.5)) &&
+                              'var(--f7-color-red)' ) || (
+                              (Number((''+(items[props.item] &&
+                              (items[props.item].displayState ||
+                              items[props.item].state))).replace(',','.').split('
+                              ')[0]) === Number((''+(items[props.item] &&
+                              (items[props.item].displayState ||
+                              items[props.item].state))).replace(',','.').split('
+                              ')[0])) && (Number((''+(items[props.item] &&
+                              (items[props.item].displayState ||
+                              items[props.item].state))).replace(',','.').split('
+                              ')[0]) < (Number(props.greenV)||2.7)) &&
+                              'var(--f7-color-yellow)' ) || (
+                              (Number((''+(items[props.item] &&
+                              (items[props.item].displayState ||
+                              items[props.item].state))).replace(',','.').split('
+                              ')[0]) === Number((''+(items[props.item] &&
+                              (items[props.item].displayState ||
+                              items[props.item].state))).replace(',','.').split('
+                              ')[0])) && 'var(--f7-color-green)' ) ||
+                              'var(--f7-color-gray)' )
+                            opacity: =( ( (Number((''+(items[props.item] && (items[props.item].displayState
+                              ||
+                              items[props.item].state))).replace(',','.').split('
+                              ')[0]) === Number((''+(items[props.item] &&
+                              (items[props.item].displayState ||
+                              items[props.item].state))).replace(',','.').split('
+                              ')[0])) &&
+                              (Math.round(Math.max(0,Math.min(1,(Number((''+(items[props.item]
+                              && (items[props.item].displayState ||
+                              items[props.item].state))).replace(',','.').split('
+                              ')[0])-(Number(props.minV)||2.5))/((Number(props.maxV)||3.0)-(Number(props.minV)||2.5))))*5)
+                              >= 5) && 0.9 ) || 0.12 )
+                - component: f7-block
+                  config:
+                    style:
+                      position: absolute
+                      left: 0
+                      right: 0
+                      top: 0
+                      bottom: 0
+                      display: flex
+                      align-items: center
+                      justify-content: center
+                      margin: 0
+                      padding: 0
+                      font-weight: 700
+                      font-size: 13px
+                      color: var(--f7-text-color)
+                      pointer-events: none
+                      z-index: 2
+                  slots:
+                    default:
+                      - component: Label
+                        config:
+                          text: =(''+((items[props.item] && (items[props.item].displayState ||
+                            items[props.item].state)) || ''))
+          - component: f7-block
+            config:
+              style:
+                position: absolute
+                left: 98px
+                top: 8px
+                width: 6px
+                height: 14px
+                border-radius: 4px
+                border: 2px solid var(--f7-text-color)
+                box-sizing: border-box
+                background: white
+                background-color: white
+                margin: 0
+                padding: 0

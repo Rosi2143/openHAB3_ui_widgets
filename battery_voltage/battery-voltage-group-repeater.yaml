@@ -1,0 +1,55 @@
+uid: battery-voltage-group-repeater
+tags:
+  - battery
+  - https://community.openhab.org/t/visual-battery-voltage-indicator/167688
+props:
+  parameters:
+    - context: item
+      label: Group item name (required)
+      name: groupItem
+      required: true
+      type: TEXT
+    - context: Title
+      label: Card Title text
+      name: cardTitle
+      required: false
+      type: TEXT
+    - label: Minimum voltage (default 2.5)
+      name: minV
+      required: false
+      type: TEXT
+    - label: Maximum voltage (default 3.0)
+      name: maxV
+      required: false
+      type: TEXT
+    - label: Green threshold (default 2.7)
+      name: greenV
+      required: false
+      type: TEXT
+    - label: Yellow threshold (default midpoint)
+      name: yellowV
+      required: false
+      type: TEXT
+timestamp: Dec 28, 2025, 11:29:04 AM
+component: oh-list-card
+config:
+  title: =props.cardTitle
+slots:
+  default:
+    - component: oh-repeater
+      config:
+        for: member
+        sourceType: itemsInGroup
+        groupItem: =props.groupItem
+      slots:
+        default:
+          - component: widget:battery-voltage-listitem
+            config:
+              item: =loop.member.name
+              label: =( ('' + loop.member.name) .replace(/^HMRT/, '') .replace(/_Battery$/,
+                '') .replace(/([a-z])([A-Z])/g, '$1 $2')
+                .replace(/([A-Za-z])([0-9])/g, '$1 $2') )
+              minV: =props.minV
+              maxV: =props.maxV
+              greenV: =props.greenV
+              yellowV: =props.yellowV
