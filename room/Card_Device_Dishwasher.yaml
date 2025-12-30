@@ -1,0 +1,461 @@
+uid: Card_Device_Dishwasher
+tags: []
+props:
+  parameters:
+    - label: Card Border Radius
+      name: cardBorderRadius
+      required: false
+      type: TEXT
+    - label: Card Border Color
+      name: cardBorderColor
+      required: false
+      type: TEXT
+    - label: Card Background Color
+      name: cardBgColor
+      required: false
+      type: TEXT
+    - default: "false"
+      label: Icon - Show on Card
+      name: iconShow
+      required: false
+      type: BOOLEAN
+    - label: Icon
+      name: iconName
+      required: false
+      type: TEXT
+    - label: Icon Color
+      name: iconColor
+      required: false
+      type: TEXT
+    - label: Icon  Size
+      name: iconSize
+      required: false
+      type: TEXT
+    - default: "false"
+      label: Header - Show on Card
+      name: headerShow
+      required: false
+      type: BOOLEAN
+    - label: Header
+      name: headerText
+      required: false
+      type: TEXT
+    - label: Header Text Color
+      name: headerTextColor
+      required: false
+      type: TEXT
+    - label: Header Text Size
+      name: headerTextSize
+      required: false
+      type: TEXT
+    - default: "false"
+      label: Footer - Show on Card
+      name: footerShow
+      required: false
+      type: BOOLEAN
+    - label: Footer
+      name: footerText
+      required: false
+      type: TEXT
+    - label: Footer Text Color
+      name: footerTextColor
+      required: false
+      type: TEXT
+    - label: Footer Text Size
+      name: footerTextSize
+      required: false
+      type: TEXT
+    - label: Content Text Color
+      name: contentTextColor
+      required: false
+      type: TEXT
+    - label: Content Text Size
+      name: contentTextSize
+      required: false
+      type: TEXT
+    - description: Expression that evaluates to minutes since the begin of washing
+      label: Minutes running
+      name: runtime
+      required: true
+      type: TEXT
+    - context: item
+      description: Expression that evaluates to OFF, RUNNING or FINISHED
+      label: State
+      name: state
+      required: true
+      type: TEXT
+timestamp: Jul 1, 2024, 10:10:12 PM
+component: f7-card
+config:
+  style:
+    --f7-card-bg-color: "=props.cardBgColor ? props.cardBgColor : (themeOptions.dark
+      === 'dark' ? 'black' : 'white')"
+    --f7-card-border-radius: "=props.cardBorderRadius ? (props.cardBorderRadius) + 'px' : '0px'"
+    --f7-card-margin-horizontal: 0px
+    --f7-card-margin-vertical: 0px
+    --f7-card-outline-border-color: "=props.cardBorderColor ? props.cardBorderColor
+      : (themeOptions.dark === 'dark' ? 'white' : 'black')"
+    background-color: var(--f7-card-bg-color)
+    border: 2px solid var(--f7-card-outline-border-color)
+    color: "=props.contentTextColor ? props.contentTextColor : (themeOptions.dark
+      === 'dark' ? 'white' : 'black')"
+    font-size: "=props.contentTextSize ? (props.contentTextSize)+'px' : '14px'"
+slots:
+  default:
+    - component: f7-card-header
+      config:
+        style:
+          --f7-card-header-border-color: transparent
+          --f7-card-header-font-size: "=props.headerTextSize ? (props.headerTextSize) + 'px' : '14px'"
+          --f7-card-header-font-weight: 800
+          --f7-card-header-min-height: "=props.headerShow == 'true' ? '50px' : '15px'"
+          --f7-card-header-text-color: "=props.headerTextColor ? props.headerTextColor :
+            (themeOptions.dark === 'dark' ? 'white' : 'black')"
+          justify-content: flex-start
+      slots:
+        default:
+          - component: oh-icon
+            config:
+              icon: "=props.iconName ? props.iconName : 'f7:house'"
+              style:
+                color: "=props.iconColor ? props.iconColor : (themeOptions.dark === 'dark' ?
+                  'white' : 'black')"
+                padding-right: 10px
+              visible: "=props.iconShow ? props.iconShow : props.iconShow"
+              width: "=props.iconSize ? (props.iconSize) + 'px' : '25px'"
+          - component: Label
+            config:
+              text: "=props.headerText ? props.headerText : 'Header'"
+              visible: "=props.headerShow ? props.headerShow : props.headerShow"
+    - component: f7-card-content
+      slots:
+        default:
+          - component: f7-block
+            config:
+              style:
+                margin-top: -10px
+            slots:
+              default:
+                - component: f7-row
+                  config:
+                    class:
+                      - display-flex
+                      - justify-content-center
+                    style:
+                      width: 100%
+                  slots:
+                    default:
+                      - component: f7-col
+                        config:
+                          class:
+                            - display-flex
+                            - flex-direction-column
+                            - align-items-center
+                            - justify-content-space-evenly
+                          style:
+                            height: 100%
+                        slots:
+                          default:
+                            - component: f7-block-header
+                              slots:
+                                default:
+                                  - component: Label
+                                    config:
+                                      style:
+                                        color: "=props.contentTextColor ? props.contentTextColor : (themeOptions.dark
+                                          === 'dark' ? 'white' : 'black')"
+                                        font-size: "=props.contentTextSize ? (props.contentTextSize)+'px' : '14px'"
+                                        font-weight: 400
+                                      text: =items[props.state].state
+                            - component: f7-block
+                              config:
+                                class:
+                                  - display-flex
+                                  - flex-direction-column
+                                  - align-items-center
+                                style:
+                                  background: rgba(255,255,255,1)
+                                  border-radius: 2px 2px 4px 4px
+                                  box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px
+                                  height: 100px
+                                  width: 80px
+                              slots:
+                                default:
+                                  - component: f7-block
+                                    config:
+                                      class:
+                                        - display-flex
+                                        - justify-content-flex-end
+                                        - align-items-center
+                                        - flex-shrink-0
+                                        - no-margin
+                                      style:
+                                        border-bottom: 1pt solid lightgray
+                                        height: 23px
+                                        padding-right: 10px
+                                        width: 75px
+                                    slots:
+                                      default:
+                                        - component: f7-icon
+                                          config:
+                                            color: gray
+                                            f7: circle_fill
+                                            size: 10
+                                        - component: f7-icon
+                                          config:
+                                            color: gray
+                                            f7: circle_fill
+                                            size: 10
+                                        - component: f7-icon
+                                          config:
+                                            f7: '=items[props.state].state == "AUS" ? "circle_fill" : "sun_min"'
+                                            size: 10
+                                            style:
+                                              color: '=items[props.state].state == "Aus" ? "gray" : "red"'
+                                  - component: f7-block
+                                    config:
+                                      class:
+                                        - no-padding
+                                      style:
+                                        background: whitesmoke
+                                        bottom: 0px
+                                        height: calc(100% - 23px)
+                                        position: absolute
+                                        width: 90%
+                                  - component: f7-block
+                                    config:
+                                      class:
+                                        - display-flex
+                                        - justify-content-center
+                                        - align-items-center
+                                      style:
+                                        background: beige
+                                        border-radius: 50%
+                                        bottom: 0px
+                                        box-shadow: 0 0 16px 8px rgba(0, 0, 0, 0.10) inset
+                                        height: 40px
+                                        left: 30%
+                                        position: absolute
+                                        transform: '=items[props.state].state == "FERTIG" ? "translate(-50%, -45px)" :
+                                          "translate(-50%, 0)"'
+                                        transform-origin: left center
+                                        transition: transform 0.6s
+                                        width: 40px
+                                    slots:
+                                      default:
+                                        - component: f7-icon
+                                          config:
+                                            f7: circle
+                                            size: 40
+                                            style:
+                                              color: beige
+                                  - component: f7-block
+                                    config:
+                                      class:
+                                        - display-flex
+                                        - justify-content-center
+                                        - align-items-center
+                                      style:
+                                        background: beige
+                                        border-radius: 50%
+                                        bottom: 0px
+                                        box-shadow: 0 0 16px 8px rgba(0, 0, 0, 0.10) inset
+                                        height: 40px
+                                        left: 50%
+                                        position: absolute
+                                        transform: '=items[props.state].state == "FERTIG" ? "translate(-50%, -47px)" :
+                                          "translate(-50%, 0)"'
+                                        transform-origin: left center
+                                        transition: transform 0.6s
+                                        width: 40px
+                                    slots:
+                                      default:
+                                        - component: f7-icon
+                                          config:
+                                            f7: circle
+                                            size: 40
+                                            style:
+                                              color: beige
+                                  - component: f7-block
+                                    config:
+                                      class:
+                                        - display-flex
+                                        - justify-content-center
+                                        - align-items-center
+                                      style:
+                                        background: beige
+                                        border-radius: 50%
+                                        bottom: 0px
+                                        box-shadow: 0 0 16px 8px rgba(0, 0, 0, 0.10) inset
+                                        height: 40px
+                                        left: 70%
+                                        position: absolute
+                                        transform: '=items[props.state].state == "FERTIG" ? "translate(-50%, -49px)" :
+                                          "translate(-50%, 0)"'
+                                        transform-origin: left center
+                                        transition: transform 0.6s
+                                        width: 40px
+                                    slots:
+                                      default:
+                                        - component: f7-icon
+                                          config:
+                                            f7: circle
+                                            size: 40
+                                            style:
+                                              color: beige
+                                  - component: f7-block
+                                    config:
+                                      style:
+                                        height: 100%
+                                        transform: translate3d(0, 0, 0)
+                                    slots:
+                                      default:
+                                        - component: f7-block
+                                          config:
+                                            class:
+                                              - display-flex
+                                              - flex-direction-column
+                                              - justify-content-flex-start
+                                              - align-items-center
+                                            style:
+                                              backgroundColor: '=items[props.state].statee == "LÄUFT" ? "white" :
+                                                "whitesmoke"'
+                                              box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px
+                                              height: 100%
+                                              margin-top: auto
+                                              transform: '=items[props.state].state != "LÄUFT" ? "perspective(600px)
+                                                rotateX(-55deg)" :
+                                                "perspective(0px)
+                                                rotateX(0deg)"'
+                                              transform-origin: bottom center
+                                              transition: transform 0.6s
+                                              width: 80px
+                                          slots:
+                                            default:
+                                              - component: f7-block
+                                                config:
+                                                  style:
+                                                    backgroundColor: white
+                                                    border-radius: 2px 2px 0px 0px
+                                                    height: 10px
+                                                    margin-top: -10px
+                                                    position: absolute
+                                                    transform: '=items[props.state].state != "LÄUFT" ? "perspective(600px)
+                                                      rotateX(35deg)" :
+                                                      "perspective(600px)
+                                                      rotateX(90deg)"'
+                                                    transform-origin: bottom center
+                                                    transition: transform 0.6s
+                                                    width: 80px
+                                              - component: f7-block
+                                                config:
+                                                  style:
+                                                    backgroundColor: gray
+                                                    border-radius: 2px 2px 0px 0px
+                                                    height: 5px
+                                                    margin-top: 10px
+                                                    width: 5px
+                                              - component: f7-block
+                                                config:
+                                                  class:
+                                                    - no-padding
+                                                  style:
+                                                    height: calc(100% - 40px)
+                                                    margin-top: 10px
+                                                    width: 100%
+                                                slots:
+                                                  default:
+                                                    - component: f7-block
+                                                      config:
+                                                        class: custom-preloader-container-dummy
+                                                        colorTheme: lightblue
+                                                        style:
+                                                          --f7-preloader-color: var(--f7-theme-color)
+                                                          --f7-preloader-size: 50px
+                                                          display: '=items[props.state].state == "LÄUFT" ? "" : "none"'
+                                                          left: 50%
+                                                          margin: 0
+                                                          padding: 0
+                                                          position: absolute
+                                                          top: 50%
+                                                          transform: translate(-50%, -50%)
+                                                      slots:
+                                                        default:
+                                                          - component: f7-block
+                                                            config:
+                                                              class: custom-preloader-dummy
+                                                              style:
+                                                                height: var(--f7-preloader-size)
+                                                                margin: 0
+                                                                padding: 0
+                                                                width: var(--f7-preloader-size)
+                                                            slots:
+                                                              default:
+                                                                - component: f7-block
+                                                                  config:
+                                                                    class: custom-preloader-inner-dummy
+                                                                    style:
+                                                                      height: 100%
+                                                                      left: 0
+                                                                      margin: 0
+                                                                      padding: 0
+                                                                      position: absolute
+                                                                      top: 0
+                                                                      width: 100%
+                                                                  slots:
+                                                                    default:
+                                                                      - component: f7-block
+                                                                        config:
+                                                                          class: custom-preloader-inner-circle-dummy
+                                                                          style:
+                                                                            animation: aurora-preloader-rotate 1s linear infinite
+                                                                            border: calc(var(--f7-preloader-size)/8) solid var(--f7-preloader-color)
+                                                                            border-radius: 50%
+                                                                            border-top-color: transparent
+                                                                            box-sizing: border-box
+                                                                            height: 100%
+                                                                            left: 0
+                                                                            margin: 0
+                                                                            padding: 0
+                                                                            position: absolute
+                                                                            top: 0
+                                                                            width: 100%
+                                                    - component: f7-block-header
+                                                      config:
+                                                        class:
+                                                          - no-margin
+                                                        style:
+                                                          left: 50%
+                                                          position: absolute
+                                                          top: 50%
+                                                          transform: '=items[props.state].state == "LÄUFT" ? "scale(1, 1) translate(-50%,
+                                                            -50%)" : "scale(0,
+                                                            0) translate(-50%,
+                                                            -50%)"'
+                                                          transform-origin: left center
+                                                          transition: transform 0.6s
+                                                      slots:
+                                                        default:
+                                                          - component: Label
+                                                            config:
+                                                              style:
+                                                                color: black
+                                                              text: '=Math.floor(props.runtime / 60) + ":" + ((props.runtime % 60) < 10 ? ("0"
+                                                                + props.runtime %
+                                                                60) : (props.runtime
+                                                                % 60))'
+    - component: f7-card-footer
+      config:
+        style:
+          --f7-card-footer-border-color: transparent
+          --f7-card-footer-font-size: "=props.footerTextSize ? (props.footerTextSize) + 'px' : '14px'"
+          --f7-card-footer-font-weight: 500
+          --f7-card-footer-min-height: "=props.footerShow == 'true' ? '25px' : '20px'"
+          --f7-card-footer-text-color: "=props.footerTextColor ? props.footerTextColor :
+            (themeOptions.dark === 'dark' ? 'white' : 'black')"
+      slots:
+        default:
+          - component: Label
+            config:
+              text: "=props.footerText ? props.footerText : 'Footer'"
+              visible: "=props.footerShow ? props.footerShow : props.footerShow"

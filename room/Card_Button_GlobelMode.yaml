@@ -1,0 +1,249 @@
+uid: Card_Button_GlobelMode
+tags: []
+props:
+  parameters:
+    - label: Card Border Radius
+      name: cardBorderRadius
+      required: false
+      type: TEXT
+    - label: Card Border Color
+      name: cardBorderColor
+      required: false
+      type: TEXT
+    - label: Card Background Color
+      name: cardBgColor
+      required: false
+      type: TEXT
+    - default: "false"
+      label: Icon - Show on Card
+      name: iconShow
+      required: false
+      type: BOOLEAN
+    - label: Icon
+      name: iconName
+      required: false
+      type: TEXT
+    - label: Icon Color
+      name: iconColor
+      required: false
+      type: TEXT
+    - label: Icon  Size
+      name: iconSize
+      required: false
+      type: TEXT
+    - default: "false"
+      label: Header - Show on Card
+      name: headerShow
+      required: false
+      type: BOOLEAN
+    - label: Header
+      name: headerText
+      required: false
+      type: TEXT
+    - label: Header Text Color
+      name: headerTextColor
+      required: false
+      type: TEXT
+    - label: Header Text Size
+      name: headerTextSize
+      required: false
+      type: TEXT
+    - default: "false"
+      label: Footer - Show on Card
+      name: footerShow
+      required: false
+      type: BOOLEAN
+    - label: Footer
+      name: footerText
+      required: false
+      type: TEXT
+    - label: Footer Text Color
+      name: footerTextColor
+      required: false
+      type: TEXT
+    - label: Footer Text Size
+      name: footerTextSize
+      required: false
+      type: TEXT
+    - label: Content Text Color
+      name: contentTextColor
+      required: false
+      type: TEXT
+    - label: Content Text Size
+      name: contentTextSize
+      required: false
+      type: TEXT
+    - label: Button Border Color
+      name: buttonBorderColor
+      required: false
+      type: TEXT
+    - label: Button Background Color (inactive)
+      name: buttonColorInactive
+      required: false
+      type: TEXT
+    - label: Button Background Color (activ/fill)
+      name: buttonColorActive
+      required: false
+      type: TEXT
+    - label: Button Background Color (hover)
+      name: buttonColorHover
+      required: false
+      type: TEXT
+    - label: Button Background Color (pressed)
+      name: buttonColorPressed
+      required: false
+      type: TEXT
+    - label: Button Icon Color
+      name: buttonIconColor
+      required: false
+      type: TEXT
+    - label: Button Icon  Size
+      name: buttonIconSize
+      required: false
+      type: TEXT
+    - label: Button Height
+      name: buttonHeight
+      required: false
+      type: TEXT
+    - context: item
+      label: Button 1+2 Item
+      name: button1Item
+      required: false
+      type: TEXT
+    - context: item
+      label: Button 2+3 Item
+      name: button2Item
+      required: false
+      type: TEXT
+timestamp: Jun 6, 2024, 12:40:36 PM
+component: f7-card
+config:
+  style:
+    --f7-card-bg-color: "=props.cardBgColor ? props.cardBgColor : (themeOptions.dark
+      === 'dark' ? 'black' : 'white')"
+    --f7-card-border-radius: "=props.cardBorderRadius ? (props.cardBorderRadius) + 'px' : '0px'"
+    --f7-card-margin-horizontal: 0px
+    --f7-card-margin-vertical: 0px
+    --f7-card-outline-border-color: "=props.cardBorderColor ? props.cardBorderColor
+      : (themeOptions.dark === 'dark' ? 'white' : 'black')"
+    background-color: var(--f7-card-bg-color)
+    border: 2px solid var(--f7-card-outline-border-color)
+    color: "=props.contentTextColor ? props.contentTextColor : (themeOptions.dark
+      === 'dark' ? 'white' : 'black')"
+    font-size: "=props.contentTextSize ? (props.contentTextSize)+'px' : '14px'"
+slots:
+  default:
+    - component: f7-card-header
+      config:
+        style:
+          --f7-card-header-border-color: transparent
+          --f7-card-header-font-size: "=props.headerTextSize ? (props.headerTextSize) + 'px' : '14px'"
+          --f7-card-header-font-weight: 800
+          --f7-card-header-min-height: "=props.headerShow == 'true' ? '50px' : '15px'"
+          --f7-card-header-text-color: "=props.headerTextColor ? props.headerTextColor :
+            (themeOptions.dark === 'dark' ? 'white' : 'black')"
+          justify-content: flex-start
+      slots:
+        default:
+          - component: oh-icon
+            config:
+              icon: "=props.iconName ? props.iconName : 'f7:house'"
+              style:
+                color: "=props.iconColor ? props.iconColor : (themeOptions.dark === 'dark' ?
+                  'white' : 'black')"
+                padding-right: 10px
+              visible: "=props.iconShow ? props.iconShow : props.iconShow"
+              width: "=props.iconSize ? (props.iconSize) + 'px' : '25px'"
+          - component: Label
+            config:
+              text: "=props.headerText ? props.headerText : 'Header'"
+              visible: "=props.headerShow ? props.headerShow : props.headerShow"
+    - component: f7-card-content
+      slots:
+        default:
+          - component: f7-segmented
+            config:
+              style:
+                --f7-button-bg-color: "=props.buttonColorInactive ? props.buttonColorInactive  :
+                  (themeOptions.dark === 'dark' ? 'white' : 'black')"
+                --f7-button-fill-bg-color: "=props.buttonColorActive ?
+                  props.buttonColorActive  : (themeOptions.dark === 'dark' ?
+                  'white' : 'black')"
+                --f7-button-fill-hover-bg-color: "=props.buttonColorHover ?
+                  props.buttonColorHover  : (themeOptions.dark === 'dark' ?
+                  'white' : 'black')"
+                --f7-button-fill-pressed-bg-color: "=props.buttonColorPressed ?
+                  props.buttonColorPressed  : (themeOptions.dark === 'dark' ?
+                  'white' : 'black')"
+                --f7-button-height: "=props.buttonHeight ? (props.buttonHeight) + 'px' : '50px'"
+                --f7-button-hover-bg-color: "=props.buttonColorHover ? props.buttonColorHover  :
+                  (themeOptions.dark === 'dark' ? 'white' : 'black')"
+                --f7-button-outline-border-color: "=props.buttonBorderColor ?
+                  props.buttonBorderColor  : (themeOptions.dark === 'dark' ?
+                  'white' : 'black')"
+                --f7-button-pressed-bg-color: "=props.buttonColorPressed ?
+                  props.buttonColorPressed  : (themeOptions.dark === 'dark' ?
+                  'white' : 'black')"
+                box-shadow: 0px 0px rgb(150,150,150)
+                vertical-align: middle
+            slots:
+              default:
+                - component: oh-button
+                  config:
+                    action: command
+                    actionCommand: OFF
+                    actionItem: =(props.button1Item)
+                    active: "=(items[props.button1Item].state === 'OFF') ? true : false"
+                    iconColor: "=props.buttonIconColor ? props.buttonIconColor : (themeOptions.dark
+                      === 'dark' ? 'black' : 'white')"
+                    iconF7: sun_max_fill
+                    iconSize: "=props.buttonIconSize ? (props.buttonIconSize) + 'px' : '25px'"
+                    outline: true
+                - component: oh-button
+                  config:
+                    action: command
+                    actionCommand: ON
+                    actionItem: =(props.button1Item)
+                    active: "=(items[props.button1Item].state === 'ON') ? true : false"
+                    iconColor: "=props.buttonIconColor ? props.buttonIconColor : (themeOptions.dark
+                      === 'dark' ? 'black' : 'white')"
+                    iconF7: snow
+                    iconSize: "=props.buttonIconSize ? (props.buttonIconSize) + 'px' : '25px'"
+                    outline: true
+                - component: oh-button
+                  config:
+                    action: command
+                    actionCommand: OFF
+                    actionItem: =(props.button2Item)
+                    active: "=(items[props.button2Item].state === 'OFF') ? true : false"
+                    iconColor: "=props.buttonIconColor ? props.buttonIconColor : (themeOptions.dark
+                      === 'dark' ? 'black' : 'white')"
+                    iconF7: person_3_fill
+                    iconSize: "=props.buttonIconSize ? (props.buttonIconSize) + 'px' : '25px'"
+                    outline: true
+                - component: oh-button
+                  config:
+                    action: command
+                    actionCommand: ON
+                    actionItem: =(props.button2Item)
+                    active: "=(items[props.button2Item].state === 'ON') ? true : false"
+                    iconColor: "=props.buttonIconColor ? props.buttonIconColor : (themeOptions.dark
+                      === 'dark' ? 'black' : 'white')"
+                    iconF7: bag_fill
+                    iconSize: "=props.buttonIconSize ? (props.buttonIconSize) + 'px' : '25px'"
+                    outline: true
+    - component: f7-card-footer
+      config:
+        style:
+          --f7-card-footer-border-color: transparent
+          --f7-card-footer-font-size: "=props.footerTextSize ? (props.footerTextSize) + 'px' : '14px'"
+          --f7-card-footer-font-weight: 500
+          --f7-card-footer-min-height: "=props.footerShow == 'true' ? '25px' : '20px'"
+          --f7-card-footer-text-color: "=props.footerTextColor ? props.footerTextColor :
+            (themeOptions.dark === 'dark' ? 'white' : 'black')"
+      slots:
+        default:
+          - component: Label
+            config:
+              text: "=props.footerText ? props.footerText : 'Footer'"
+              visible: "=props.footerShow ? props.footerShow : props.footerShow"

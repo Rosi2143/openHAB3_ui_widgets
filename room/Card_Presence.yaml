@@ -1,0 +1,337 @@
+uid: Card_Presence
+tags: []
+props:
+  parameters:
+    - label: Card Border Radius
+      name: cardBorderRadius
+      required: false
+      type: TEXT
+    - label: Card Border Color
+      name: cardBorderColor
+      required: false
+      type: TEXT
+    - label: Card Background Color
+      name: cardBgColor
+      required: false
+      type: TEXT
+    - default: "false"
+      label: Icon - Show on Card
+      name: iconShow
+      required: false
+      type: BOOLEAN
+    - label: Icon
+      name: iconName
+      required: false
+      type: TEXT
+    - label: Icon Color
+      name: iconColor
+      required: false
+      type: TEXT
+    - label: Icon Höhe
+      name: iconSize
+      required: false
+    - default: "false"
+      label: Header - Show on Card
+      name: headerShow
+      required: false
+      type: BOOLEAN
+    - label: Header
+      name: headerText
+      required: false
+      type: TEXT
+    - label: Header Text Color
+      name: headerTextColor
+      required: false
+      type: TEXT
+    - label: Header Text Size
+      name: headerTextSize
+      required: false
+      type: TEXT
+    - default: "false"
+      label: Footer - Show on Card
+      name: footerShow
+      required: false
+      type: BOOLEAN
+    - label: Footer
+      name: footerText
+      required: false
+      type: TEXT
+    - label: Footer Text Color
+      name: footerTextColor
+      required: false
+      type: TEXT
+    - label: Footer Text Size
+      name: footerTextSize
+      required: false
+      type: TEXT
+    - label: Content Text Color
+      name: contentTextColor
+      required: false
+      type: TEXT
+    - label: Content Text Size
+      name: contentTextSize
+      required: false
+    - label: Content Icon Size
+      name: contentIconSize
+      required: false
+      type: TEXT
+    - context: item
+      description: Anwesenheit Vater
+      label: Item
+      name: vater
+      required: false
+      type: TEXT
+    - context: item
+      description: Anwesenheit Vater - Last Update
+      label: Item
+      name: vaterlastupdate
+      required: false
+      type: TEXT
+    - context: item
+      description: Anwesenheit Mutter
+      label: Item
+      name: mutter
+      required: false
+      type: TEXT
+    - context: item
+      description: Anwesenheit Mutter - Last Update
+      label: Item
+      name: mutterlastupdate
+      required: false
+      type: TEXT
+    - context: item
+      description: Anwesenheit Sohn
+      label: Item
+      name: sohn
+      required: false
+      type: TEXT
+    - context: item
+      description: Anwesenheit Sohn - Last Update
+      label: Item
+      name: sohnlastupdate
+      required: false
+      type: TEXT
+    - context: item
+      description: Anwesenheit Tochter
+      label: Item
+      name: tochter
+      required: false
+      type: TEXT
+    - context: item
+      description: Anwesenheit Tochter - Last Update
+      label: Item
+      name: tochterlastupdate
+      required: false
+      type: TEXT
+timestamp: Jul 1, 2024, 11:35:50 AM
+component: f7-card
+config:
+  style:
+    --f7-card-bg-color: "=props.cardBgColor ? props.cardBgColor : (themeOptions.dark
+      === 'dark' ? 'black' : 'white')"
+    --f7-card-border-radius: "=props.cardBorderRadius ? (props.cardBorderRadius) + 'px' : '0px'"
+    --f7-card-margin-horizontal: 0px
+    --f7-card-margin-vertical: 0px
+    --f7-card-outline-border-color: "=props.cardBorderColor ? props.cardBorderColor
+      : (themeOptions.dark === 'dark' ? 'white' : 'black')"
+    background-color: var(--f7-card-bg-color)
+    border: 2px solid var(--f7-card-outline-border-color)
+    color: "=props.contentTextColor ? props.contentTextColor : (themeOptions.dark
+      === 'dark' ? 'white' : 'black')"
+    font-size: "=props.contentTextSize ? (props.contentTextSize)+'px' : '14px'"
+slots:
+  default:
+    - component: f7-card-header
+      config:
+        style:
+          --f7-card-header-border-color: transparent
+          --f7-card-header-font-size: "=props.headerTextSize ? (props.headerTextSize) + 'px' : '14px'"
+          --f7-card-header-font-weight: 800
+          --f7-card-header-min-height: "=props.headerShow == 'true' ? '50px' : '15px'"
+          --f7-card-header-text-color: "=props.headerTextColor ? props.headerTextColor :
+            (themeOptions.dark === 'dark' ? 'white' : 'black')"
+          justify-content: flex-start
+      slots:
+        default:
+          - component: oh-icon
+            config:
+              icon: "=props.iconName ? props.iconName : 'f7:house'"
+              style:
+                color: "=props.iconColor ? props.iconColor : (themeOptions.dark === 'dark' ?
+                  'white' : 'black')"
+                padding-right: 10px
+              visible: "=props.iconShow ? props.iconShow : props.iconShow"
+              width: "=props.iconSize ? (props.iconSize) + 'px' : '25px'"
+          - component: Label
+            config:
+              text: "=props.headerText ? props.headerText : 'Header'"
+              visible: "=props.headerShow ? props.headerShow : props.headerShow"
+    - component: f7-card-content
+      slots:
+        default:
+          - component: f7-block
+            config:
+              style:
+                margin-top: -10px
+            slots:
+              default:
+                - component: f7-row
+                  config:
+                    class:
+                      - text-align-center
+                  slots:
+                    default:
+                      - component: f7-col
+                        config:
+                          style:
+                            background: rgba(233, 196, 106, 0)
+                        slots:
+                          default:
+                            - component: Label
+                              config:
+                                text: Vater
+                      - component: f7-col
+                        config:
+                          style:
+                            background: rgba(233, 196, 106, 0)
+                        slots:
+                          default:
+                            - component: Label
+                              config:
+                                text: Mutter
+                      - component: f7-col
+                        config:
+                          style:
+                            background: rgba(233, 196, 106, 0)
+                        slots:
+                          default:
+                            - component: Label
+                              config:
+                                text: Sohn
+                      - component: f7-col
+                        config:
+                          style:
+                            background: rgba(233, 196, 106, 0)
+                        slots:
+                          default:
+                            - component: Label
+                              config:
+                                text: Tochter
+                - component: f7-row
+                  config:
+                    class:
+                      - text-align-center
+                    style:
+                      margin-top: 0px
+                  slots:
+                    default:
+                      - component: f7-col
+                        config:
+                          style:
+                            background: rgba(233, 196, 106, 0)
+                        slots:
+                          default:
+                            - component: oh-image
+                              config:
+                                style:
+                                  margin-top: 10px
+                                  width: "=props.contentIconSize ? (props.contentIconSize) + 'px' : '40px'"
+                                url: /icon/classic/vater.png
+                      - component: f7-col
+                        config:
+                          style:
+                            background: rgba(233, 196, 106, 0)
+                        slots:
+                          default:
+                            - component: oh-image
+                              config:
+                                style:
+                                  margin-top: 10px
+                                  width: "=props.contentIconSize ? (props.contentIconSize) + 'px' : '40px'"
+                                url: /icon/classic/mutter.png
+                      - component: f7-col
+                        config:
+                          style:
+                            background: rgba(233, 196, 106, 0)
+                        slots:
+                          default:
+                            - component: oh-image
+                              config:
+                                action: popup
+                                actionModal: page:owntracksPerson3
+                                actionModalTransition: f7-dive
+                                style:
+                                  margin-top: 10px
+                                  width: "=props.contentIconSize ? (props.contentIconSize) + 'px' : '40px'"
+                                url: /icon/classic/sohn.png
+                      - component: f7-col
+                        config:
+                          style:
+                            background: rgba(233, 196, 106, 0)
+                        slots:
+                          default:
+                            - component: oh-image
+                              config:
+                                style:
+                                  margin-top: 10px
+                                  width: "=props.contentIconSize ? (props.contentIconSize) + 'px' : '40px'"
+                                url: /icon/classic/tochter.png
+                - component: f7-row
+                  config:
+                    class:
+                      - text-align-center
+                  slots:
+                    default:
+                      - component: f7-col
+                        slots:
+                          default:
+                            - component: Label
+                              config:
+                                style:
+                                  margin-top: 10px
+                                text: "=items[props.vater].state == 'ON' ? 'Anwesend' :
+                                  items[props.vaterlastupdate].state"
+                      - component: f7-col
+                        slots:
+                          default:
+                            - component: Label
+                              config:
+                                style:
+                                  margin-top: 10px
+                                text: "=items[props.mutter].state == 'ON' ? 'Anwesend' :
+                                  items[props.mutterlastupdate].state"
+                      - component: f7-col
+                        slots:
+                          default:
+                            - component: Label
+                              config:
+                                style:
+                                  margin-top: 10px
+                                text: "=items[props.sohn].state == 'ON' ? 'Anwesend' :
+                                  items[props.sohnlastupdate].state"
+                      - component: f7-col
+                        slots:
+                          default:
+                            - component: Label
+                              config:
+                                style:
+                                  margin-top: 10px
+                                text: "=items[props.tochter].state == 'ON' ? 'Anwesend' :
+                                  items[props.tochterlastupdate].state"
+    - component: f7-card-footer
+      config:
+        style:
+          --f7-card-footer-border-color: transparent
+          --f7-card-footer-font-size: "=props.footerTextSize ? (props.footerTextSize) + 'px' : '14px'"
+          --f7-card-footer-font-weight: 500
+          --f7-card-footer-min-height: "=props.footerShow == 'true' ? '25px' : '20px'"
+          --f7-card-footer-text-color: "=props.footerTextColor ? props.footerTextColor :
+            (themeOptions.dark === 'dark' ? 'white' : 'black')"
+          margin-bottom: 5px
+          margin-top: 5px
+      slots:
+        default:
+          - component: Label
+            config:
+              text: "=props.footerText ? props.footerText : 'Footer'"
+              visible: "=props.footerShow ? props.footerShow : props.footerShow"
