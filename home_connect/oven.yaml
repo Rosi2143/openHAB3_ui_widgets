@@ -1,8 +1,8 @@
-uid: oven_v1
+uid: oven_v2
 tags:
-  - marketplace:149449
+  - dish_washer
   - home_connect
-  - oven
+  - marketplace:149449
 props:
   parameters:
     - description: Title of the card
@@ -70,7 +70,8 @@ props:
       required: true
       type: TEXT
     - context: item
-      description: Expression that evaluates to Inactive, Ready, Run, Pause, Finished, Action
+      description: Expression that evaluates to Inactive, Ready, Run, Pause, Finished,
+        Action
       label: Operation Mode
       name: operation_mode
       required: true
@@ -82,7 +83,7 @@ props:
       required: false
       type: TEXT
   parameterGroups: []
-timestamp: Sep 4, 2023, 8:07:06 PM
+timestamp: Feb 25, 2024, 11:06:04 AM
 component: f7-card
 config:
   title: =(props.title)
@@ -119,7 +120,9 @@ slots:
                           default:
                             - component: Label
                               config:
-                                text: '=(props.header ? props.header : "") + (items[props.active_program].state != "UNDEF" ? "" + items[props.active_program].state : "")'
+                                text: '=(props.header ? props.header : "") + (items[props.active_program].state
+                                  != "UNDEF" ? "" +
+                                  items[props.active_program].state : "")'
                       - component: f7-block
                         config:
                           class:
@@ -200,7 +203,8 @@ slots:
                                   height: 40px
                                   left: 50%
                                   position: absolute
-                                  transform: '=items[props.door].state == "OPEN" ? "translate(-50%, -40px)" : "translate(-50%, 0)"'
+                                  transform: '=items[props.door].state == "OPEN" ? "translate(-50%, -40px)" :
+                                    "translate(-50%, 0)"'
                                   transform-origin: left center
                                   transition: transform 0.6s
                                   width: 40px
@@ -226,7 +230,8 @@ slots:
                                   height: 20px
                                   left: 81%
                                   position: absolute
-                                  transform: '=items[props.door].state == "OPEN" ? "translate(-50%, -70px)" : "translate(-50%, 0)"'
+                                  transform: '=items[props.door].state == "OPEN" ? "translate(-50%, -70px)" :
+                                    "translate(-50%, 0)"'
                                   transform-origin: left center
                                   transition: transform 0.6s
                                   width: 10px
@@ -253,11 +258,14 @@ slots:
                                         - justify-content-flex-start
                                         - align-items-center
                                       style:
-                                        backgroundColor: '=items[props.door].state == "OPEN" ? "darkslategray" : "black"'
+                                        backgroundColor: '=items[props.door].state == "OPEN" ? "darkslategray" :
+                                          "black"'
                                         box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px
                                         height: 100%
                                         margin-top: auto
-                                        transform: '=items[props.door].state == "OPEN" ? "perspective(600px) rotateX(-80deg)" : "perspective(0px) rotateX(0deg)"'
+                                        transform: '=items[props.door].state == "OPEN" ? "perspective(600px)
+                                          rotateX(-80deg)" : "perspective(0px)
+                                          rotateX(0deg)"'
                                         transform-origin: bottom center
                                         transition: transform 0.6s
                                         width: 120px
@@ -271,7 +279,10 @@ slots:
                                               height: 10px
                                               margin-top: -10px
                                               position: absolute
-                                              transform: '=items[props.door].state == "OPEN" ? "perspective(600px) rotateX(35deg)" : "perspective(600px) rotateX(90deg)"'
+                                              transform: '=items[props.door].state == "OPEN" ? "perspective(600px)
+                                                rotateX(35deg)" :
+                                                "perspective(600px)
+                                                rotateX(90deg)"'
                                               transform-origin: bottom center
                                               transition: transform 0.6s
                                               width: 90px
@@ -296,7 +307,16 @@ slots:
                                               - component: f7-block
                                                 config:
                                                   class: custom-preloader-container-dummy
-                                                  colorTheme: '=items[props.operation_mode].state == "Inactive" ? "green" : items[props.operation_mode].state == "Run" ? "red" : items[props.operation_mode].state == "Pause" ? "lightblue" : items[props.operation_mode].state == "Ready" ? "purple" : items[props.operation_mode].state == "Finished" ? "green" : "deeporange"'
+                                                  colorTheme: '=items[props.operation_mode].state == "Inactive" ? "green" :
+                                                    items[props.operation_mode].state
+                                                    == "Run" ? "red" :
+                                                    items[props.operation_mode].state
+                                                    == "Pause" ? "lightblue" :
+                                                    items[props.operation_mode].state
+                                                    == "Ready" ? "purple" :
+                                                    items[props.operation_mode].state
+                                                    == "Finished" ? "green" :
+                                                    "deeporange"'
                                                   style:
                                                     --f7-preloader-color: var(--f7-theme-color)
                                                     --f7-preloader-size: 50px
@@ -336,7 +356,15 @@ slots:
                                                                   config:
                                                                     class: custom-preloader-inner-circle-dummy
                                                                     style:
-                                                                      animation: '=(items[props.operation_mode].state == "Inactive" || items[props.operation_mode].state == "Pause" || items[props.operation_mode].state == "Finished") ? "aurora-preloader-rotate 1s linear" : "aurora-preloader-rotate 1s linear infinite"'
+                                                                      animation: '=(items[props.operation_mode].state == "Inactive" ||
+                                                                        items[props.operation_mode].state
+                                                                        == "Pause" ||
+                                                                        items[props.operation_mode].state
+                                                                        == "Finished") ?
+                                                                        "aurora-preloader-rotate
+                                                                        1s linear" :
+                                                                        "aurora-preloader-rotate
+                                                                        1s linear infinite"'
                                                                       border: calc(var(--f7-preloader-size)/8) solid var(--f7-preloader-color)
                                                                       border-radius: 50%
                                                                       border-top-color: transparent
@@ -356,7 +384,9 @@ slots:
                                                     left: 50%
                                                     position: absolute
                                                     top: 50%
-                                                    transform: '=items[props.active].state == "ON" ? "scale(1, 1) translate(-50%, -50%)" : "scale(0, 0) translate(-50%, -50%)"'
+                                                    transform: '=items[props.active].state == "ON" ? "scale(1, 1) translate(-50%,
+                                                      -50%)" : "scale(0, 0)
+                                                      translate(-50%, -50%)"'
                                                     transform-origin: left center
                                                     transition: transform 0.6s
                                                 slots:
@@ -365,7 +395,21 @@ slots:
                                                       config:
                                                         style:
                                                           color: lightblue
-                                                        text: '=(items[props.remaining_runtime].state == "UNDEF") ? ((items[props.elapsed_runtime].state == "UNDEF") ? "00:00" : Number.parseInt(@props.elapsed_runtime)) : Number.parseInt(@props.remaining_runtime) + ":" + ((((Number.parseFloat(@props.remaining_runtime) * 60 ) % 60) < 10) ? ("0" + Math.round((Number.parseFloat(@props.remaining_runtime) * 60) % 60 )) : (Math.round((Number.parseFloat(@props.remaining_runtime) * 60) % 60 )))'
+                                                        text: '=(items[props.remaining_runtime].state == "UNDEF") ?
+                                                          ((items[props.elapsed_runtime].state
+                                                          == "UNDEF") ? "00:00"
+                                                          :
+                                                          Number.parseInt(@props.elapsed_runtime))
+                                                          :
+                                                          Number.parseInt(@props.remaining_runtime)
+                                                          + ":" +
+                                                          ((((Number.parseFloat(@props.remaining_runtime)
+                                                          * 60 ) % 60) < 10) ?
+                                                          ("0" +
+                                                          Math.round((Number.parseFloat(@props.remaining_runtime)
+                                                          * 60) % 60 )) :
+                                                          (Math.round((Number.parseFloat(@props.remaining_runtime)
+                                                          * 60) % 60 )))'
                                         - component: oh-slider
                                           config:
                                             item: =props.progress
@@ -384,4 +428,8 @@ slots:
         default:
           - component: Label
             config:
-              text: '=((items[props.set_duration].state == "UNDEF") ? "" : (@props.set_duration) + " [")  + ((items[props.curr_temp].state == "UNDEF") ? "" : (items[props.curr_temp].state + ((items[props.set_temp].state == "UNDEF") ? "" : ("/" + (items[props.set_temp].state + "]")))))'
+              text: '=((items[props.set_duration].state == "UNDEF") ? "" :
+                (@props.set_duration) + " [")  + ((items[props.curr_temp].state
+                == "UNDEF") ? "" : (items[props.curr_temp].state +
+                ((items[props.set_temp].state == "UNDEF") ? "" : ("/" +
+                (items[props.set_temp].state + "]")))))'
