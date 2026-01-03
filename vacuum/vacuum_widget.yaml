@@ -2,7 +2,6 @@ uid: vacuum_widget
 tags:
   - card
   - standalone
-  - https://community.openhab.org/t/valetudo-vacuum-robot-control-widget/141068
 props:
   parameters:
     - context: item
@@ -71,7 +70,7 @@ props:
       label: General
     - name: display
       label: Display options
-timestamp: Oct 19, 2025, 11:03:17 AM
+timestamp: Jan 2, 2026, 4:31:26 PM
 component: f7-card
 config: {}
 slots:
@@ -102,15 +101,23 @@ slots:
                       text-transform: initial
                     text: '=(props.title ? (props.title) + ": " : "") + (items[props.item +
                       "_State"].displayState + ((items[props.item +
-                      "_Current_Cleaning_Mode"].displayState !== "none") ? (" /
-                      " + items[props.item +
-                      "_Current_Cleaning_Mode"].displayState) : ""))'
+                      "_Current_Cleaning_Mode"].displayState !== UNDEF) ? (" / "
+                      + items[props.item +
+                      "_Current_Cleaning_Mode"].displayState) : "")  +
+                      ((items[props.item +
+                      "_Current_Cleaning_Spot"].displayState !== UNDEF) ? (" / "
+                      + items[props.item +
+                      "_Current_Cleaning_Spot"].displayState) : "") +
+                      ((items[props.item + "_Command"].displayState !== UNDEF) ?
+                      (" / " + items[props.item + "_Command"].displayState) :
+                      "") )'
           - component: f7-col
             config:
               style:
                 padding-leftt: 10px
                 padding-right: 10px
-              width: 190
+              width: auto
+              align: center
             slots:
               default:
                 - component: oh-link
@@ -118,29 +125,49 @@ slots:
                     iconF7: '=(items[props.item + "_State"].displayState === "Charging") ? "bolt" :
                       (items[props.item + "_State"].displayState === "Running")
                       ? "tornado" : "checkmark_seal"'
+                    action: analyzer
+                    actionAnalyzerCoordSystem: time
+                    actionAnalyzerItems: =props.item + "_State"
                     style:
                       padding-leftt: 10px
                       padding-right: 10px
                 - component: oh-link
                   config:
-                    iconColor: '=((items[props.item +  "_Batterieladung"].displayState) === "Ok") ?
-                      "green" : "darkred"'
+                    iconColor: '=(Number.parseInt(items[props.item + "_Batterieladung"].state) < 30) ?
+                      "red" : (Number.parseInt(items[props.item +
+                      "_Batterieladung"].state) < 60) ? "yellow" :
+                      "green"'
                     iconF7: '=(Number.parseInt(items[props.item + "_Batterieladung"].state) < 30) ?
                       "battery_0" : (Number.parseInt(items[props.item +
                       "_Batterieladung"].state) < 60) ? "battery_25" :
                       "battery_100"'
+                    color: '=(Number.parseInt(items[props.item + "_Batterieladung"].state) < 30) ?
+                      "red" : (Number.parseInt(items[props.item +
+                      "_Batterieladung"].state) < 60) ? "yellow" :
+                      "green"'
+                    action: analyzer
+                    actionAnalyzerCoordSystem: time
+                    actionAnalyzerItems: =props.item + "_Batterieladung"
                     style:
                       padding-leftt: 10px
                       padding-right: 10px
                     text: =(items[props.item + "_Batterieladung"].displayState)
                 - component: oh-link
                   config:
-                    iconColor: black
+                    iconColor: '=(Number.parseInt(items[props.item
+                      +  "_WiFi_Signal_Strength"].state) > -60) ? "green" :
+                      var(--f7-text-color)'
                     iconF7: '=(Number.parseInt(items[props.item + "_WiFi_Signal_Strength"].state) >
                       -30) ? "dot_radiowaves_right" :
                       (Number.parseInt(items[props.item +
                       "_WiFi_Signal_Strength"].state) > -60) ?
                       "radiowaves_right" : "badge_plus_radiowaves_right"'
+                    color: '=(Number.parseInt(items[props.item
+                      +  "_WiFi_Signal_Strength"].state) > -60) ? "green" :
+                      var(--f7-text-color)'
+                    action: analyzer
+                    actionAnalyzerCoordSystem: time
+                    actionAnalyzerItems: =props.item + "_WiFi_Signal_Strength"
                     style:
                       padding-leftt: 10px
                       padding-right: 10px
@@ -204,6 +231,8 @@ slots:
           display: '=(props.hide_attachments) ? "none" : "flex"'
           justify-content: center
           padding-bottom: 15px
+          border-top: '=themeOptions.dark === "dark" ? "solid 1px rgba(255, 255, 255,
+            0.2)" : "solid 1px rgba(0, 0, 0, 0.2)"'
       slots:
         default:
           - component: oh-button
@@ -211,7 +240,7 @@ slots:
               disabled: true
               iconColor: '=Number.parseInt(items[props.item + "_Dust_Filter_Lifetime"].state)
                 < 20 ? red: black'
-              iconF7: star_circle
+              iconMaterial: grain
               style:
                 color: '=Number.parseInt(items[props.item + "_Dust_Filter_Lifetime"].state) < 20
                   ? red: black'
@@ -243,6 +272,17 @@ slots:
             config:
               disabled: true
               iconColor: '=Number.parseInt(items[props.item +
+                "_Consumables_Mop_Lifetime"].state) < 20 ? red: black'
+              iconMaterial: cleaning_services
+              style:
+                color: '=Number.parseInt(items[props.item + "_Consumables_Mop_Lifetime"].state)
+                  < 20 ? red: black'
+                opacity: .7 !important
+              text: '="Mop: " + (items[props.item + "_Consumables_Mop_Lifetime"]).state'
+          - component: oh-button
+            config:
+              disabled: true
+              iconColor: '=Number.parseInt(items[props.item +
                 "_Other_Component_Lifetime"].state) < 20 ? red: black'
               iconMaterial: devices_other
               style:
@@ -258,6 +298,8 @@ slots:
           display: '=(props.hide_attachments) ? "none" : "flex"'
           justify-content: center
           padding-bottom: 15px
+          border-top: '=themeOptions.dark === "dark" ? "solid 1px rgba(255, 255, 255,
+            0.2)" : "solid 1px rgba(0, 0, 0, 0.2)"'
       slots:
         default:
           - component: oh-button
@@ -266,16 +308,16 @@ slots:
               iconF7: timer
               style:
                 opacity: .7 !important
-              text: =items[props.item + "_Last_Cleaning_Duration"].state + "(" +
-                items[props.item + "_Total_Cleaning_Time"].state + ")"
+              text: =items[props.item + "_Last_Cleaning_Duration"].displayState + " (" +
+                items[props.item + "_Total_Cleaning_Time"].displayState + ")"
           - component: oh-button
             config:
               disabled: true
               iconF7: map
               style:
                 opacity: .7 !important
-              text: =items[props.item + "_Last_Cleaned_Area"].state + "(" + items[props.item +
-                "_Total_Cleaned_Area"].state + ")"
+              text: =items[props.item + "_Last_Cleaned_Area"].state + " (" + items[props.item
+                + "_Total_Cleaned_Area"].state + ")"
           - component: oh-button
             config:
               disabled: true
@@ -375,13 +417,13 @@ slots:
               style:
                 display: '=((items[props.item + "_Mapsegments"].state !== "" && items[props.item
                   + "_Mapsegments"].state !== "{}") || props.segments) &&
-                  items[props.item + "_Cleansegments"] !== undefined ? undefined
+                  items[props.item + "_Cleansegments"].state != "-" ? undefined
                   : "none"'
               text: Clean room
     - component: f7-row
       config:
         style:
-          display: '=((items[props.item + "_Cleaning_Power_Level"] !== undefined &&
+          display: '=((items[props.item + "_Cleaning_Power_Level"].state != "-" &&
             !props.compact) ? undefined : "none")'
           margin-top: 15px
       slots:
@@ -426,10 +468,11 @@ slots:
                                 round: true
                                 small: true
                                 text: =loop.item.label
+                                color: var(--f7-text-color)
     - component: f7-row
       config:
         style:
-          display: '=((items[props.item + "_Mopping_Water_Amount"] !== undefined &&
+          display: '=((items[props.item + "_Mopping_Water_Amount"].state != "-" &&
             !props.compact) ? undefined : "none")'
           margin-top: 15px
       slots:
@@ -477,8 +520,8 @@ slots:
     - component: f7-row
       config:
         style:
-          display: '=((items[props.item + "_Voice_Volume"] !== undefined &&
-            !props.compact) ? undefined : "none")'
+          display: '=((items[props.item + "_Voice_Volume"].state != "-" && !props.compact)
+            ? undefined : "none")'
           margin-top: 5px
       slots:
         default:
@@ -506,7 +549,7 @@ slots:
                         config:
                           for: number
                           fragment: true
-                          in: =["0", "20", "50", "70", "100"]
+                          in: =["0", "5", "10", "20", "30"]
                           sourceType: array
                         slots:
                           default:
@@ -533,9 +576,9 @@ slots:
             config:
               style:
                 --f7-button-text-color: var(--f7-text-color)
-                display: '=(items[props.item + "_Cleaning_Power_Level"] !== undefined ?
-                  undefined : "none")'
-              width: '=(items[props.item + "_Mopping_Water_Amount"] !== undefined ? 30 : 100)'
+                display: '=(items[props.item + "_Cleaning_Power_Level"].state != "-" ? undefined
+                  : "none")'
+              width: '=(items[props.item + "_Mopping_Water_Amount"].state != "-" ? 35 : 100)'
             slots:
               default:
                 - component: oh-button
@@ -543,42 +586,48 @@ slots:
                     action: options
                     actionItem: =props.item + "_Cleaning_Power_Level"
                     iconF7: wind
-                    large: true
+                    large: false
                     text: '="Fan: " + items[props.item + "_Cleaning_Power_Level"].state'
+                    outline: true
+                    round: true
           - component: f7-col
             config:
               style:
                 --f7-button-text-color: var(--f7-text-color)
-                display: '=(items[props.item + "_Mopping_Water_Amount"] !== undefined ?
-                  undefined : "none")'
-              width: '=(items[props.item + "_Cleaning_Power_Level"] !== undefined ? 30 : 100)'
+                display: '=(items[props.item + "_Mopping_Water_Amount"].state != "-" ? undefined
+                  : "none")'
+              width: '=(items[props.item + "_Mopping_Water_Amount"].state != "-" ? 35 : 100)'
             slots:
               default:
                 - component: oh-button
                   config:
                     action: options
                     actionItem: =props.item + "_Mopping_Water_Amount"
-                    actionOptions: =none=1,low=20,mid=30,high=40,extreme=50
+                    actionOptions: none=1,low=20,mid=30,high=40,extreme=50
                     iconF7: drop
-                    large: true
+                    large: false
                     text: '="Water: " + items[props.item + "_Mopping_Water_Amount"].state'
+                    outline: true
+                    round: true
           - component: f7-col
             config:
               style:
                 --f7-button-text-color: var(--f7-text-color)
-                display: '=(items[props.item + "_Voice_Volume"] !== undefined ? undefined :
+                display: '=(items[props.item + "_Voice_Volume"].state != "-" ? undefined :
                   "none")'
-              width: '=(items[props.item + "_Cleaning_Power_Level"] !== undefined ? 30 : 100)'
+              width: '=(items[props.item + "_Voice_Volume"].state != "-" ? 35 : 100)'
             slots:
               default:
                 - component: oh-button
                   config:
                     action: options
                     actionItem: =props.item + "_Voice_Volume"
-                    actionOptions: =off=0,low=20,mid=50,high=70,extreme=100
+                    actionOptions: off=0,low=10,mid=20,high=25,extreme=30
                     iconF7: drop
-                    large: true
+                    large: false
                     text: '="Voice: " + items[props.item + "_Voice_Volume"].state'
+                    outline: true
+                    round: true
     - component: f7-row
       config:
         style:
@@ -632,7 +681,9 @@ slots:
                 width: 100%
               url: =props.map_url
     - component: f7-row
-      config: {}
+      config:
+        style:
+          display: '=(items[props.item + "_Map"].state != "-" ? undefined : "none")'
       slots:
         default:
           - component: oh-image

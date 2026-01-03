@@ -1,5 +1,10 @@
 uid: vacuum_widget_small
-tags: []
+tags:
+  - vacuum
+  - widget
+  - small
+  - ecovacs
+  - https://community.openhab.org/t/roomba/118997/12
 props:
   parameters:
     - description: Title of the card
