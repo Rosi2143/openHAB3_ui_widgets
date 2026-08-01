@@ -1,435 +1,388 @@
-uid: oven_v2
-tags:
-  - dish_washer
-  - home_connect
-  - marketplace:149449
-props:
-  parameters:
-    - description: Title of the card
-      label: Title
-      name: title
-      required: false
-      type: TEXT
-    - description: Header text above oven
-      label: Header
-      name: header
-      required: false
-      type: TEXT
-    - context: item
-      description: Currently active program (String item)
-      label: Program
-      name: active_program
-      required: false
-      type: TEXT
-    - context: item
-      description: Oven active state (Switch item)
-      label: Active state
-      name: active
-      required: false
-      type: TEXT
-    - context: item
-      description: Door state (Contact item)
-      label: Door state
-      name: door
-      required: false
-      type: TEXT
-    - context: item
-      description: Target temperature (Number:Temperature Item)
-      label: Target Temperature
-      name: set_temp
-      required: false
-      type: TEXT
-    - context: item
-      description: Currently temperature (Number:Temperature Item)
-      label: Current Temperature
-      name: curr_temp
-      required: false
-      type: TEXT
-    - context: item
-      description: Currently temperature (Number:Dimensionless Item)
-      label: Progress
-      name: progress
-      required: false
-      type: TEXT
-    - context: item
-      description: Set program time in minutes (Number:Time Item)
-      label: Minutes set
-      name: set_duration
-      required: true
-      type: TEXT
-    - context: item
-      description: Remaining time in minutes (Number:Time Item)
-      label: Minutes remaining
-      name: remaining_runtime
-      required: true
-      type: TEXT
-    - context: item
-      description: Elapsed time in minutes (Number:Time Item)
-      label: Minutes elapsed
-      name: elapsed_runtime
-      required: true
-      type: TEXT
-    - context: item
-      description: Expression that evaluates to Inactive, Ready, Run, Pause, Finished,
-        Action
-      label: Operation Mode
-      name: operation_mode
-      required: true
-      type: TEXT
-    - context: item
-      description: Remote access state
-      label: Remote access
-      name: remote_access
-      required: false
-      type: TEXT
-  parameterGroups: []
-timestamp: Feb 25, 2024, 11:06:04 AM
-component: f7-card
-config:
-  title: =(props.title)
-slots:
-  default:
-    - component: f7-card-content
-      config:
-        style:
-          height: 175px
-      slots:
-        default:
-          - component: f7-row
-            config:
-              class:
-                - display-flex
-                - justify-content-center
-              style:
-                width: 100%
-            slots:
-              default:
-                - component: f7-col
-                  config:
-                    class:
-                      - display-flex
-                      - flex-direction-column
-                      - align-items-center
-                      - justify-content-space-evenly
-                    style:
-                      height: 100%
-                  slots:
-                    default:
-                      - component: f7-block-header
-                        slots:
-                          default:
-                            - component: Label
-                              config:
-                                text: '=(props.header ? props.header : "") + (items[props.active_program].state
-                                  != "UNDEF" ? "" +
-                                  items[props.active_program].state : "")'
-                      - component: f7-block
-                        config:
-                          class:
-                            - display-flex
-                            - flex-direction-column
-                            - align-items-center
-                          style:
-                            background: silver
-                            border-radius: 2px 2px 4px 4px
-                            box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px
-                            height: 120px
-                            width: 120px
-                        slots:
-                          default:
-                            - component: f7-block
-                              config:
-                                class:
-                                  - display-flex
-                                  - justify-content-center
-                                  - align-items-center
-                                  - flex-shrink-0
-                                  - no-margin
-                                style:
-                                  border-bottom: 2pt solid lightgray
-                                  height: 23px
-                                  padding-right: 10px
-                                  width: 100px
-                              slots:
-                                default:
-                                  - component: f7-block
-                                    config:
-                                      style:
-                                        backgroundColor: black
-                                        border-radius: 2px 2px 0px 0px
-                                        height: 12px
-                                        margin-top: 0px
-                                        width: 80px
-                                    slots:
-                                      default:
-                                        - component: f7-icon
-                                          config:
-                                            f7: circle_bottomthird_split
-                                            size: 16
-                                            style:
-                                              color: silver
-                                              margin-left: 14px
-                                              margin-top: -13px
-                                        - component: f7-icon
-                                          config:
-                                            f7: antenna_radiowaves_left_right
-                                            size: 16
-                                            style:
-                                              color: "=items[props.remote_access].state === 'ON' ? 'green' : 'red'"
-                                              margin-left: -70px
-                                              margin-top: -13px
-                                            visible: "=props.remote_access ? true : false"
-                            - component: f7-block
-                              config:
-                                class:
-                                  - no-padding
-                                style:
-                                  background: rgba(50, 50, 50, 1)
-                                  bottom: 0px
-                                  height: calc(100% - 23px)
-                                  position: absolute
-                                  width: 90%
-                            - component: f7-block
-                              config:
-                                class:
-                                  - display-flex
-                                  - justify-content-center
-                                  - align-items-center
-                                style:
-                                  background: grey
-                                  border-radius: 50%
-                                  bottom: 0px
-                                  box-shadow: 0 0 16px 8px rgba(0, 0, 0, 0.10) inset
-                                  height: 40px
-                                  left: 50%
-                                  position: absolute
-                                  transform: '=items[props.door].state == "OPEN" ? "translate(-50%, -40px)" :
-                                    "translate(-50%, 0)"'
-                                  transform-origin: left center
-                                  transition: transform 0.6s
-                                  width: 40px
-                              slots:
-                                default:
-                                  - component: f7-icon
-                                    config:
-                                      f7: circle
-                                      size: 40
-                                      style:
-                                        color: beige
-                            - component: f7-block
-                              config:
-                                class:
-                                  - display-flex
-                                  - justify-content-center
-                                  - align-items-center
-                                style:
-                                  background: yellow
-                                  border-radius: 50%
-                                  bottom: 0px
-                                  box-shadow: 0 0 20px 20px rgba(50, 50, 50, 0.90) inset
-                                  height: 20px
-                                  left: 81%
-                                  position: absolute
-                                  transform: '=items[props.door].state == "OPEN" ? "translate(-50%, -70px)" :
-                                    "translate(-50%, 0)"'
-                                  transform-origin: left center
-                                  transition: transform 0.6s
-                                  width: 10px
-                              slots:
-                                default:
-                                  - component: f7-icon
-                                    config:
-                                      f7: circle_fill
-                                      size: 10
-                                      style:
-                                        color: yellow
-                            - component: f7-block
-                              config:
-                                style:
-                                  height: 100%
-                                  transform: translate3d(0, 0, 0)
-                              slots:
-                                default:
-                                  - component: f7-block
-                                    config:
-                                      class:
-                                        - display-flex
-                                        - flex-direction-column
-                                        - justify-content-flex-start
-                                        - align-items-center
-                                      style:
-                                        backgroundColor: '=items[props.door].state == "OPEN" ? "darkslategray" :
-                                          "black"'
-                                        box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px
-                                        height: 100%
-                                        margin-top: auto
-                                        transform: '=items[props.door].state == "OPEN" ? "perspective(600px)
-                                          rotateX(-80deg)" : "perspective(0px)
-                                          rotateX(0deg)"'
-                                        transform-origin: bottom center
-                                        transition: transform 0.6s
-                                        width: 120px
-                                    slots:
-                                      default:
-                                        - component: f7-block
-                                          config:
-                                            style:
-                                              backgroundColor: white
-                                              border-radius: 2px 2px 0px 0px
-                                              height: 10px
-                                              margin-top: -10px
-                                              position: absolute
-                                              transform: '=items[props.door].state == "OPEN" ? "perspective(600px)
-                                                rotateX(35deg)" :
-                                                "perspective(600px)
-                                                rotateX(90deg)"'
-                                              transform-origin: bottom center
-                                              transition: transform 0.6s
-                                              width: 90px
-                                        - component: f7-block
-                                          config:
-                                            style:
-                                              backgroundColor: silver
-                                              border-radius: 2px 2px 0px 0px
-                                              height: 8px
-                                              margin-top: 10px
-                                              width: 90px
-                                        - component: f7-block
-                                          config:
-                                            class:
-                                              - no-padding
-                                            style:
-                                              height: calc(100% - 40px)
-                                              margin-top: 10px
-                                              width: 100%
-                                          slots:
-                                            default:
-                                              - component: f7-block
-                                                config:
-                                                  class: custom-preloader-container-dummy
-                                                  colorTheme: '=items[props.operation_mode].state == "Inactive" ? "green" :
-                                                    items[props.operation_mode].state
-                                                    == "Run" ? "red" :
-                                                    items[props.operation_mode].state
-                                                    == "Pause" ? "lightblue" :
-                                                    items[props.operation_mode].state
-                                                    == "Ready" ? "purple" :
-                                                    items[props.operation_mode].state
-                                                    == "Finished" ? "green" :
-                                                    "deeporange"'
-                                                  style:
-                                                    --f7-preloader-color: var(--f7-theme-color)
-                                                    --f7-preloader-size: 50px
-                                                    display: '=items[props.active].state == "ON" ? "" : "none"'
-                                                    left: 50%
-                                                    margin: 0
-                                                    padding: 0
-                                                    position: absolute
-                                                    top: 50%
-                                                    transform: translate(-50%, -50%)
-                                                slots:
-                                                  default:
-                                                    - component: f7-block
-                                                      config:
-                                                        class: custom-preloader-dummy
-                                                        style:
-                                                          height: var(--f7-preloader-size)
-                                                          margin: 0
-                                                          padding: 0
-                                                          width: var(--f7-preloader-size)
-                                                      slots:
-                                                        default:
-                                                          - component: f7-block
-                                                            config:
-                                                              class: custom-preloader-inner-dummy
-                                                              style:
-                                                                height: 100%
-                                                                left: 0
-                                                                margin: 0
-                                                                padding: 0
-                                                                position: absolute
-                                                                top: 0
-                                                                width: 100%
-                                                            slots:
-                                                              default:
-                                                                - component: f7-block
-                                                                  config:
-                                                                    class: custom-preloader-inner-circle-dummy
-                                                                    style:
-                                                                      animation: '=(items[props.operation_mode].state == "Inactive" ||
-                                                                        items[props.operation_mode].state
-                                                                        == "Pause" ||
-                                                                        items[props.operation_mode].state
-                                                                        == "Finished") ?
-                                                                        "aurora-preloader-rotate
-                                                                        1s linear" :
-                                                                        "aurora-preloader-rotate
-                                                                        1s linear infinite"'
-                                                                      border: calc(var(--f7-preloader-size)/8) solid var(--f7-preloader-color)
-                                                                      border-radius: 50%
-                                                                      border-top-color: transparent
-                                                                      box-sizing: border-box
-                                                                      height: 100%
-                                                                      left: 0
-                                                                      margin: 0
-                                                                      padding: 0
-                                                                      position: absolute
-                                                                      top: 0
-                                                                      width: 100%
-                                              - component: f7-block-header
-                                                config:
-                                                  class:
-                                                    - no-margin
-                                                  style:
-                                                    left: 50%
-                                                    position: absolute
-                                                    top: 50%
-                                                    transform: '=items[props.active].state == "ON" ? "scale(1, 1) translate(-50%,
-                                                      -50%)" : "scale(0, 0)
-                                                      translate(-50%, -50%)"'
-                                                    transform-origin: left center
-                                                    transition: transform 0.6s
-                                                slots:
-                                                  default:
-                                                    - component: Label
-                                                      config:
-                                                        style:
-                                                          color: lightblue
-                                                        text: '=(items[props.remaining_runtime].state == "UNDEF") ?
-                                                          ((items[props.elapsed_runtime].state
-                                                          == "UNDEF") ? "00:00"
-                                                          :
-                                                          Number.parseInt(@props.elapsed_runtime))
-                                                          :
-                                                          Number.parseInt(@props.remaining_runtime)
-                                                          + ":" +
-                                                          ((((Number.parseFloat(@props.remaining_runtime)
-                                                          * 60 ) % 60) < 10) ?
-                                                          ("0" +
-                                                          Math.round((Number.parseFloat(@props.remaining_runtime)
-                                                          * 60) % 60 )) :
-                                                          (Math.round((Number.parseFloat(@props.remaining_runtime)
-                                                          * 60) % 60 )))'
-                                        - component: oh-slider
-                                          config:
-                                            item: =props.progress
-                                            max: 100
-                                            min: 0
-                                            unit: true
-                                            visible: =items[props.progress].state != "UNDEF"
-    - component: f7-card-footer
-      config:
-        class:
-          - display-flex
-          - flex-direction-column
-          - align-items-center
-          - justify-content-space-evenly
-      slots:
-        default:
-          - component: Label
-            config:
-              text: '=((items[props.set_duration].state == "UNDEF") ? "" :
-                (@props.set_duration) + " [")  + ((items[props.curr_temp].state
-                == "UNDEF") ? "" : (items[props.curr_temp].state +
-                ((items[props.set_temp].state == "UNDEF") ? "" : ("/" +
-                (items[props.set_temp].state + "]")))))'
+version: 1
+widgets:
+  oven_v2:
+    tags:
+      - marketplace:149449
+      - home_connect
+      - oven
+    props:
+      parameters:
+        - description: Title of the card
+          label: Title
+          name: title
+          required: false
+          type: TEXT
+        - description: Header text above oven
+          label: Header
+          name: header
+          required: false
+          type: TEXT
+        - context: item
+          description: Currently active program (String item)
+          label: Program
+          name: active_program
+          required: false
+          type: TEXT
+        - context: item
+          description: Oven active state (Switch item)
+          label: Active state
+          name: active
+          required: false
+          type: TEXT
+        - context: item
+          description: Door state (Contact item)
+          label: Door state
+          name: door
+          required: false
+          type: TEXT
+        - context: item
+          description: Target temperature (Number:Temperature Item)
+          label: Target Temperature
+          name: set_temp
+          required: false
+          type: TEXT
+        - context: item
+          description: Currently temperature (Number:Temperature Item)
+          label: Current Temperature
+          name: curr_temp
+          required: false
+          type: TEXT
+        - context: item
+          description: Currently temperature (Number:Dimensionless Item)
+          label: Progress
+          name: progress
+          required: false
+          type: TEXT
+        - context: item
+          description: Set program time in minutes (Number:Time Item)
+          label: Minutes set
+          name: set_duration
+          required: true
+          type: TEXT
+        - context: item
+          description: Remaining time in minutes (Number:Time Item)
+          label: Minutes remaining
+          name: remaining_runtime
+          required: true
+          type: TEXT
+        - context: item
+          description: Elapsed time in minutes (Number:Time Item)
+          label: Minutes elapsed
+          name: elapsed_runtime
+          required: true
+          type: TEXT
+        - context: item
+          description: Expression that evaluates to Inactive, Ready, Run, Pause, Finished, Action
+          label: Operation Mode
+          name: operation_mode
+          required: true
+          type: TEXT
+        - context: item
+          description: Remote access state
+          label: Remote access
+          name: remote_access
+          required: false
+          type: TEXT
+      parameterGroups: []
+    component: f7-card
+    config:
+      title: =(props.title)
+    slots:
+      default:
+        - component: f7-card-content
+          config:
+            style:
+              height: 175px
+          slots:
+            default:
+              - component: f7-row
+                config:
+                  class:
+                    - display-flex
+                    - justify-content-center
+                  style:
+                    width: 100%
+                slots:
+                  default:
+                    - component: f7-col
+                      config:
+                        class:
+                          - display-flex
+                          - flex-direction-column
+                          - align-items-center
+                          - justify-content-space-evenly
+                        style:
+                          height: 100%
+                      slots:
+                        default:
+                          - component: f7-block-header
+                            slots:
+                              default:
+                                - component: Label
+                                  config:
+                                    text: '=(props.header ? props.header : "") + (items[props.active_program].state != "UNDEF" ? "" + items[props.active_program].state : "")'
+                          - component: f7-block
+                            config:
+                              class:
+                                - display-flex
+                                - flex-direction-column
+                                - align-items-center
+                              style:
+                                background: silver
+                                border-radius: 2px 2px 4px 4px
+                                box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px
+                                height: 120px
+                                width: 120px
+                            slots:
+                              default:
+                                - component: f7-block
+                                  config:
+                                    class:
+                                      - display-flex
+                                      - justify-content-center
+                                      - align-items-center
+                                      - flex-shrink-0
+                                      - no-margin
+                                    style:
+                                      border-bottom: 2pt solid lightgray
+                                      height: 23px
+                                      padding-right: 10px
+                                      width: 100px
+                                  slots:
+                                    default:
+                                      - component: f7-block
+                                        config:
+                                          style:
+                                            backgroundColor: black
+                                            border-radius: 2px 2px 0px 0px
+                                            height: 12px
+                                            margin-top: 0px
+                                            width: 80px
+                                        slots:
+                                          default:
+                                            - component: f7-icon
+                                              config:
+                                                f7: circle_bottomthird_split
+                                                size: 16
+                                                style:
+                                                  color: silver
+                                                  margin-left: 14px
+                                                  margin-top: -13px
+                                            - component: f7-icon
+                                              config:
+                                                f7: antenna_radiowaves_left_right
+                                                size: 16
+                                                style:
+                                                  color: "=items[props.remote_access].state === 'ON' ? 'green' : 'red'"
+                                                  margin-left: -70px
+                                                  margin-top: -13px
+                                                visible: "=props.remote_access ? true : false"
+                                - component: f7-block
+                                  config:
+                                    class:
+                                      - no-padding
+                                    style:
+                                      background: rgba(50, 50, 50, 1)
+                                      bottom: 0px
+                                      height: calc(100% - 23px)
+                                      position: absolute
+                                      width: 90%
+                                - component: f7-block
+                                  config:
+                                    class:
+                                      - display-flex
+                                      - justify-content-center
+                                      - align-items-center
+                                    style:
+                                      background: grey
+                                      border-radius: 50%
+                                      bottom: 0px
+                                      box-shadow: 0 0 16px 8px rgba(0, 0, 0, 0.10) inset
+                                      height: 40px
+                                      left: 50%
+                                      position: absolute
+                                      transform: '=items[props.door].state == "OPEN" ? "translate(-50%, -40px)" : "translate(-50%, 0)"'
+                                      transform-origin: left center
+                                      transition: transform 0.6s
+                                      width: 40px
+                                  slots:
+                                    default:
+                                      - component: f7-icon
+                                        config:
+                                          f7: circle
+                                          size: 40
+                                          style:
+                                            color: beige
+                                - component: f7-block
+                                  config:
+                                    class:
+                                      - display-flex
+                                      - justify-content-center
+                                      - align-items-center
+                                    style:
+                                      background: yellow
+                                      border-radius: 50%
+                                      bottom: 0px
+                                      box-shadow: 0 0 20px 20px rgba(50, 50, 50, 0.90) inset
+                                      height: 20px
+                                      left: 81%
+                                      position: absolute
+                                      transform: '=items[props.door].state == "OPEN" ? "translate(-50%, -70px)" : "translate(-50%, 0)"'
+                                      transform-origin: left center
+                                      transition: transform 0.6s
+                                      width: 10px
+                                  slots:
+                                    default:
+                                      - component: f7-icon
+                                        config:
+                                          f7: circle_fill
+                                          size: 10
+                                          style:
+                                            color: yellow
+                                - component: f7-block
+                                  config:
+                                    style:
+                                      height: 100%
+                                      transform: translate3d(0, 0, 0)
+                                  slots:
+                                    default:
+                                      - component: f7-block
+                                        config:
+                                          class:
+                                            - display-flex
+                                            - flex-direction-column
+                                            - justify-content-flex-start
+                                            - align-items-center
+                                          style:
+                                            backgroundColor: '=items[props.door].state == "OPEN" ? "darkslategray" : "black"'
+                                            box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px
+                                            height: 100%
+                                            margin-top: auto
+                                            transform: '=items[props.door].state == "OPEN" ? "perspective(600px) rotateX(-80deg)" : "perspective(0px) rotateX(0deg)"'
+                                            transform-origin: bottom center
+                                            transition: transform 0.6s
+                                            width: 120px
+                                        slots:
+                                          default:
+                                            - component: f7-block
+                                              config:
+                                                style:
+                                                  backgroundColor: white
+                                                  border-radius: 2px 2px 0px 0px
+                                                  height: 10px
+                                                  margin-top: -10px
+                                                  position: absolute
+                                                  transform: '=items[props.door].state == "OPEN" ? "perspective(600px) rotateX(35deg)" : "perspective(600px) rotateX(90deg)"'
+                                                  transform-origin: bottom center
+                                                  transition: transform 0.6s
+                                                  width: 90px
+                                            - component: f7-block
+                                              config:
+                                                style:
+                                                  backgroundColor: silver
+                                                  border-radius: 2px 2px 0px 0px
+                                                  height: 8px
+                                                  margin-top: 10px
+                                                  width: 90px
+                                            - component: f7-block
+                                              config:
+                                                class:
+                                                  - no-padding
+                                                style:
+                                                  height: calc(100% - 40px)
+                                                  margin-top: 10px
+                                                  width: 100%
+                                              slots:
+                                                default:
+                                                  - component: f7-block
+                                                    config:
+                                                      class: custom-preloader-container-dummy
+                                                      colorTheme: '=items[props.operation_mode].state == "Inactive" ? "green" : items[props.operation_mode].state == "Run" ? "red" : items[props.operation_mode].state == "Pause" ? "lightblue" : items[props.operation_mode].state == "Ready" ? "purple" : items[props.operation_mode].state == "Finished" ? "green" : "deeporange"'
+                                                      style:
+                                                        --f7-preloader-color: var(--f7-theme-color)
+                                                        --f7-preloader-size: 50px
+                                                        display: '=items[props.active].state == "ON" ? "" : "none"'
+                                                        left: 50%
+                                                        margin: 0
+                                                        padding: 0
+                                                        position: absolute
+                                                        top: 50%
+                                                        transform: translate(-50%, -50%)
+                                                    slots:
+                                                      default:
+                                                        - component: f7-block
+                                                          config:
+                                                            class: custom-preloader-dummy
+                                                            style:
+                                                              height: var(--f7-preloader-size)
+                                                              margin: 0
+                                                              padding: 0
+                                                              width: var(--f7-preloader-size)
+                                                          slots:
+                                                            default:
+                                                              - component: f7-block
+                                                                config:
+                                                                  class: custom-preloader-inner-dummy
+                                                                  style:
+                                                                    height: 100%
+                                                                    left: 0
+                                                                    margin: 0
+                                                                    padding: 0
+                                                                    position: absolute
+                                                                    top: 0
+                                                                    width: 100%
+                                                                slots:
+                                                                  default:
+                                                                    - component: f7-block
+                                                                      config:
+                                                                        class: custom-preloader-inner-circle-dummy
+                                                                        style:
+                                                                          animation: '=(items[props.operation_mode].state == "Inactive" || items[props.operation_mode].state == "Pause" || items[props.operation_mode].state == "Finished") ? "aurora-preloader-rotate 1s linear" : "aurora-preloader-rotate 1s linear infinite"'
+                                                                          border: calc(var(--f7-preloader-size)/8) solid var(--f7-preloader-color)
+                                                                          border-radius: 50%
+                                                                          border-top-color: transparent
+                                                                          box-sizing: border-box
+                                                                          height: 100%
+                                                                          left: 0
+                                                                          margin: 0
+                                                                          padding: 0
+                                                                          position: absolute
+                                                                          top: 0
+                                                                          width: 100%
+                                                  - component: f7-block-header
+                                                    config:
+                                                      class:
+                                                        - no-margin
+                                                      style:
+                                                        left: 50%
+                                                        position: absolute
+                                                        top: 50%
+                                                        transform: '=items[props.active].state == "ON" ? "scale(1, 1) translate(-50%, -50%)" : "scale(0, 0) translate(-50%, -50%)"'
+                                                        transform-origin: left center
+                                                        transition: transform 0.6s
+                                                    slots:
+                                                      default:
+                                                        - component: Label
+                                                          config:
+                                                            style:
+                                                              color: lightblue
+                                                            text: '=(items[props.remaining_runtime].state == "UNDEF") ? ((items[props.elapsed_runtime].state == "UNDEF") ? "00:00" : Number.parseInt(@props.elapsed_runtime)) : Number.parseInt(@props.remaining_runtime) + ":" + ((((Number.parseFloat(@props.remaining_runtime) * 60 ) % 60) < 10) ? ("0" + Math.round((Number.parseFloat(@props.remaining_runtime) * 60) % 60 )) : (Math.round((Number.parseFloat(@props.remaining_runtime) * 60) % 60 )))'
+                                            - component: oh-slider
+                                              config:
+                                                item: =props.progress
+                                                max: 100
+                                                min: 0
+                                                unit: true
+                                                visible: =items[props.progress].state != "UNDEF"
+        - component: f7-card-footer
+          config:
+            class:
+              - display-flex
+              - flex-direction-column
+              - align-items-center
+              - justify-content-space-evenly
+          slots:
+            default:
+              - component: Label
+                config:
+                  text: '=((items[props.set_duration].state == "UNDEF") ? "" : (@props.set_duration) + " [")  + ((items[props.curr_temp].state == "UNDEF") ? "" : (items[props.curr_temp].state + ((items[props.set_temp].state == "UNDEF") ? "" : ("/" + (items[props.set_temp].state + "]")))))'
