@@ -1,397 +1,397 @@
-uid: indego_v1
-tags: []
-props:
-  parameters:
-    - context: item
-      default: Bosch_Indego_Garden_Map
-      description: item that contains the map
-      label: map item
-      name: mower_map
-      required: true
-      type: TEXT
-      groupName: items
-    - context: item
-      default: Bosch_Indego_Batterieladung
-      description: item that contains the battery change level
-      label: charge item
-      name: mower_battery_charge
-      required: true
-      type: TEXT
-      groupName: items
-    - context: item
-      default: Bosch_Indego_Zustand_numerisch
-      description: item that contains the state text
-      label: state item
-      name: mower_state_text
-      required: true
-      type: TEXT
-      groupName: items
-    - context: item
-      default: Bosch_Indego_Gras_schneiden
-      description: item that contains the progress in %
-      label: progress item
-      name: mower_progress
-      required: true
-      type: TEXT
-      groupName: items
-    - context: item
-      default: Bosch_Indego_Garden_Size
-      description: item that contains the area
-      label: area item
-      name: mower_area
-      required: true
-      type: TEXT
-      groupName: items
-    - context: item
-      default: Bosch_Indego_Niedriger_Batteriestatus
-      description: item for low battery state
-      label: low-battery item
-      name: mower_lowbat
-      required: true
-      type: TEXT
-      groupName: items
-    - context: item
-      default: Bosch_Indego_Fehlercode
-      description: item for mower error
-      label: mower error code item
-      name: mower_error
-      required: true
-      type: TEXT
-      groupName: items
-    - context: item
-      default: Bosch_Indego_Battery_Temperature
-      description: item for battery temperature
-      label: battery temperature item
-      name: mower_battemp
-      required: false
-      type: TEXT
-      groupName: items
-    - context: item
-      default: Bosch_Indego_Battery_Voltage
-      description: item for battery voltage
-      label: battery voltage item
-      name: mower_batvolt
-      required: false
-      type: TEXT
-      groupName: items
-    - default: "false"
-      description: show battery voltage
-      label: show battery voltage
-      name: show_mower_batvolt
-      required: false
-      type: BOOLEAN
-      groupName: items
-    - context: item
-      default: Bosch_Indego_Last_Cutting
-      description: item for last cutting
-      label: last cutting item
-      name: mower_lastcut
-      required: false
-      type: TEXT
-      groupName: items
-    - context: item
-      default: Bosch_Indego_Next_Cutting
-      description: item for next cutting
-      label: next cutting item
-      name: mower_nextcut
-      required: false
-      type: TEXT
-      groupName: items
-    - context: item
-      default: Bosch_Indego_Zustand_numerisch
-      description: item for sending commands (state channel) - see binding documentation
-      label: command item
-      name: command_state
-      required: false
-      type: TEXT
-      groupName: buttons
-    - default: "false"
-      description: only show command buttons in popup
-      label: hide buttons
-      name: hide_buttons
-      required: false
-      type: BOOLEAN
-      groupName: buttons
-    - default: Mow
-      description: Button text "Mov"
-      label: Button text for "Mov"
-      name: button_translate_mow
-      required: false
-      type: TEXT
-      groupName: buttons
-    - default: Pause
-      description: Button text "Pause"
-      label: Button text for "Pause"
-      name: button_translate_pause
-      required: false
-      type: TEXT
-      groupName: buttons
-    - default: Dock
-      description: Button text "Dock"
-      label: Button text for "Dock"
-      name: button_translate_dock
-      required: false
-      type: TEXT
-      groupName: buttons
-    - description: Title of the card
-      label: Title
-      name: title
-      required: false
-      type: TEXT
-    - default: Battery
-      description: use to tranlate "Battery"
-      label: Word for "Battery"
-      name: translate_battery
-      required: false
-      type: TEXT
-      groupName: translate
-    - default: of
-      description: use to tranlate "of"
-      label: Word for "of"
-      name: translate_of
-      required: false
-      type: TEXT
-      groupName: translate
-    - default: mowed
-      description: use to tranlate "mowed"
-      label: Word for "mowed"
-      name: translate_mowed
-      required: false
-      type: TEXT
-      groupName: translate
-    - default: State
-      description: use to tranlate "State"
-      label: Word for "State"
-      name: translate_state
-      required: false
-      type: TEXT
-      groupName: translate
-    - default: Low Battery
-      description: use to tranlate "Low Battery"
-      label: Word for "low battery"
-      name: translate_lowbat
-      required: false
-      type: TEXT
-      groupName: translate
-    - default: last time
-      description: use to tranlate "last cutting"
-      label: Word for "Last cutting"
-      name: translate_lastcut
-      required: false
-      type: TEXT
-      groupName: translate
-    - default: next cutting
-      description: use to tranlate "next cutting"
-      label: Word for "Next cutting"
-      name: translate_nextcut
-      required: false
-      type: TEXT
-      groupName: translate
-    - default: "false"
-      description: DO NOT SET
-      label: DO NOT SET
-      name: is_popup
-      required: false
-      type: TEXT
-      groupName: popup
-  parameterGroups:
-    - name: translate
-      label: translations
-    - name: items
-      label: items of mower
-    - name: buttons
-      label: command buttons
-    - name: popup
-      label: popup settings
-timestamp: Oct 16, 2023, 10:03:27 PM
-component: f7-card
-config:
-  title: =props.title
-slots:
-  default:
-    - component: f7-row
-      config:
-        visible: =props.is_popup != true
-      slots:
-        default:
-          - component: f7-col
-            config:
-              style:
-                z-index: 95
-            slots:
-              default:
-                - component: Label
-                  config:
-                    text: =props.translate_state
-                - component: f7-row
-                  config:
-                    class:
-                      - align-items-center
-                    style:
-                      flex-wrap: nowrap
-                  slots:
-                    default:
-                      - component: oh-icon
-                        config:
-                          color: "=items[props.mower_error].state == '0' ? 'green' : 'red'"
-                          icon: iconify:mdi:robot-mower-outline
-                          width: 40
-                - component: oh-icon
-                  config:
-                    color: red
-                    horizontalFlip: true
-                    icon: iconify:mdi:battery-charging-low
-                    rotate: 90deg
-                    visible: "=items[props.mower_lowbat].state == 'ON' ? true : false"
-                    width: 40
-          - component: f7-col
-            config:
-              style:
-                z-index: 95
-              visible: '=items[props.mower_lastcut].state != "-" ? true : false'
-            slots:
-              default:
-                - component: Label
-                  config:
-                    text: =props.translate_lastcut
-                - component: Label
-                  config:
-                    text: =@props.mower_lastcut
-          - component: f7-col
-            config:
-              style:
-                z-index: 95
-              visible: '=items[props.mower_nextcut].state != "-" ? true : false'
-            slots:
-              default:
-                - component: Label
-                  config:
-                    text: =props.translate_nextcut
-                - component: Label
-                  config:
-                    text: =@props.mower_nextcut
-    - component: oh-image-card
-      config:
-        action: "=(props.is_popup != true) ? 'popup' : 'none'"
-        actionModal: widget:indego_v1
-        actionModalConfig:
-          button_translate_dock: =props.button_translate_dock
-          button_translate_mow: =props.button_translate_mow
-          button_translate_pause: =props.button_translate_pause
-          is_popup: true
-        item: =props.mower_map
-        outline: true
-    - component: f7-row
-      config:
-        class:
-          - display-flex
-          - justify-content-flex-center
-          - align-items-center
-        style:
-          flex-wrap: nowrap
-          height: auto
-          margin-top: 5px
-          overflow: hidden
-          white-space: nowrap
-          width: auto
-        visible: "=(props.hide_buttons || props.is_popup == true) ? true : false"
-        width: auto
-      slots:
-        default:
-          - component: f7-col
-            config:
-              class:
-                - display-flex
-                - justify-content-flex-center
-              style:
-                height: auto
-                margin-left: 10px
-                margin-right: 1px
-                width: auto
-            slots:
-              default:
-                - component: oh-button
-                  config:
-                    action: "=items[props.command_state].state != '1' ? 'command' : ''"
-                    actionCommand: 1
-                    actionItem: =props.command_state
-                    color: "=items[props.command_state].state != '1' ? 'teal' : 'gray'"
-                    fill: "=items[props.command_state].state != '1' ? true : false"
-                    outline: true
-                    round: true
-                    small: false
-                    style:
-                      font-size: min(max(5px, 2.1vw), 20px)
-                      height: auto
-                      width: auto
-                    text: =props.button_translate_mow
-          - component: f7-col
-            config:
-              class:
-                - display-flex
-                - justify-content-flex-center
-              style:
-                height: auto
-                margin-left: 1px
-                margin-right: 1px
-                width: auto
-            slots:
-              default:
-                - component: oh-button
-                  config:
-                    action: "=items[props.command_state].state == '1' ? 'command' : ''"
-                    actionCommand: 3
-                    actionItem: =props.command_state
-                    color: "=items[props.command_state].state == '1' ? 'teal' : 'gray'"
-                    fill: "=items[props.command_state].state == '1' ? true : false"
-                    outline: true
-                    round: true
-                    small: false
-                    style:
-                      font-size: min(max(5px, 2.1vw), 20px)
-                      height: auto
-                      width: auto
-                    text: =props.button_translate_pause
-          - component: f7-col
-            config:
-              class:
-                - display-flex
-                - justify-content-flex-center
-              style:
-                margin-left: 1px
-                margin-right: 10px
-                width: auto
-            slots:
-              default:
-                - component: oh-button
-                  config:
-                    action: "=items[props.command_state].state != '2' ? 'command' : ''"
-                    actionCommand: 2
-                    actionItem: =props.command_state
-                    color: "=items[props.command_state].state != '2' ? 'teal' : 'gray'"
-                    fill: "=items[props.command_state].state != '2' ? true : false"
-                    outline: true
-                    round: true
-                    small: false
-                    style:
-                      font-size: min(max(5px, 2.1vw), 20px)
-                      height: auto
-                      width: auto
-                    text: =props.button_translate_dock
-    - component: f7-block
-      config:
-        style:
-          margin: 0px
-          padding: 0px
-        visible: =props.is_popup != true
-      slots:
-        default:
-          - component: Label
-            config:
-              text: = @props.mower_state_text
-          - component: Label
-            config:
-              text: '=props.translate_battery + " " + @props.mower_battery_charge + (items[props.mower_battemp].state != "-" ? (" / " + @props.mower_battemp) : "") + (props.show_mower_batvolt == true ? (" / " + @props.mower_batvolt) : "")'
-          - component: Label
-            config:
-              text: '=@props.mower_progress + " " + (items[props.mower_area].state != "-" ? (props.translate_of + " " + @props.mower_area) : "") + " " + props.translate_mowed'
+version: 1
+widgets:
+  indego_v1:
+    tags: []
+    props:
+      parameters:
+        - context: item
+          default: Bosch_Indego_Garden_Map
+          description: item that contains the map
+          label: map item
+          name: mower_map
+          required: true
+          type: TEXT
+          groupName: items
+        - context: item
+          default: Bosch_Indego_Batterieladung
+          description: item that contains the battery change level
+          label: charge item
+          name: mower_battery_charge
+          required: true
+          type: TEXT
+          groupName: items
+        - context: item
+          default: Bosch_Indego_Zustand_numerisch
+          description: item that contains the state text
+          label: state item
+          name: mower_state_text
+          required: true
+          type: TEXT
+          groupName: items
+        - context: item
+          default: Bosch_Indego_Gras_schneiden
+          description: item that contains the progress in %
+          label: progress item
+          name: mower_progress
+          required: true
+          type: TEXT
+          groupName: items
+        - context: item
+          default: Bosch_Indego_Garden_Size
+          description: item that contains the area
+          label: area item
+          name: mower_area
+          required: true
+          type: TEXT
+          groupName: items
+        - context: item
+          default: Bosch_Indego_Niedriger_Batteriestatus
+          description: item for low battery state
+          label: low-battery item
+          name: mower_lowbat
+          required: true
+          type: TEXT
+          groupName: items
+        - context: item
+          default: Bosch_Indego_Fehlercode
+          description: item for mower error
+          label: mower error code item
+          name: mower_error
+          required: true
+          type: TEXT
+          groupName: items
+        - context: item
+          default: Bosch_Indego_Battery_Temperature
+          description: item for battery temperature
+          label: battery temperature item
+          name: mower_battemp
+          required: false
+          type: TEXT
+          groupName: items
+        - context: item
+          description: item for battery voltage
+          label: battery voltage item
+          name: mower_batvolt
+          required: false
+          type: TEXT
+          groupName: items
+        - default: false
+          description: show battery voltage
+          label: show battery voltage
+          name: show_mower_batvolt
+          required: false
+          type: BOOLEAN
+          groupName: items
+        - context: item
+          default: Bosch_Indego_Last_Cutting
+          description: item for last cutting
+          label: last cutting item
+          name: mower_lastcut
+          required: false
+          type: TEXT
+          groupName: items
+        - context: item
+          default: Bosch_Indego_Next_Cutting
+          description: item for next cutting
+          label: next cutting item
+          name: mower_nextcut
+          required: false
+          type: TEXT
+          groupName: items
+        - context: item
+          default: Bosch_Indego_Zustand_numerisch
+          description: item for sending commands (state channel) - see binding documentation
+          label: command item
+          name: command_state
+          required: false
+          type: TEXT
+          groupName: buttons
+        - default: false
+          description: only show command buttons in popup
+          label: hide buttons
+          name: hide_buttons
+          required: false
+          type: BOOLEAN
+          groupName: buttons
+        - default: Mow
+          description: Button text "Mov"
+          label: Button text for "Mov"
+          name: button_translate_mow
+          required: false
+          type: TEXT
+          groupName: buttons
+        - default: Pause
+          description: Button text "Pause"
+          label: Button text for "Pause"
+          name: button_translate_pause
+          required: false
+          type: TEXT
+          groupName: buttons
+        - default: Dock
+          description: Button text "Dock"
+          label: Button text for "Dock"
+          name: button_translate_dock
+          required: false
+          type: TEXT
+          groupName: buttons
+        - description: Title of the card
+          label: Title
+          name: title
+          required: false
+          type: TEXT
+        - default: Battery
+          description: use to tranlate "Battery"
+          label: Word for "Battery"
+          name: translate_battery
+          required: false
+          type: TEXT
+          groupName: translate
+        - default: of
+          description: use to tranlate "of"
+          label: Word for "of"
+          name: translate_of
+          required: false
+          type: TEXT
+          groupName: translate
+        - default: mowed
+          description: use to tranlate "mowed"
+          label: Word for "mowed"
+          name: translate_mowed
+          required: false
+          type: TEXT
+          groupName: translate
+        - default: State
+          description: use to tranlate "State"
+          label: Word for "State"
+          name: translate_state
+          required: false
+          type: TEXT
+          groupName: translate
+        - default: Low Battery
+          description: use to tranlate "Low Battery"
+          label: Word for "low battery"
+          name: translate_lowbat
+          required: false
+          type: TEXT
+          groupName: translate
+        - default: last time
+          description: use to tranlate "last cutting"
+          label: Word for "Last cutting"
+          name: translate_lastcut
+          required: false
+          type: TEXT
+          groupName: translate
+        - default: next cutting
+          description: use to tranlate "next cutting"
+          label: Word for "Next cutting"
+          name: translate_nextcut
+          required: false
+          type: TEXT
+          groupName: translate
+        - default: "false"
+          description: DO NOT SET
+          label: DO NOT SET
+          name: is_popup
+          required: false
+          type: TEXT
+          groupName: popup
+      parameterGroups:
+        - name: translate
+          label: translations
+        - name: items
+          label: items of mower
+        - name: buttons
+          label: command buttons
+        - name: popup
+          label: popup settings
+    component: f7-card
+    config:
+      title: =props.title
+    slots:
+      default:
+        - component: f7-row
+          config:
+            visible: =props.is_popup != true
+          slots:
+            default:
+              - component: f7-col
+                config:
+                  style:
+                    z-index: 95
+                slots:
+                  default:
+                    - component: Label
+                      config:
+                        text: =props.translate_state
+                    - component: f7-row
+                      config:
+                        class:
+                          - align-items-center
+                        style:
+                          flex-wrap: nowrap
+                      slots:
+                        default:
+                          - component: oh-icon
+                            config:
+                              color: "=items[props.mower_error].state == '0' ? 'green' : 'red'"
+                              icon: iconify:mdi:robot-mower-outline
+                              width: 40
+                    - component: oh-icon
+                      config:
+                        color: red
+                        horizontalFlip: true
+                        icon: iconify:mdi:battery-charging-low
+                        rotate: 90deg
+                        visible: "=items[props.mower_lowbat].state == 'ON' ? true : false"
+                        width: 40
+              - component: f7-col
+                config:
+                  style:
+                    z-index: 95
+                  visible: '=items[props.mower_lastcut].state != "-" ? true : false'
+                slots:
+                  default:
+                    - component: Label
+                      config:
+                        text: =props.translate_lastcut
+                    - component: Label
+                      config:
+                        text: =@props.mower_lastcut
+              - component: f7-col
+                config:
+                  style:
+                    z-index: 95
+                  visible: '=items[props.mower_nextcut].state != "-" ? true : false'
+                slots:
+                  default:
+                    - component: Label
+                      config:
+                        text: =props.translate_nextcut
+                    - component: Label
+                      config:
+                        text: =@props.mower_nextcut
+        - component: oh-image-card
+          config:
+            action: "=(props.is_popup != true) ? 'popup' : 'none'"
+            actionModal: widget:indego_v1
+            actionModalConfig:
+              button_translate_dock: =props.button_translate_dock
+              button_translate_mow: =props.button_translate_mow
+              button_translate_pause: =props.button_translate_pause
+              is_popup: true
+            item: =props.mower_map
+            outline: true
+        - component: f7-row
+          config:
+            class:
+              - display-flex
+              - justify-content-flex-center
+              - align-items-center
+            style:
+              flex-wrap: nowrap
+              height: auto
+              margin-top: 5px
+              overflow: hidden
+              white-space: nowrap
+              width: auto
+            visible: "=(props.hide_buttons == true || props.is_popup == true) ? false : true"
+            width: auto
+          slots:
+            default:
+              - component: f7-col
+                config:
+                  class:
+                    - display-flex
+                    - justify-content-flex-center
+                  style:
+                    height: auto
+                    margin-left: 10px
+                    margin-right: 1px
+                    width: auto
+                slots:
+                  default:
+                    - component: oh-button
+                      config:
+                        action: "=items[props.command_state].state != '1' ? 'command' : ''"
+                        actionCommand: 1
+                        actionItem: =props.command_state
+                        color: "=items[props.command_state].state != '1' ? 'teal' : 'gray'"
+                        fill: "=items[props.command_state].state != '1' ? true : false"
+                        outline: true
+                        round: true
+                        small: false
+                        style:
+                          font-size: min(max(5px, 2.1vw), 20px)
+                          height: auto
+                          width: auto
+                        text: =props.button_translate_mow
+              - component: f7-col
+                config:
+                  class:
+                    - display-flex
+                    - justify-content-flex-center
+                  style:
+                    height: auto
+                    margin-left: 1px
+                    margin-right: 1px
+                    width: auto
+                slots:
+                  default:
+                    - component: oh-button
+                      config:
+                        action: "=items[props.command_state].state == '1' ? 'command' : ''"
+                        actionCommand: 3
+                        actionItem: =props.command_state
+                        color: "=items[props.command_state].state == '1' ? 'teal' : 'gray'"
+                        fill: "=items[props.command_state].state == '1' ? true : false"
+                        outline: true
+                        round: true
+                        small: false
+                        style:
+                          font-size: min(max(5px, 2.1vw), 20px)
+                          height: auto
+                          width: auto
+                        text: =props.button_translate_pause
+              - component: f7-col
+                config:
+                  class:
+                    - display-flex
+                    - justify-content-flex-center
+                  style:
+                    margin-left: 1px
+                    margin-right: 10px
+                    width: auto
+                slots:
+                  default:
+                    - component: oh-button
+                      config:
+                        action: "=items[props.command_state].state != '2' ? 'command' : ''"
+                        actionCommand: 2
+                        actionItem: =props.command_state
+                        color: "=items[props.command_state].state != '2' ? 'teal' : 'gray'"
+                        fill: "=items[props.command_state].state != '2' ? true : false"
+                        outline: true
+                        round: true
+                        small: false
+                        style:
+                          font-size: min(max(5px, 2.1vw), 20px)
+                          height: auto
+                          width: auto
+                        text: =props.button_translate_dock
+        - component: f7-block
+          config:
+            style:
+              margin: 0px
+              padding: 0px
+            visible: =props.is_popup != true
+          slots:
+            default:
+              - component: Label
+                config:
+                  text: = @props.mower_state_text
+              - component: Label
+                config:
+                  text: '=props.translate_battery + " " + @props.mower_battery_charge + (items[props.mower_battemp].state != "-" ? (" / " + @props.mower_battemp) : "") + (props.show_mower_batvolt == true ? (" / " + @props.mower_batvolt) : "")'
+              - component: Label
+                config:
+                  text: '=@props.mower_progress + " " + (items[props.mower_area].state != "-" ? (props.translate_of + " " + @props.mower_area) : "") + " " + props.translate_mowed'
