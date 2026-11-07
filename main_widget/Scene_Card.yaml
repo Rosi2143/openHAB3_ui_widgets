@@ -1,80 +1,78 @@
-uid: main_widget_Scene_Card
-tags: []
-props:
-  parameters:
-    - context: item
-      label: Item to control a scene
-      name: scene
-      required: true
-      type: TEXT
-    - context: Text
-      label: Item Label to control a scene
-      name: sceneName
-      required: true
-      type: TEXT
-timestamp: Dec 18, 2022, 4:15:52 PM
-component: f7-card
-config:
-  noShadow: false
-  padding: false
-  style:
-    background: '=items[props.scene].state == "ON" ? "linear-gradient(to bottom
-      right, rgba(230, 230, 0) 0%, rgba(255, 255, 255) 100%)" :
-      "linear-gradient(to bottom right, rgba(255, 255, 255) 0%, rgba(255, 255,
-      255) 100%)"'
-    border-radius: var(--f7-card-expandable-border-radius)
-    box-shadow: 5px 5px 15px 1px rgba(0,0,0,0.05)
-    margin-left: 5px
-    margin-right: 5px
-    padding: 0px
-  stylesheet: |
-    .card-header:after {
-      display: none;
-    }
-slots:
-  content:
-    - component: f7-card-content
-      config:
-        style:
-          height: 4rem
-      slots:
-        default:
-          - component: oh-icon
-            config:
-              height: 36
-              icon: f7:rectangle_on_rectangle_angled
-              style:
-                color: '=items[props.scene].state == "ON" ? "orange" : "black"'
-                left: 20px
-                position: absolute
-                top: 25px
-          - component: Label
-            config:
-              style:
-                color: black
-                font-size: 15px
-                font-weight: 600
-                margin-left: 4rem
-                position: absolute
-                top: 20px
-              text: =props.sceneName
-          - component: Label
-            config:
-              style:
-                color: black
-                font-size: 10px
-                font-weight: 400
-                margin-left: 5rem
-                position: absolute
-                top: 45px
-              text: SCENE
-          - component: oh-toggle
-            config:
-              color: yellow
-              item: =props.scene
-              style:
-                --f7-toggle-height: 30px
-                --f7-toggle-width: 60px
-                position: absolute
-                right: 20px
-                top: 30px
+version: 1
+widgets:
+  main_widget_Scene_Card:
+    tags: []
+    props:
+      parameters:
+        - context: item
+          label: Item to control a scene
+          name: scene
+          required: true
+          type: TEXT
+        - context: Text
+          label: Item Label to control a scene
+          name: sceneName
+          required: true
+          type: TEXT
+    component: f7-card
+    config:
+      noShadow: false
+      padding: false
+      style:
+        background: '=items[props.scene].state == "ON" ? "linear-gradient(to bottom right, rgba(230, 230, 0) 0%, rgba(255, 255, 255) 100%)" : "linear-gradient(to bottom right, rgba(255, 255, 255) 0%, rgba(255, 255, 255) 100%)"'
+        border-radius: var(--f7-card-expandable-border-radius)
+        box-shadow: 5px 5px 15px 1px rgba(0,0,0,0.05)
+        margin-left: 5px
+        margin-right: 5px
+        padding: 0px
+      stylesheet: |
+        .card-header:after {
+          display: none;
+        }
+    slots:
+      content:
+        - component: f7-card-content
+          config:
+            style:
+              height: 4rem
+          slots:
+            default:
+              - component: oh-icon
+                config:
+                  height: 36
+                  icon: f7:rectangle_on_rectangle_angled
+                  style:
+                    color: '=items[props.scene].state == "ON" ? "orange" : "black"'
+                    left: 20px
+                    position: absolute
+                    top: 25px
+              - component: Label
+                config:
+                  style:
+                    color: black
+                    font-size: 15px
+                    font-weight: 600
+                    margin-left: 4rem
+                    position: absolute
+                    top: 20px
+                  text: =props.sceneName
+              - component: Label
+                config:
+                  style:
+                    color: black
+                    font-size: 10px
+                    font-weight: 400
+                    margin-left: 5rem
+                    position: absolute
+                    top: 45px
+                  text: SCENE
+              - component: oh-toggle
+                config:
+                  color: yellow
+                  item: =props.scene
+                  style:
+                    --f7-toggle-height: 30px
+                    --f7-toggle-width: 60px
+                    position: absolute
+                    right: 20px
+                    top: 30px
